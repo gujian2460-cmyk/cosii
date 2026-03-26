@@ -1,0 +1,11 @@
+<view class="page">
+  <text class="lead cos-body">选择发布类型（MVP 占位）</text>
+  <view class="cos-card item" bindtap="onPublishTrade">
+    <text class="title cos-body">发布商品</text>
+    <text class="cos-meta">闲置 / 装备上架</text>
+  </view>
+  <view class="cos-card item" bindtap="onPublishPost">
+    <text class="title cos-body">发布作品</text>
+    <text class="cos-meta">图文内容 + 转化卡</text>
+  </view>
+</view>

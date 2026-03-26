@@ -1,0 +1,10 @@
+# 忽略第一个文件夹（包含那个超大的 .exe）
+.agents/
+
+# 建议同时忽略以下文件夹（它们通常不上传，别人下载后会自动生成）
+node_modules/
+dist/
+test-results/
+.cursor/
+.gstack/
+project.private.config.json

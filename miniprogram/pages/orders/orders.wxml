@@ -1,0 +1,7 @@
+<view class="page">
+  <view class="empty" wx:if="{{empty}}">
+    <text class="empty-title cos-body">暂无订单</text>
+    <text class="cos-meta empty-desc">订单详情为状态真源；支付与争议时间线在此查看。</text>
+    <button class="cos-btn-primary empty-btn" bindtap="goHome">去首页逛逛</button>
+  </view>
+</view>

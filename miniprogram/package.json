@@ -1,0 +1,8 @@
+{
+  "name": "cosii-miniprogram",
+  "private": true,
+  "description": "Cosii 微信小程序壳 — 需在 miniprogram 目录 npm install 以启用 TS 类型",
+  "devDependencies": {
+    "miniprogram-api-typings": "^4.1.0"
+  }
+}

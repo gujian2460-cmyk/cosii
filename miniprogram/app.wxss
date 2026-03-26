@@ -1,0 +1,113 @@
+/**
+ * 设计 Token — 真源：仓库根目录 DESIGN.md
+ * 禁止在业务页随意新增 hex；语义色用途见 DESIGN Day3–8 各节。
+ */
+page {
+  --color-bg: #0b0f14;
+  --color-surface: #111827;
+  --color-border: #1f2937;
+  --color-text: #f9fafb;
+  --color-text-muted: #9ca3af;
+  --color-primary: #e11d48;
+  --color-secondary: #0ea5e9;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error-bg: #7f1d1d;
+  --color-error-text: #fee2e2;
+  --color-info: #38bdf8;
+
+  --radius-sm: 8rpx;
+  --radius-md: 16rpx;
+  --radius-lg: 24rpx;
+
+  --space-xs: 8rpx;
+  --space-sm: 16rpx;
+  --space-md: 32rpx;
+  --space-lg: 48rpx;
+  --space-xl: 64rpx;
+
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: "PingFang SC", "Noto Sans SC", "Helvetica Neue", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.45;
+  box-sizing: border-box;
+}
+
+/* Display 档标题感：系统字体加字重，后续可换合规自定义字体 */
+.cos-display {
+  font-size: 52rpx;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.cos-body {
+  font-size: 28rpx;
+}
+
+.cos-meta {
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+}
+
+.cos-data {
+  font-family: "SF Mono", "Droid Sans Mono", "Roboto Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.cos-code {
+  font-family: "SF Mono", "Droid Sans Mono", monospace;
+  font-size: 24rpx;
+}
+
+/* 状态条：surface + 左边框 3px（DESIGN Day3–4） */
+.cos-status-bar {
+  background-color: var(--color-surface);
+  border-left: 6rpx solid var(--color-info);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+}
+
+.cos-status-bar--primary {
+  border-left-color: var(--color-primary);
+}
+
+/* 主按钮 */
+.cos-btn-primary {
+  background-color: var(--color-primary) !important;
+  color: #fff !important;
+  border-radius: var(--radius-md) !important;
+  font-weight: 600;
+  font-size: 30rpx;
+  padding: 24rpx var(--space-md);
+  border: none !important;
+}
+
+.cos-btn-primary::after {
+  border: none;
+}
+
+.cos-link {
+  color: var(--color-secondary);
+  font-size: 28rpx;
+  text-decoration: underline;
+}
+
+.cos-link.tap {
+  display: inline-block;
+  padding: 8rpx 0;
+}
+
+.cos-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1rpx solid var(--color-border);
+  padding: var(--space-md);
+}
+
+.cos-divider {
+  height: 1rpx;
+  background-color: var(--color-border);
+  margin: var(--space-md) 0;
+}

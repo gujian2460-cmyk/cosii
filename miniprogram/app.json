@@ -1,0 +1,56 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/publish/publish",
+    "pages/orders/orders",
+    "pages/inbox/inbox",
+    "pages/me/me"
+  ],
+  "window": {
+    "navigationBarTitleText": "Cosii",
+    "navigationBarBackgroundColor": "#111827",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0B0F14",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#9CA3AF",
+    "selectedColor": "#E11D48",
+    "backgroundColor": "#111827",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "images/tab/inactive.png",
+        "selectedIconPath": "images/tab/active.png"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "text": "发布",
+        "iconPath": "images/tab/inactive.png",
+        "selectedIconPath": "images/tab/active.png"
+      },
+      {
+        "pagePath": "pages/orders/orders",
+        "text": "订单",
+        "iconPath": "images/tab/inactive.png",
+        "selectedIconPath": "images/tab/active.png"
+      },
+      {
+        "pagePath": "pages/inbox/inbox",
+        "text": "消息",
+        "iconPath": "images/tab/inactive.png",
+        "selectedIconPath": "images/tab/active.png"
+      },
+      {
+        "pagePath": "pages/me/me",
+        "text": "我的",
+        "iconPath": "images/tab/inactive.png",
+        "selectedIconPath": "images/tab/active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

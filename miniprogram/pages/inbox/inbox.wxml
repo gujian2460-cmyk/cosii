@@ -1,0 +1,11 @@
+<view class="page">
+  <view class="hint cos-meta">仅作提醒与深链，不复制完整订单时间线。</view>
+  <view class="cos-card row" bindtap="openOrders">
+    <view>
+      <text class="cos-body row-title">示例：支付结果已更新</text>
+      <text class="cos-meta">点击查看订单 Tab</text>
+    </view>
+    <text class="cos-meta">›</text>
+  </view>
+  <view class="empty cos-meta" wx:if="{{showEmptyHint}}">暂无更多消息</view>
+</view>
