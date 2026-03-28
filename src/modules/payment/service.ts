@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import { runImmediateTransaction } from "../../db/transaction.js";
 import { ErrorCode } from "../../shared/errors/codes.js";
 import { HttpError } from "../../shared/errors/http-error.js";
+import { insertUserNotification } from "../notification/service.js";
 
 export type CreatePaymentInput = {
   userId: string;
@@ -255,6 +256,28 @@ export function processWechatWebhook(db: DatabaseSync, payload: WechatWebhookPay
       traceId,
       now,
     );
+
+    const ot: "trade" | "service" = u.order_type === "service" ? "service" : "trade";
+    const paySubtitle =
+      ot === "trade" ? "交易订单 · 款项已进入担保" : "约妆订单 · 定金已支付";
+    insertUserNotification(db, {
+      userId: u.buyer_id,
+      eventType: "payment_success_buyer",
+      title: "支付成功",
+      subtitle: paySubtitle,
+      unifiedOrderId: u.id,
+      orderType: ot,
+      domainOrderId: u.domain_order_id,
+    });
+    insertUserNotification(db, {
+      userId: u.seller_id,
+      eventType: "payment_success_seller",
+      title: "买家已付款",
+      subtitle: paySubtitle,
+      unifiedOrderId: u.id,
+      orderType: ot,
+      domainOrderId: u.domain_order_id,
+    });
 
     return { duplicate: false, unified_order_id: u.id };
   });

@@ -52,5 +52,22 @@
     ]
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "subPackages": [
+    {
+      "root": "packageTrade",
+      "name": "trade",
+      "pages": ["pages/list/list", "pages/order-detail/order-detail", "pages/publish-item/publish-item"]
+    },
+    {
+      "root": "packageBooking",
+      "name": "booking",
+      "pages": ["pages/entry/entry"]
+    },
+    {
+      "root": "packageContent",
+      "name": "content",
+      "pages": ["pages/entry/entry"]
+    }
+  ]
 }

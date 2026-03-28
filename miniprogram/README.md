@@ -13,8 +13,19 @@
 
 ## 配置
 
-- API 基址与开发用户：`app.js` → `globalData.apiBase`、`globalData.devUserId`（对应后端 `X-User-Id`，见根目录 [CLAUDE.md](../CLAUDE.md)）。
+- **第一次上预发/生产、真机联调：** 请看 [生产环境变量与真机联调（小白版）](../docs/tutorials/生产环境变量与真机联调（小白版）.md)。
+- API 基址与开发用户：`app.js` → `globalData.apiBase`、`globalData.devUserId`（无 Bearer 时对应后端 `X-User-Id`，见 [CLAUDE.md](../CLAUDE.md)）。
+- `globalData.useWeChatSession`：为 `true` 时启动后 `wx.login` 并请求 `POST /v1/auth/wechat-login`，写入本地 Bearer；**生产应开启**，并保证后端已配 `WECHAT_APPID` / `WECHAT_SECRET` 与生产鉴权模式。
+- `globalData.showDevProbe`：为 `false` 时隐藏首页底部探活 trace 条。
+- `globalData.useMockOrders`：为 `true` 时订单 Tab 使用本地假数据（勿用于正式发布）。
 - 首页会请求 `GET /health` 演示 envelope 解析；成功时展示 `trace_id`（可选复制）。
+
+## 分包与路由
+
+- `config/routes.js`：在售列表、订单详情、约妆/内容入口等路径常量。
+- **trade**：`packageTrade/` — 在售占位列表、统一订单详情（深链 `order-detail`）。
+- **booking / content**：`packageBooking/`、`packageContent/` — 入口占位页。
+- 订单列表：`GET /v1/me/unified-orders`；详情按类型请求 `GET /v1/booking/orders/:id` 或 `GET /v1/trade/orders/:id`。
 
 ## Tab 图标
 

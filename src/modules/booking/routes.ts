@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { ok } from "../../shared/api-envelope/index.js";
+import { AUTH_REQUIRED_MESSAGE } from "../../shared/auth/auth-messages.js";
 import { ErrorCode } from "../../shared/errors/codes.js";
 import { HttpError } from "../../shared/errors/http-error.js";
 import { getServiceOrderDetail } from "./detail.js";
@@ -15,7 +16,7 @@ const bodySchema = z.object({
 export async function registerBookingRoutes(app: FastifyInstance): Promise<void> {
   app.get("/v1/booking/orders/:id", async (request, reply) => {
     if (!request.userId) {
-      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, "Missing X-User-Id");
+      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, AUTH_REQUIRED_MESSAGE);
     }
     const id = (request.params as { id: string }).id;
     const detail = getServiceOrderDetail(app.db, request.userId, id);
@@ -24,7 +25,7 @@ export async function registerBookingRoutes(app: FastifyInstance): Promise<void>
 
   app.post("/v1/booking/orders", async (request, reply) => {
     if (!request.userId) {
-      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, "Missing X-User-Id");
+      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, AUTH_REQUIRED_MESSAGE);
     }
 
     const parsed = bodySchema.safeParse(request.body);

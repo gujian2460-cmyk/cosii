@@ -1,0 +1,21 @@
+<view class="page">
+  <text class="hint cos-meta">
+    开发期：需本地 API 已种子化档期。默认档期 ID 可填 slot_1；请使用买家账号下单。
+  </text>
+  <view class="field cos-card">
+    <text class="label cos-meta">档期 ID</text>
+    <input class="input cos-body" value="{{slotId}}" bindinput="onSlotInput" placeholder="slot_1" />
+  </view>
+  <view class="field cos-card">
+    <text class="label cos-meta">定金（元）</text>
+    <input class="input cos-body" type="digit" value="{{depositYuan}}" bindinput="onDepositInput" />
+  </view>
+  <view class="field cos-card">
+    <text class="label cos-meta">尾款（元）</text>
+    <input class="input cos-body" type="digit" value="{{finalYuan}}" bindinput="onFinalInput" />
+  </view>
+  <button class="cos-btn-primary submit" loading="{{submitting}}" disabled="{{submitting}}" bindtap="onSubmit">
+    创建约妆订单
+  </button>
+  <view class="foot cos-meta" bindtap="goBack">返回</view>
+</view>

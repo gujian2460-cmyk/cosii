@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { ok } from "../../shared/api-envelope/index.js";
+import { AUTH_REQUIRED_MESSAGE } from "../../shared/auth/auth-messages.js";
 import { ErrorCode } from "../../shared/errors/codes.js";
 import { HttpError } from "../../shared/errors/http-error.js";
 import { createPayment, getPaymentStatusForUnified, processWechatWebhook } from "./service.js";
@@ -19,7 +20,7 @@ const webhookBody = z.object({
 export async function registerPaymentRoutes(app: FastifyInstance): Promise<void> {
   app.post("/v1/payments/create", async (request, reply) => {
     if (!request.userId) {
-      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, "Missing X-User-Id");
+      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, AUTH_REQUIRED_MESSAGE);
     }
     const parsed = createBody.safeParse(request.body);
     if (!parsed.success) {
@@ -51,7 +52,7 @@ export async function registerPaymentRoutes(app: FastifyInstance): Promise<void>
 
   app.get("/v1/payments/unified/:unifiedOrderId/status", async (request, reply) => {
     if (!request.userId) {
-      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, "Missing X-User-Id");
+      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, AUTH_REQUIRED_MESSAGE);
     }
     const unifiedOrderId = (request.params as { unifiedOrderId: string }).unifiedOrderId;
     const status = getPaymentStatusForUnified(app.db, request.userId, unifiedOrderId);

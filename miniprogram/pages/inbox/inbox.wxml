@@ -1,11 +1,41 @@
 <view class="page">
-  <view class="hint cos-meta">仅作提醒与深链，不复制完整订单时间线。</view>
-  <view class="cos-card row" bindtap="openOrders">
-    <view>
-      <text class="cos-body row-title">示例：支付结果已更新</text>
-      <text class="cos-meta">点击查看订单 Tab</text>
+  <block wx:if="{{loading}}">
+    <view class="cos-skeleton">
+      <view class="cos-skeleton-line"></view>
+      <view class="cos-skeleton-line cos-skeleton-line--short"></view>
     </view>
-    <text class="cos-meta">›</text>
-  </view>
-  <view class="empty cos-meta" wx:if="{{showEmptyHint}}">暂无更多消息</view>
+  </block>
+  <block wx:elif="{{error}}">
+    <view class="cos-page-state">
+      <text class="cos-body">{{error.userTitle}}</text>
+      <button class="cos-btn-primary cos-page-state__retry" bindtap="refresh">重试</button>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="hint cos-meta">仅作提醒与深链，不复制完整订单时间线。</view>
+    <block wx:if="{{notifications.length === 0}}">
+      <view class="empty cos-meta">
+        <text>暂无通知。</text>
+        <view class="cos-link tap empty-link" bindtap="goOrdersTab">去订单看看</view>
+      </view>
+    </block>
+    <block wx:else>
+      <view
+        class="cos-card row"
+        wx:for="{{notifications}}"
+        wx:key="notification_id"
+        bindtap="onNotifyTap"
+        data-unified-id="{{item.unified_order_id}}"
+        data-order-type="{{item.order_type}}"
+        data-domain-id="{{item.domain_order_id}}"
+      >
+        <view>
+          <text class="cos-body row-title">{{item.title}}</text>
+          <text class="cos-meta">{{item.subtitle}}</text>
+          <text class="cos-meta time">{{item.time}}</text>
+        </view>
+        <text class="cos-meta">›</text>
+      </view>
+    </block>
+  </block>
 </view>

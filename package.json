@@ -10,7 +10,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:critical": "vitest run tests/critical-matrix.t11-t17.test.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "verify:gates": "node scripts/verify-go-live-gates.mjs",
+    "smoke:miniprogram": "node --import tsx scripts/miniprogram-smoke.ts",
+    "verify:ready": "node scripts/check-ready.mjs"
   },
   "engines": {
     "node": ">=22.5.0"

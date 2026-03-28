@@ -24,3 +24,13 @@
   margin-top: 48rpx;
   text-align: center;
 }
+
+.empty-link {
+  margin-top: 24rpx;
+  display: inline-block;
+}
+
+.time {
+  display: block;
+  margin-top: 8rpx;
+}

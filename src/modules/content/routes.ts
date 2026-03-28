@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { ok } from "../../shared/api-envelope/index.js";
+import { AUTH_REQUIRED_MESSAGE } from "../../shared/auth/auth-messages.js";
 import { ErrorCode } from "../../shared/errors/codes.js";
 import { HttpError } from "../../shared/errors/http-error.js";
 import { POST_CAPTION_MAX_LEN, POST_IMAGE_URL_MAX_LEN } from "../../shared/constants.js";
@@ -19,7 +20,7 @@ const addCardBody = z.object({
 export async function registerContentRoutes(app: FastifyInstance): Promise<void> {
   app.post("/v1/posts", async (request, reply) => {
     if (!request.userId) {
-      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, "Missing X-User-Id");
+      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, AUTH_REQUIRED_MESSAGE);
     }
     const parsed = createPostBody.safeParse(request.body);
     if (!parsed.success) {
@@ -35,7 +36,7 @@ export async function registerContentRoutes(app: FastifyInstance): Promise<void>
 
   app.post("/v1/posts/:postId/cards", async (request, reply) => {
     if (!request.userId) {
-      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, "Missing X-User-Id");
+      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, AUTH_REQUIRED_MESSAGE);
     }
     const { postId } = request.params as { postId: string };
     if (!postId) {

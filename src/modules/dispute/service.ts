@@ -4,6 +4,7 @@ import { runImmediateTransaction } from "../../db/transaction.js";
 import { DISPUTE_SLA_MS } from "../../shared/constants.js";
 import { ErrorCode } from "../../shared/errors/codes.js";
 import { HttpError } from "../../shared/errors/http-error.js";
+import { insertUserNotification } from "../notification/service.js";
 
 const ALLOWED_DISPUTE_UNIFIED = new Set(["PAID_ESCROW", "DEPOSIT_PAID", "SHIPPED"]);
 
@@ -62,6 +63,17 @@ export function createDispute(
     } else {
       db.prepare(`UPDATE service_orders SET status = 'DISPUTED', updated_at = ? WHERE id = ?`).run(now, u.domain_order_id);
     }
+
+    const otherParty = u.buyer_id === userId ? u.seller_id : u.buyer_id;
+    insertUserNotification(db, {
+      userId: otherParty,
+      eventType: "dispute_opened",
+      title: "争议已发起",
+      subtitle: "对方发起了争议，请及时处理",
+      unifiedOrderId: u.id,
+      orderType: u.order_type === "service" ? "service" : "trade",
+      domainOrderId: u.domain_order_id,
+    });
 
     return { dispute_id: disputeId, sla_due_at: slaDue };
   });

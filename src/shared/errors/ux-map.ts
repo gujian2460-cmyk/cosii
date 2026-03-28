@@ -16,6 +16,16 @@ export const errorUxMap: Partial<Record<ErrorCodeValue, ErrorUx>> = {
     primaryAction: "前往登录",
     retryPolicy: "登录后重试",
   },
+  [ErrorCode.WECHAT_NOT_CONFIGURED]: {
+    userTitle: "微信登录未开通",
+    primaryAction: "联系管理员",
+    retryPolicy: "服务端需配置 WECHAT_APPID / WECHAT_SECRET",
+  },
+  [ErrorCode.WECHAT_AUTH_FAILED]: {
+    userTitle: "微信登录失败",
+    primaryAction: "重新进入小程序",
+    retryPolicy: "code 仅单次有效，请重新 wx.login",
+  },
   [ErrorCode.VALIDATION_ERROR]: {
     userTitle: "信息填写不完整",
     primaryAction: "返回修改",

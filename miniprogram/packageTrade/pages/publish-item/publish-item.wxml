@@ -1,0 +1,29 @@
+<view class="page">
+  <text class="hint cos-meta">上架后可在「在售」列表展示；请使用卖家账号（我的 → 切换账号）。</text>
+  <view class="field cos-card">
+    <text class="label cos-meta">标题</text>
+    <input
+      class="input cos-body"
+      placeholder="商品名称"
+      value="{{title}}"
+      bindinput="onTitleInput"
+    />
+  </view>
+  <view class="field cos-card">
+    <text class="label cos-meta">分类</text>
+    <picker mode="selector" range="{{categoryLabels}}" value="{{categoryIndex}}" bindchange="onCategoryChange">
+      <view class="picker-value cos-body">{{categoryLabels[categoryIndex]}}</view>
+    </picker>
+  </view>
+  <view class="field cos-card">
+    <text class="label cos-meta">价格（元）</text>
+    <input
+      class="input cos-body"
+      type="digit"
+      placeholder="例如 199"
+      value="{{priceYuan}}"
+      bindinput="onPriceInput"
+    />
+  </view>
+  <button class="cos-btn-primary submit" loading="{{submitting}}" disabled="{{submitting}}" bindtap="onSubmit">上架</button>
+</view>

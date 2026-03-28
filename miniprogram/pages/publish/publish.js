@@ -1,8 +1,20 @@
+const routes = require("../../config/routes");
+
 Page({
-  onPublishTrade() {
-    wx.showToast({ title: "商品发布页即将接入", icon: "none" });
+  data: {
+    loading: false,
+    error: null,
   },
+
+  onLoad() {
+    this.setData({ loading: false });
+  },
+
+  onPublishTrade() {
+    wx.navigateTo({ url: routes.TRADE_PUBLISH_ITEM });
+  },
+
   onPublishPost() {
-    wx.showToast({ title: "内容发布即将接入 /v1/posts", icon: "none" });
+    wx.navigateTo({ url: routes.CONTENT_ENTRY });
   },
 });

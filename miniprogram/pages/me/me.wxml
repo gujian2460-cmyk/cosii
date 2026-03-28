@@ -1,16 +1,36 @@
 <view class="page">
-  <view class="header cos-card">
-    <text class="name cos-body">未登录</text>
-    <text class="cos-meta">认证妆娘 / 信誉（即将接入）</text>
-  </view>
-  <view class="list">
-    <view class="cell cos-body" bindtap="onRates">
-      <text>费率与结算说明</text>
-      <text class="cos-meta">›</text>
+  <block wx:if="{{loading}}">
+    <view class="cos-skeleton">
+      <view class="cos-skeleton-line"></view>
     </view>
-    <view class="cell cos-body" bindtap="onSettings">
-      <text>设置</text>
-      <text class="cos-meta">›</text>
+  </block>
+  <block wx:elif="{{error}}">
+    <view class="cos-page-state">
+      <text class="cos-body">{{error.userTitle}}</text>
     </view>
-  </view>
+  </block>
+  <block wx:else>
+    <view class="header cos-card">
+      <block wx:if="{{isLoggedIn && profile}}">
+        <text class="name cos-body">{{profile.nickname}}</text>
+        <text class="cos-meta">ID：{{profile.user_id}} · 角色：{{profile.role}}</text>
+        <button class="login-btn login-btn--ghost" bindtap="onLoginTap">切换账号</button>
+      </block>
+      <block wx:else>
+        <text class="name cos-body">未登录</text>
+        <text class="cos-meta">开发期：切换本地账号模拟登录；生产需接微信会话。</text>
+        <button class="cos-btn-primary login-btn" bindtap="onLoginTap">切换账号 / 模拟登录</button>
+      </block>
+    </view>
+    <view class="list">
+      <view class="cell cos-body" bindtap="onRates">
+        <text>费率与结算说明</text>
+        <text class="cos-meta">›</text>
+      </view>
+      <view class="cell cos-body" bindtap="onSettings">
+        <text>设置</text>
+        <text class="cos-meta">›</text>
+      </view>
+    </view>
+  </block>
 </view>

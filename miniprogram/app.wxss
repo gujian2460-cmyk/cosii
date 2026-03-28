@@ -111,3 +111,33 @@ page {
   background-color: var(--color-border);
   margin: var(--space-md) 0;
 }
+
+/* 页面 loading 骨架（§14 autoplan-five-tabs） */
+.cos-skeleton {
+  padding: var(--space-md) 0;
+}
+
+.cos-skeleton-line {
+  height: 32rpx;
+  background-color: var(--color-border);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.cos-skeleton-line--short {
+  width: 60%;
+}
+
+.cos-page-state {
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.cos-page-state__retry {
+  margin-top: var(--space-md);
+}
+
+.cos-tabular {
+  font-variant-numeric: tabular-nums;
+  font-family: "SF Mono", "Droid Sans Mono", "Roboto Mono", monospace;
+}

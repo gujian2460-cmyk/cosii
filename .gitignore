@@ -5,6 +5,12 @@
 node_modules/
 dist/
 test-results/
+playwright-report/
 .cursor/
 .gstack/
+miniprogram/node_modules/
+miniprogram/dist/
+miniprogram/project.private.config.json
+data/*.db*
+*.log
 project.private.config.json

@@ -17,12 +17,20 @@ In QA mode, flag any code that doesn't match `DESIGN.md`.
 - API base path: `/v1`
 - Response envelope: see `src/shared/api-envelope/index.ts`
 - Error codes: see `src/shared/errors/codes.ts` and UX mapping in `src/shared/errors/ux-map.ts`
-- Dev auth header: `X-User-Id` (until WeChat session is wired)
+
+### Auth（小程序会话 / 生产信任边界）
+
+- **`POST /v1/auth/wechat-login`**：body `{ "code": "<wx.login 返回>" }` → 调微信 `jscode2session`，按 `openid` 建/查 `users`，返回 `access_token`、`user_id`、`expires_in`（默认 7 天）。
+- **已认证请求**：优先解析 `Authorization: Bearer <access_token>` 得到 `user_id`。
+- **`X-User-Id`（开发态）**：当 **`COSII_TRUST_DEV_HEADER` 不为 `0`** 且 **`NODE_ENV !== "production"`**（或显式 `COSII_TRUST_DEV_HEADER=1`）时，仍可用 `X-User-Id`（Vitest / E2E / 本地工具默认走此路径）。**生产推荐**：`NODE_ENV=production` 且 **`COSII_TRUST_DEV_HEADER=0`** → **仅信任 Bearer**，禁止仅凭 `X-User-Id` 冒充。未认证时受保护路由统一返回 `AUTH_UNAUTHORIZED`，HTTP `message` 为 `Authentication required`（`src/shared/auth/auth-messages.ts`）。
+- **环境变量**：`WECHAT_APPID`、`WECHAT_SECRET`；`COSII_SESSION_SECRET`（≥16 字符，签发/校验 token；严格模式下启动时强校验）。
 
 ### Modules (DESIGN.md Day3–6 对齐)
 
 - **Payment:** `POST /v1/payments/create`，`POST /v1/payments/webhook/wechat`（幂等 `wechat_webhook_events`），`GET /v1/payments/unified/:unifiedOrderId/status`
 - **Booking:** `GET /v1/booking/orders/:id`（含档期占位过期释放）；创建约妆仍 `POST /v1/booking/orders`（`hold_expires_at`）
+- **Me（小程序订单列表）：** `GET /v1/me/unified-orders?limit=&cursor=`，`GET /v1/me/unified-orders/:unifiedOrderId`（买家/卖家可见统一订单摘要）；**消息：** `GET /v1/me/notifications?limit=&cursor=`（独立 `user_notifications`，深链 `unified_order_id` / `order_type` / `domain_order_id`）
+- **Trade：** `GET /v1/trade/items`（在售列表），`POST /v1/trade/items`（上架，`title`/`category`/`price_cents`）；`POST /v1/trade/orders`（下单）；`GET /v1/trade/orders/:tradeOrderId`（详情 + `item_title`）
 - **Dispute:** `POST /v1/disputes`，`POST /v1/disputes/:id/evidences`，`GET /v1/disputes/:id`（时间线 + SLA）
 - **Settlement:** `GET /v1/settlement/orders/:orderType/:orderId/ledger`，`POST /v1/settlement/orders/:orderType/:orderId/trigger`
 - **Content（Day7–8）：** `POST /v1/posts`，`POST /v1/posts/:postId/cards`，`GET /v1/posts/:postId`（转化卡 `CONTENT_CARD_TARGET_INVALID`；下架后 `available: false`）
@@ -34,11 +42,13 @@ In QA mode, flag any code that doesn't match `DESIGN.md`.
 - **全量：** `npm test`（Vitest，`tests/**/*.test.ts`）。
 - **CRITICAL（playbook T11–T17）：** `npm run test:critical` → `tests/critical-matrix.t11-t17.test.ts`。
 - **E2E（四条主链，Playwright + 本地 API）：** `npm run test:e2e`；种子与 ID 见 `tests/e2e-seed.ts`，验收标题见 `e2e/e2e-*.spec.ts` 注释。
+- **一键复跑发布门禁：** `npm run verify:gates`（= test + critical + e2e + `smoke:miniprogram`）；**CI**（`.github/workflows/ci.yml`）跑同一命令。
+- **探活脚本（需服务已起）：** `npm run verify:ready`；可选 `API_BASE=https://…`。
 - **就绪 / 日志：** `GET /v1/ready`（DB 探活）；`STRUCTURED_ACCESS_LOG=1` 时输出单行 JSON 访问日志（`trace_id`、路径、状态码）。
-- **发布清单：** `docs/go-live-checklist.md`。
+- **发布清单：** `docs/go-live-checklist.md`；发布窗口短清单：`docs/发布前30分钟检查单.md`。
 
 ## 微信小程序（UI 壳）
 
 - 工程目录：`miniprogram/`（用微信开发者工具打开该目录）；说明见 `miniprogram/README.md`。
 - 设计真源：`DESIGN.md` + `docs/designs/miniprogram-ui-shell-spec.md`。
-- 开发期请求头：`globalData.devUserId` → `X-User-Id`；`globalData.apiBase` 默认 `http://127.0.0.1:3000`（需关闭工具域名校验）。
+- **鉴权**：本地存储有 `access_token` 时，`utils/api.js` 发 `Authorization: Bearer`；否则回落 `globalData.devUserId` → `X-User-Id`。生产构建将 `globalData.useWeChatSession` 设为 `true`，在 `onLaunch` 里 `wx.login` → `POST /v1/auth/wechat-login` 换 token（需 HTTPS 合法域名与后端 `WECHAT_*`）。

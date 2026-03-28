@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { ok } from "../../shared/api-envelope/index.js";
+import { AUTH_REQUIRED_MESSAGE } from "../../shared/auth/auth-messages.js";
 import { ErrorCode } from "../../shared/errors/codes.js";
 import { HttpError } from "../../shared/errors/http-error.js";
 import { addDisputeEvidence, createDispute, getDisputeDetail } from "./service.js";
@@ -18,7 +19,7 @@ const evidenceBody = z.object({
 export async function registerDisputeRoutes(app: FastifyInstance): Promise<void> {
   app.post("/v1/disputes", async (request, reply) => {
     if (!request.userId) {
-      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, "Missing X-User-Id");
+      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, AUTH_REQUIRED_MESSAGE);
     }
     const parsed = createBody.safeParse(request.body);
     if (!parsed.success) {
@@ -31,7 +32,7 @@ export async function registerDisputeRoutes(app: FastifyInstance): Promise<void>
 
   app.post("/v1/disputes/:id/evidences", async (request, reply) => {
     if (!request.userId) {
-      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, "Missing X-User-Id");
+      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, AUTH_REQUIRED_MESSAGE);
     }
     const id = (request.params as { id: string }).id;
     const parsed = evidenceBody.safeParse(request.body);
@@ -51,7 +52,7 @@ export async function registerDisputeRoutes(app: FastifyInstance): Promise<void>
 
   app.get("/v1/disputes/:id", async (request, reply) => {
     if (!request.userId) {
-      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, "Missing X-User-Id");
+      throw new HttpError(401, ErrorCode.AUTH_UNAUTHORIZED, AUTH_REQUIRED_MESSAGE);
     }
     const id = (request.params as { id: string }).id;
     const detail = getDisputeDetail(app.db, request.userId, id);

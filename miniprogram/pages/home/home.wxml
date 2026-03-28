@@ -1,38 +1,57 @@
 <view class="page">
-  <view class="hero">
-    <text class="hero-title cos-display">Cosii</text>
-    <text class="hero-sub cos-meta">可信成交 · 约妆与闲置</text>
-  </view>
-
-  <view class="trust-bar cos-status-bar">
-    <text class="trust-text cos-body">资金托管与档期占位；订单状态以「订单」Tab 详情为准。</text>
-  </view>
-
-  <view class="cta-block">
-    <button class="cos-btn-primary cta-main" bindtap="onPrimaryCta">逛在售</button>
-    <view class="cta-secondary-wrap">
-      <view class="cos-link tap" bindtap="onSecondaryLink">约妆娘</view>
-      <text class="cos-meta secondary-hint">（档期与定金流程即将接入）</text>
+  <block wx:if="{{loading}}">
+    <view class="cos-skeleton">
+      <view class="cos-skeleton-line"></view>
+      <view class="cos-skeleton-line cos-skeleton-line--short"></view>
+      <view class="cos-skeleton-line"></view>
     </view>
-  </view>
-
-  <view class="secondary-list">
-    <view class="row cos-body" bindtap="onRowTap" data-hint="热门装扮">
-      <text>热门装扮</text>
-      <text class="cos-meta">›</text>
+  </block>
+  <block wx:elif="{{error}}">
+    <view class="cos-page-state">
+      <text class="cos-body">{{error.userTitle}}</text>
+      <text wx:if="{{error.traceId}}" class="cos-code cos-meta" selectable="true">{{error.traceId}}</text>
+      <button class="cos-btn-primary cos-page-state__retry" bindtap="refreshHealth">重试</button>
     </view>
-    <view class="row cos-body" bindtap="onRowTap" data-hint="认证妆娘">
-      <text>认证妆娘</text>
-      <text class="cos-meta">›</text>
+  </block>
+  <block wx:else>
+    <view class="hero">
+      <text class="hero-title cos-display">Cosii</text>
+      <text class="hero-sub cos-meta">可信成交 · 约妆与闲置</text>
     </view>
-  </view>
 
-  <view class="feed-placeholder cos-meta" wx:if="{{showFeedHint}}">
-    内容推荐占位（P2）
-  </view>
+    <view class="trust-bar cos-status-bar">
+      <text class="trust-text cos-body">资金托管与档期占位；订单状态以「订单」Tab 详情为准。</text>
+    </view>
 
-  <view class="api-strip cos-meta" wx:if="{{healthLabel}}">
-    <text>{{healthLabel}}</text>
-    <text wx:if="{{healthTrace}}" class="cos-code trace" selectable="true">{{healthTrace}}</text>
-  </view>
+    <view class="cta-block">
+      <button class="cos-btn-primary cta-main" bindtap="onPrimaryCta">逛在售</button>
+      <view class="cta-secondary-wrap">
+        <view class="cos-link tap" bindtap="onSecondaryLink">约妆娘</view>
+        <text class="cos-meta secondary-hint">（档期与定金流程即将接入）</text>
+      </view>
+    </view>
+
+    <view class="secondary-list">
+      <view
+        class="row cos-body"
+        wx:for="{{secondaryRows}}"
+        wx:key="filter"
+        bindtap="onSecondaryTap"
+        data-hint="{{item.hint}}"
+        data-filter="{{item.filter}}"
+      >
+        <text>{{item.hint}}</text>
+        <text class="cos-meta">›</text>
+      </view>
+    </view>
+
+    <view class="feed-placeholder cos-meta" wx:if="{{showFeedHint}}">
+      内容推荐占位（P2）
+    </view>
+
+    <view class="api-strip cos-meta" wx:if="{{showDevProbe && healthLabel}}">
+      <text>{{healthLabel}}</text>
+      <text wx:if="{{healthTrace}}" class="cos-code trace" selectable="true">{{healthTrace}}</text>
+    </view>
+  </block>
 </view>

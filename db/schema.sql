@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS trade_items (
 );
 
 CREATE INDEX IF NOT EXISTS idx_trade_items_seller ON trade_items(seller_id, status);
+CREATE INDEX IF NOT EXISTS idx_trade_items_status_created ON trade_items(status, created_at);
 
 CREATE TABLE IF NOT EXISTS trade_orders (
   id TEXT PRIMARY KEY,
@@ -109,6 +110,21 @@ CREATE TABLE IF NOT EXISTS unified_orders (
 );
 
 CREATE INDEX IF NOT EXISTS idx_unified_buyer_updated ON unified_orders(buyer_id, updated_at);
+
+-- In-app inbox (not push); deep-link fields mirror unified order for order-detail navigation.
+CREATE TABLE IF NOT EXISTS user_notifications (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL REFERENCES users(id),
+  event_type TEXT NOT NULL,
+  title TEXT NOT NULL,
+  subtitle TEXT,
+  unified_order_id TEXT REFERENCES unified_orders(id) ON DELETE SET NULL,
+  order_type TEXT,
+  domain_order_id TEXT,
+  created_at INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_user_notifications_user_created ON user_notifications(user_id, created_at DESC, id DESC);
 
 CREATE TABLE IF NOT EXISTS idempotency_keys (
   id TEXT PRIMARY KEY,

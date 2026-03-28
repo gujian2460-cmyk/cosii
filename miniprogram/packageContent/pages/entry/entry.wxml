@@ -1,0 +1,19 @@
+<view class="page">
+  <text class="hint cos-meta">
+    开发期使用占位图 URL 提交作品；登录用户为作者。可在正文填写说明文案。
+  </text>
+  <view class="field cos-card">
+    <text class="label cos-meta">说明（可选）</text>
+    <textarea
+      class="textarea cos-body"
+      placeholder="作品说明"
+      value="{{caption}}"
+      bindinput="onCaptionInput"
+      maxlength="500"
+    />
+  </view>
+  <button class="cos-btn-primary submit" loading="{{submitting}}" disabled="{{submitting}}" bindtap="onSubmit">
+    发布作品
+  </button>
+  <view class="foot cos-meta" bindtap="goBack">返回</view>
+</view>

@@ -17,6 +17,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - run: npm test
+      # 与本地 `npm run verify:gates` 对齐：全量 Vitest + CRITICAL + E2E + miniprogram smoke
       - run: npx playwright install chromium --with-deps
-      - run: npm run test:e2e
+      - run: npm run verify:gates
