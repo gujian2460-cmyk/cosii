@@ -139,10 +139,27 @@ export type WechatWebhookPayload = {
   trade_state?: string;
 };
 
+export type WechatWebhookMeta = {
+  signature: string | null;
+  serial: string | null;
+  timestamp: string | null;
+  nonce: string | null;
+};
+
 /**
  * 处理微信支付回调：transaction_id 幂等；成功则推进订单并入账 settlement_ledger。
  */
-export function processWechatWebhook(db: DatabaseSync, payload: WechatWebhookPayload, traceId: string): {
+export function processWechatWebhook(
+  db: DatabaseSync,
+  payload: WechatWebhookPayload,
+  traceId: string,
+  meta: WechatWebhookMeta = {
+    signature: null,
+    serial: null,
+    timestamp: null,
+    nonce: null,
+  },
+): {
   duplicate: boolean;
   unified_order_id?: string;
 } {
@@ -151,6 +168,29 @@ export function processWechatWebhook(db: DatabaseSync, payload: WechatWebhookPay
   }
 
   return runImmediateTransaction(db, () => {
+    if (process.env.NODE_ENV === "production") {
+      if (!meta.signature || !meta.serial || !meta.timestamp || !meta.nonce) {
+        throw new HttpError(400, ErrorCode.WECHAT_AUTH_FAILED, "Missing WeChat webhook signature headers");
+      }
+    }
+
+    const webhookAuditId = randomUUID();
+    db.prepare(
+      `INSERT INTO wechat_webhook_audits (
+         id, transaction_id, out_trade_no, signature, serial, timestamp, nonce, trace_id, created_at
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ).run(
+      webhookAuditId,
+      payload.transaction_id,
+      payload.out_trade_no,
+      meta.signature,
+      meta.serial,
+      meta.timestamp,
+      meta.nonce,
+      traceId,
+      Date.now(),
+    );
+
     const pay = db
       .prepare(`SELECT id, unified_order_id, order_type, order_id, payment_status, amount FROM order_payments WHERE id = ?`)
       .get(payload.out_trade_no) as

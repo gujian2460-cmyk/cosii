@@ -201,6 +201,22 @@ CREATE TABLE IF NOT EXISTS wechat_webhook_events (
   created_at INTEGER NOT NULL
 );
 
+-- Raw webhook audit trail for forensic troubleshooting and signature tracing.
+CREATE TABLE IF NOT EXISTS wechat_webhook_audits (
+  id TEXT PRIMARY KEY,
+  transaction_id TEXT,
+  out_trade_no TEXT,
+  signature TEXT,
+  serial TEXT,
+  timestamp TEXT,
+  nonce TEXT,
+  trace_id TEXT,
+  created_at INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_wechat_webhook_audits_txn_created
+  ON wechat_webhook_audits(transaction_id, created_at);
+
 CREATE TABLE IF NOT EXISTS posts (
   id TEXT PRIMARY KEY,
   author_id TEXT NOT NULL REFERENCES users(id),

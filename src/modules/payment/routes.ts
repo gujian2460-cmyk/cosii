@@ -40,7 +40,17 @@ export async function registerPaymentRoutes(app: FastifyInstance): Promise<void>
       throw new HttpError(400, ErrorCode.VALIDATION_ERROR, "Invalid webhook body", parsed.error.flatten());
     }
 
-    const out = processWechatWebhook(app.db, parsed.data, request.traceId);
+    const out = processWechatWebhook(
+      app.db,
+      parsed.data,
+      request.traceId,
+      {
+        signature: (request.headers["wechatpay-signature"] as string | undefined)?.trim() || null,
+        serial: (request.headers["wechatpay-serial"] as string | undefined)?.trim() || null,
+        timestamp: (request.headers["wechatpay-timestamp"] as string | undefined)?.trim() || null,
+        nonce: (request.headers["wechatpay-nonce"] as string | undefined)?.trim() || null,
+      },
+    );
     return reply.send(
       ok(request.traceId, {
         processed: !out.duplicate,

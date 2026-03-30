@@ -2,17 +2,17 @@ const session = require("./utils/session.js");
 
 App({
   globalData: {
-    apiBase: "http://127.0.0.1:3000",
+    apiBase: "https://api.cosii.cn",
     devUserId: "usr_buyer_1",
     /** 为 false 时首页不展示 API trace 条（类生产） */
-    showDevProbe: true,
+    showDevProbe: false,
     /** 为 true 时订单 Tab 使用本地假数据（勿用于生产构建） */
     useMockOrders: false,
     /**
      * 为 true 时 onLaunch 调用 wx.login → POST /v1/auth/wechat-login，写入 Bearer。
      * 生产构建应设为 true，且服务端 NODE_ENV=production、配置 WECHAT_* 与 COSII_SESSION_SECRET。
      */
-    useWeChatSession: false,
+    useWeChatSession: true,
   },
   onLaunch() {
     if (this.globalData.useWeChatSession) {

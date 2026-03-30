@@ -3,11 +3,14 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildApp } from "./app.js";
 import { openDatabase } from "./db/open.js";
+import { assertProductionRuntimeConfig } from "./shared/config/production-checks.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const dataDir = process.env.DATA_DIR ?? `${__dirname}/../data`;
+assertProductionRuntimeConfig();
+
+const dataDir = process.env.DATA_DIR ?? `${process.cwd()}/data`;
 const dbPath = process.env.DB_PATH ?? `${dataDir}/app.db`;
 
 mkdirSync(dirname(dbPath), { recursive: true });
