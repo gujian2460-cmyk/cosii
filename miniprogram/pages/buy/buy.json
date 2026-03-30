@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "购买",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 80,
+  "usingComponents": {}
+}

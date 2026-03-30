@@ -14,13 +14,110 @@
     </view>
   </block>
   <block wx:else>
-    <view class="hero">
-      <text class="hero-title cos-display">Cosii</text>
+    <view class="cos-search-bar home-search" bindtap="onSearchTap">
+      <text class="cos-search-bar__icon">⌕</text>
+      <text class="home-search-placeholder">搜商品、角色、分类</text>
+    </view>
+
+    <swiper
+      class="banner"
+      indicator-dots
+      circular
+      autoplay
+      interval="4500"
+      indicator-color="rgba(168,85,247,0.35)"
+      indicator-active-color="#A855F7"
+    >
+      <swiper-item>
+        <view class="banner-slide banner-slide--a">
+          <text class="banner-kicker cos-meta">精选</text>
+          <text class="banner-title cos-body">漫展季 · 装备一站购</text>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <view class="banner-slide banner-slide--b">
+          <text class="banner-kicker cos-meta">约妆</text>
+          <text class="banner-title cos-body">档期占位 · 定金托管</text>
+        </view>
+      </swiper-item>
+    </swiper>
+
+    <view class="king-grid">
+      <view class="king-item" bindtap="onKingTap" data-action="buy">
+        <view class="king-icon king-icon--buy">购</view>
+        <text class="king-label cos-meta">购买</text>
+      </view>
+      <view class="king-item" bindtap="onKingTap" data-action="booking">
+        <view class="king-icon king-icon--book">妆</view>
+        <text class="king-label cos-meta">约妆</text>
+      </view>
+      <view class="king-item" bindtap="onKingTap" data-action="publish">
+        <view class="king-icon king-icon--pub">发</view>
+        <text class="king-label cos-meta">发布</text>
+      </view>
+      <view class="king-item" bindtap="onKingTap" data-action="orders">
+        <view class="king-icon king-icon--order">单</view>
+        <text class="king-label cos-meta">订单</text>
+      </view>
+      <view class="king-item" bindtap="onKingTap" data-action="search">
+        <view class="king-icon king-icon--find">搜</view>
+        <text class="king-label cos-meta">搜索</text>
+      </view>
+    </view>
+
+    <view class="section-head row-between">
+      <text class="section-title cos-body">活动预告</text>
+      <text class="cos-meta">横向滑动</text>
+    </view>
+    <scroll-view scroll-x class="event-scroll" show-scrollbar="{{false}}">
+      <view class="event-card cos-card" bindtap="onEventTap" data-i="0">
+        <text class="event-name cos-body">示例漫展</text>
+        <text class="cos-meta event-meta">本地活动模块即将接入</text>
+      </view>
+      <view class="event-card cos-card event-card--alt" bindtap="onEventTap" data-i="1">
+        <text class="event-name cos-body">同人市集</text>
+        <text class="cos-meta event-meta">关注公告与开票</text>
+      </view>
+    </scroll-view>
+
+    <view class="section-head row-between">
+      <text class="section-title cos-body">推荐</text>
+      <text class="cos-meta">双列瀑布（占位）</text>
+    </view>
+    <view class="waterfall-preview">
+      <view class="waterfall-col">
+        <view class="preview-card cos-card">
+          <view class="preview-cover preview-cover--1"></view>
+          <text class="preview-title cos-body">热门装扮灵感</text>
+          <text class="cos-tag">占位</text>
+        </view>
+        <view class="preview-card cos-card">
+          <view class="preview-cover preview-cover--3"></view>
+          <text class="preview-title cos-body">道具精选</text>
+          <text class="cos-meta preview-price">¥ —</text>
+        </view>
+      </view>
+      <view class="waterfall-col">
+        <view class="preview-card cos-card">
+          <view class="preview-cover preview-cover--2"></view>
+          <text class="preview-title cos-body">假发上新</text>
+          <text class="cos-meta preview-price">¥ —</text>
+        </view>
+        <view class="preview-card cos-card">
+          <view class="preview-cover preview-cover--4"></view>
+          <text class="preview-title cos-body">Coser 动态</text>
+          <text class="cos-tag cos-tag--hot">P2</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="hero-foot">
+      <text class="hero-brand cos-display">Cosii</text>
       <text class="hero-sub cos-meta">可信成交 · 约妆与闲置</text>
     </view>
 
-    <view class="trust-bar cos-status-bar">
-      <text class="trust-text cos-body">资金托管与档期占位；订单状态以「订单」Tab 详情为准。</text>
+    <view class="trust-bar cos-status-bar cos-status-bar--primary">
+      <text class="trust-text cos-body">资金托管与档期占位；订单与消息请从「我的」进入。</text>
     </view>
 
     <view class="cta-block">
@@ -31,7 +128,7 @@
       </view>
     </view>
 
-    <view class="secondary-list">
+    <view class="secondary-list cos-card">
       <view
         class="row cos-body"
         wx:for="{{secondaryRows}}"
@@ -46,7 +143,7 @@
     </view>
 
     <view class="feed-placeholder cos-meta" wx:if="{{showFeedHint}}">
-      内容推荐占位（P2）
+      内容推荐与真实商品流（P2）将接入推荐接口
     </view>
 
     <view class="api-strip cos-meta" wx:if="{{showDevProbe && healthLabel}}">

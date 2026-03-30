@@ -1,27 +1,35 @@
 {
   "pages": [
     "pages/home/home",
+    "pages/buy/buy",
     "pages/publish/publish",
+    "pages/search/search",
+    "pages/me/me",
     "pages/orders/orders",
-    "pages/inbox/inbox",
-    "pages/me/me"
+    "pages/inbox/inbox"
   ],
   "window": {
     "navigationBarTitleText": "Cosii",
-    "navigationBarBackgroundColor": "#111827",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#0B0F14",
-    "backgroundTextStyle": "light"
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F5F5F5",
+    "backgroundTextStyle": "dark"
   },
   "tabBar": {
-    "color": "#9CA3AF",
-    "selectedColor": "#E11D48",
-    "backgroundColor": "#111827",
-    "borderStyle": "black",
+    "color": "#6B7280",
+    "selectedColor": "#A855F7",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/home/home",
         "text": "首页",
+        "iconPath": "images/tab/inactive.png",
+        "selectedIconPath": "images/tab/active.png"
+      },
+      {
+        "pagePath": "pages/buy/buy",
+        "text": "购买",
         "iconPath": "images/tab/inactive.png",
         "selectedIconPath": "images/tab/active.png"
       },
@@ -32,14 +40,8 @@
         "selectedIconPath": "images/tab/active.png"
       },
       {
-        "pagePath": "pages/orders/orders",
-        "text": "订单",
-        "iconPath": "images/tab/inactive.png",
-        "selectedIconPath": "images/tab/active.png"
-      },
-      {
-        "pagePath": "pages/inbox/inbox",
-        "text": "消息",
+        "pagePath": "pages/search/search",
+        "text": "搜索",
         "iconPath": "images/tab/inactive.png",
         "selectedIconPath": "images/tab/active.png"
       },

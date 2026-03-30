@@ -65,7 +65,7 @@ Page({
   },
 
   goOrdersTab() {
-    wx.switchTab({ url: "/pages/orders/orders" });
+    wx.navigateTo({ url: "/pages/orders/orders" });
   },
 
   onNotifyTap(e) {

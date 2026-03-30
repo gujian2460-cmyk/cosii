@@ -1,0 +1,101 @@
+<view class="page">
+  <view class="search-head">
+    <view class="search-row">
+      <view class="cos-search-bar search-input-wrap">
+        <text class="cos-search-bar__icon">⌕</text>
+        <input
+          class="search-input"
+          type="text"
+          placeholder="关键词 / 分类 / 角色"
+          placeholder-class="search-ph"
+          confirm-type="search"
+          value="{{keyword}}"
+          bindinput="onInput"
+          bindconfirm="onSearchConfirm"
+        />
+        <text wx:if="{{keyword}}" class="search-clear" bindtap="onClearInput">✕</text>
+      </view>
+      <view class="search-action cos-body" bindtap="onSearchConfirm">搜索</view>
+    </view>
+  </view>
+
+  <block wx:if="{{!searched}}">
+    <view class="section">
+      <view class="section-head">
+        <text class="section-title cos-body">历史搜索</text>
+        <text wx:if="{{history.length}}" class="section-clear cos-meta" bindtap="onClearHistory">清空</text>
+      </view>
+      <view class="tag-wrap" wx:if="{{history.length}}">
+        <text
+          class="cos-tag"
+          wx:for="{{history}}"
+          wx:key="*this"
+          bindtap="onHistoryTap"
+          data-k="{{item}}"
+        >{{item}}</text>
+      </view>
+      <text wx:else class="cos-meta section-empty">暂无历史</text>
+    </view>
+
+    <view class="section">
+      <text class="section-title cos-body">热门</text>
+      <view class="tag-wrap">
+        <text
+          class="cos-tag cos-tag--hot"
+          wx:for="{{hotTags}}"
+          wx:key="*this"
+          bindtap="onHotTap"
+          data-k="{{item}}"
+        >{{item}}</text>
+      </view>
+    </view>
+  </block>
+
+  <block wx:if="{{loading}}">
+    <view class="cos-skeleton section">
+      <view class="cos-skeleton-line"></view>
+      <view class="cos-skeleton-line"></view>
+    </view>
+  </block>
+
+  <block wx:elif="{{searched && empty}}">
+    <view class="cos-page-state">
+      <text class="cos-body">没有找到相关商品</text>
+      <text class="cos-meta">试试其他关键词或去「购买」浏览全部</text>
+    </view>
+  </block>
+
+  <block wx:elif="{{searched && !empty}}">
+    <text class="result-hint cos-meta">以下为标题/分类包含「{{keyword}}」的在售商品</text>
+    <view class="waterfall">
+      <view class="waterfall-col">
+        <view class="feed-card cos-card" wx:for="{{leftCol}}" wx:key="item_id">
+          <text class="feed-title cos-body">{{item.title}}</text>
+          <text class="cos-tag tag-mt">{{item.category}}</text>
+          <text class="feed-price cos-tabular">¥{{item.priceYuan}}</text>
+          <button
+            class="cos-btn-primary feed-buy"
+            size="mini"
+            bindtap="onBuyTap"
+            data-item-id="{{item.item_id}}"
+            loading="{{creatingOrderId === item.item_id}}"
+          >立即购买</button>
+        </view>
+      </view>
+      <view class="waterfall-col">
+        <view class="feed-card cos-card" wx:for="{{rightCol}}" wx:key="item_id">
+          <text class="feed-title cos-body">{{item.title}}</text>
+          <text class="cos-tag tag-mt">{{item.category}}</text>
+          <text class="feed-price cos-tabular">¥{{item.priceYuan}}</text>
+          <button
+            class="cos-btn-primary feed-buy"
+            size="mini"
+            bindtap="onBuyTap"
+            data-item-id="{{item.item_id}}"
+            loading="{{creatingOrderId === item.item_id}}"
+          >立即购买</button>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

@@ -59,8 +59,31 @@ Page({
     }
   },
 
+  onSearchTap() {
+    wx.switchTab({ url: "/pages/search/search" });
+  },
+
+  onKingTap(e) {
+    var action = (e.currentTarget.dataset && e.currentTarget.dataset.action) || "";
+    if (action === "buy") {
+      wx.switchTab({ url: "/pages/buy/buy" });
+    } else if (action === "booking") {
+      wx.navigateTo({ url: routes.BOOKING_ENTRY });
+    } else if (action === "publish") {
+      wx.switchTab({ url: "/pages/publish/publish" });
+    } else if (action === "orders") {
+      wx.navigateTo({ url: "/pages/orders/orders" });
+    } else if (action === "search") {
+      wx.switchTab({ url: "/pages/search/search" });
+    }
+  },
+
+  onEventTap() {
+    wx.showToast({ title: "活动列表即将接入", icon: "none" });
+  },
+
   onPrimaryCta() {
-    wx.navigateTo({ url: routes.TRADE_LIST });
+    wx.switchTab({ url: "/pages/buy/buy" });
   },
 
   onSecondaryLink() {

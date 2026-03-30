@@ -1,24 +1,28 @@
 /**
- * 设计 Token — 真源：仓库根目录 DESIGN.md
- * 禁止在业务页随意新增 hex；语义色用途见 DESIGN Day3–8 各节。
+ * 小程序壳视觉 Token — 浅色粉紫梦幻主题（产品向）
+ * 根目录 DESIGN.md 仍为深色舞台规范；支付/争议等详情页语义色与对比度保持可辨。
  */
 page {
-  --color-bg: #0b0f14;
-  --color-surface: #111827;
-  --color-border: #1f2937;
-  --color-text: #f9fafb;
-  --color-text-muted: #9ca3af;
-  --color-primary: #e11d48;
-  --color-secondary: #0ea5e9;
+  --color-bg: #f5f5f5;
+  --color-surface: #ffffff;
+  --color-border: #e8e8e8;
+  --color-text: #1f2937;
+  --color-text-muted: #6b7280;
+  /* 粉紫主色：主按钮、Tab 选中、强调 */
+  --color-primary: #a855f7;
+  --color-primary-dark: #7c3aed;
+  --color-secondary: #ec4899;
   --color-success: #22c55e;
   --color-warning: #f59e0b;
-  --color-error-bg: #7f1d1d;
-  --color-error-text: #fee2e2;
-  --color-info: #38bdf8;
+  --color-error-bg: #fef2f2;
+  --color-error-text: #991b1b;
+  --color-info: #8b5cf6;
 
   --radius-sm: 8rpx;
   --radius-md: 16rpx;
-  --radius-lg: 24rpx;
+  --radius-lg: 28rpx;
+  --radius-xl: 36rpx;
+  --radius-pill: 9999rpx;
 
   --space-xs: 8rpx;
   --space-sm: 16rpx;
@@ -26,20 +30,23 @@ page {
   --space-lg: 48rpx;
   --space-xl: 64rpx;
 
+  --shadow-card: 0 8rpx 28rpx rgba(124, 58, 237, 0.08);
+  --shadow-soft: 0 4rpx 16rpx rgba(15, 23, 42, 0.06);
+
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: "PingFang SC", "Noto Sans SC", "Helvetica Neue", sans-serif;
   font-size: 28rpx;
-  line-height: 1.45;
+  line-height: 1.5;
   box-sizing: border-box;
 }
 
-/* Display 档标题感：系统字体加字重，后续可换合规自定义字体 */
 .cos-display {
   font-size: 52rpx;
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.25;
+  color: var(--color-text);
 }
 
 .cos-body {
@@ -61,35 +68,49 @@ page {
   font-size: 24rpx;
 }
 
-/* 状态条：surface + 左边框 3px（DESIGN Day3–4） */
 .cos-status-bar {
   background-color: var(--color-surface);
   border-left: 6rpx solid var(--color-info);
   padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
 }
 
 .cos-status-bar--primary {
   border-left-color: var(--color-primary);
 }
 
-/* 主按钮 */
 .cos-btn-primary {
-  background-color: var(--color-primary) !important;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%) !important;
   color: #fff !important;
-  border-radius: var(--radius-md) !important;
+  border-radius: var(--radius-pill) !important;
   font-weight: 600;
   font-size: 30rpx;
   padding: 24rpx var(--space-md);
   border: none !important;
+  box-shadow: 0 8rpx 24rpx rgba(168, 85, 247, 0.35);
 }
 
 .cos-btn-primary::after {
   border: none;
 }
 
+.cos-btn-secondary {
+  background-color: var(--color-surface) !important;
+  color: var(--color-primary-dark) !important;
+  border: 2rpx solid var(--color-primary) !important;
+  border-radius: var(--radius-pill) !important;
+  font-weight: 600;
+  font-size: 28rpx;
+  padding: 20rpx var(--space-md);
+}
+
+.cos-btn-secondary::after {
+  border: none;
+}
+
 .cos-link {
-  color: var(--color-secondary);
+  color: var(--color-primary-dark);
   font-size: 28rpx;
   text-decoration: underline;
 }
@@ -104,6 +125,7 @@ page {
   border-radius: var(--radius-lg);
   border: 1rpx solid var(--color-border);
   padding: var(--space-md);
+  box-shadow: var(--shadow-card);
 }
 
 .cos-divider {
@@ -112,14 +134,13 @@ page {
   margin: var(--space-md) 0;
 }
 
-/* 页面 loading 骨架（§14 autoplan-five-tabs） */
 .cos-skeleton {
   padding: var(--space-md) 0;
 }
 
 .cos-skeleton-line {
   height: 32rpx;
-  background-color: var(--color-border);
+  background-color: #e5e7eb;
   border-radius: var(--radius-sm);
   margin-bottom: var(--space-sm);
 }
@@ -140,4 +161,52 @@ page {
 .cos-tabular {
   font-variant-numeric: tabular-nums;
   font-family: "SF Mono", "Droid Sans Mono", "Roboto Mono", monospace;
+}
+
+/* 顶部搜索条（首页 / 规范） */
+.cos-search-bar {
+  display: flex;
+  align-items: center;
+  height: 72rpx;
+  padding: 0 28rpx;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-pill);
+  border: 1rpx solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+  color: var(--color-text-muted);
+  font-size: 26rpx;
+}
+
+.cos-search-bar__icon {
+  margin-right: 12rpx;
+  font-size: 28rpx;
+}
+
+/* Tag：浅色底 + 主题字 */
+.cos-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 8rpx 20rpx;
+  border-radius: var(--radius-sm);
+  background-color: rgba(168, 85, 247, 0.12);
+  color: var(--color-primary-dark);
+  font-size: 24rpx;
+}
+
+.cos-tag--hot {
+  background-color: rgba(236, 72, 153, 0.12);
+  color: #db2777;
+}
+
+/* 吸底操作栏槽位 */
+.cos-bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16rpx 32rpx calc(16rpx + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 1rpx solid var(--color-border);
+  box-shadow: 0 -8rpx 32rpx rgba(15, 23, 42, 0.06);
+  z-index: 100;
 }

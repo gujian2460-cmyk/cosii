@@ -12,6 +12,7 @@
 
 .back {
   width: 100%;
+  margin-top: 24rpx;
 }
 
 .segmented {
@@ -45,17 +46,25 @@
   font-weight: 600;
 }
 
-.line {
+.tag-row {
+  margin-top: 12rpx;
+}
+
+.price {
   display: block;
-  margin-top: 8rpx;
+  margin-top: 12rpx;
+  font-weight: 600;
+  color: var(--color-secondary);
+  font-size: 32rpx;
 }
 
 .buy-btn {
   margin-top: 24rpx;
+  width: 100%;
 }
 
 .load-more {
   text-align: center;
   padding: 16rpx 0 40rpx;
-  opacity: 0.8;
+  opacity: 0.85;
 }

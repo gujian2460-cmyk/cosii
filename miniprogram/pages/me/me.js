@@ -9,6 +9,7 @@ Page({
     error: null,
     isLoggedIn: false,
     profile: null,
+    avatarLetter: "用",
   },
 
   onLoad() {
@@ -33,11 +34,17 @@ Page({
       });
       return;
     }
+    var p = (res.data && res.data.profile) || null;
+    var letter = "用";
+    if (p && p.nickname && String(p.nickname).length > 0) {
+      letter = String(p.nickname).charAt(0);
+    }
     this.setData({
       loading: false,
       error: null,
       isLoggedIn: Boolean(res.data && res.data.is_logged_in),
-      profile: (res.data && res.data.profile) || null,
+      profile: p,
+      avatarLetter: letter,
     });
   },
 
@@ -60,6 +67,22 @@ Page({
         that.refreshProfile();
       },
     });
+  },
+
+  onOrders() {
+    wx.navigateTo({ url: "/pages/orders/orders" });
+  },
+
+  onInbox() {
+    wx.navigateTo({ url: "/pages/inbox/inbox" });
+  },
+
+  onGoPublish() {
+    wx.switchTab({ url: "/pages/publish/publish" });
+  },
+
+  onPlaceholder() {
+    wx.showToast({ title: "即将接入", icon: "none" });
   },
 
   onRates() {
