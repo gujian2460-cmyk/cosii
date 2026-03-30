@@ -1,4 +1,5 @@
 {
+  "darkmode": false,
   "pages": [
     "pages/home/home",
     "pages/buy/buy",
@@ -12,7 +13,7 @@
     "navigationBarTitleText": "Cosii",
     "navigationBarBackgroundColor": "#FFFFFF",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#F5F5F5",
+    "backgroundColor": "#FAFAFA",
     "backgroundTextStyle": "dark"
   },
   "tabBar": {

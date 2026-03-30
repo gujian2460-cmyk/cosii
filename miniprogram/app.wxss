@@ -1,11 +1,11 @@
 /**
- * 小程序壳视觉 Token — 浅色粉紫梦幻主题（产品向）
- * 根目录 DESIGN.md 仍为深色舞台规范；支付/争议等详情页语义色与对比度保持可辨。
+ * 小程序壳视觉 Token — 浅色模式（浅灰底 + 白卡片 + 粉紫点缀）
+ * 根目录 DESIGN.md 仍为深色舞台规范；小程序壳独立浅色真源。
  */
 page {
-  --color-bg: #f5f5f5;
+  --color-bg: #fafafa;
   --color-surface: #ffffff;
-  --color-border: #e8e8e8;
+  --color-border: #f0f0f0;
   --color-text: #1f2937;
   --color-text-muted: #6b7280;
   /* 粉紫主色：主按钮、Tab 选中、强调 */
@@ -30,8 +30,8 @@ page {
   --space-lg: 48rpx;
   --space-xl: 64rpx;
 
-  --shadow-card: 0 8rpx 28rpx rgba(124, 58, 237, 0.08);
-  --shadow-soft: 0 4rpx 16rpx rgba(15, 23, 42, 0.06);
+  --shadow-card: 0 8rpx 24rpx rgba(15, 23, 42, 0.06);
+  --shadow-soft: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
 
   background-color: var(--color-bg);
   color: var(--color-text);
@@ -81,14 +81,14 @@ page {
 }
 
 .cos-btn-primary {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%) !important;
+  background-color: var(--color-primary) !important;
   color: #fff !important;
   border-radius: var(--radius-pill) !important;
   font-weight: 600;
   font-size: 30rpx;
   padding: 24rpx var(--space-md);
   border: none !important;
-  box-shadow: 0 8rpx 24rpx rgba(168, 85, 247, 0.35);
+  box-shadow: 0 4rpx 16rpx rgba(168, 85, 247, 0.22);
 }
 
 .cos-btn-primary::after {
@@ -205,8 +205,8 @@ page {
   right: 0;
   bottom: 0;
   padding: 16rpx 32rpx calc(16rpx + env(safe-area-inset-bottom));
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(255, 255, 255, 0.98);
   border-top: 1rpx solid var(--color-border);
-  box-shadow: 0 -8rpx 32rpx rgba(15, 23, 42, 0.06);
+  box-shadow: 0 -4rpx 20rpx rgba(15, 23, 42, 0.04);
   z-index: 100;
 }

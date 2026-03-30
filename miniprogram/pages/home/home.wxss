@@ -30,11 +30,11 @@
 }
 
 .banner-slide--a {
-  background: linear-gradient(135deg, #e9d5ff 0%, #fce7f3 50%, #fff 100%);
+  background: linear-gradient(135deg, #f5f3ff 0%, #fdf2f8 40%, #ffffff 100%);
 }
 
 .banner-slide--b {
-  background: linear-gradient(135deg, #ddd6fe 0%, #fbcfe8 45%, #fff 100%);
+  background: linear-gradient(135deg, #faf5ff 0%, #fff1f2 35%, #ffffff 100%);
 }
 
 .banner-kicker {
