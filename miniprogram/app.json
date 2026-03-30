@@ -13,12 +13,12 @@
     "navigationBarTitleText": "Cosii",
     "navigationBarBackgroundColor": "#FFFFFF",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#FAFAFA",
+    "backgroundColor": "#F5F6F8",
     "backgroundTextStyle": "dark"
   },
   "tabBar": {
     "color": "#6B7280",
-    "selectedColor": "#A855F7",
+    "selectedColor": "#D878A0",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
     "list": [

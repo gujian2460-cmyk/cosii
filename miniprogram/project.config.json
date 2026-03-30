@@ -29,7 +29,7 @@
     "packNpmRelationList": [],
     "minifyWXSS": true,
     "showES6CompileOption": false,
-    "typescript": false,
+    "typescript": true,
     "minifyWXML": true,
     "babelSetting": {
       "ignore": [],

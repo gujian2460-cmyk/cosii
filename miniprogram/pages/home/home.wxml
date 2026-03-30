@@ -1,154 +1,183 @@
-<view class="page">
-  <block wx:if="{{loading}}">
-    <view class="cos-skeleton">
-      <view class="cos-skeleton-line"></view>
-      <view class="cos-skeleton-line cos-skeleton-line--short"></view>
-      <view class="cos-skeleton-line"></view>
-    </view>
-  </block>
-  <block wx:elif="{{error}}">
-    <view class="cos-page-state">
-      <text class="cos-body">{{error.userTitle}}</text>
-      <text wx:if="{{error.traceId}}" class="cos-code cos-meta" selectable="true">{{error.traceId}}</text>
-      <button class="cos-btn-primary cos-page-state__retry" bindtap="refreshHealth">重试</button>
-    </view>
-  </block>
-  <block wx:else>
-    <view class="cos-search-bar home-search" bindtap="onSearchTap">
-      <text class="cos-search-bar__icon">⌕</text>
-      <text class="home-search-placeholder">搜商品、角色、分类</text>
-    </view>
-
-    <swiper
-      class="banner"
-      indicator-dots
-      circular
-      autoplay
-      interval="4500"
-      indicator-color="rgba(168,85,247,0.35)"
-      indicator-active-color="#A855F7"
+<view class="home-page" style="--safe-bottom: env(safe-area-inset-bottom);">
+  <!-- 1. 沉浸式头部：避让胶囊 + 顶栏安全区 -->
+  <view class="home-header" style="height: {{navBarHeightPx}}px;">
+    <view class="home-header__status" style="height: {{statusBarHeight}}px;"></view>
+    <view
+      class="home-header__row"
+      style="height: {{headerRowHeightPx}}px; padding-right: {{headerRightSpacePx}}px;"
     >
-      <swiper-item>
-        <view class="banner-slide banner-slide--a">
-          <text class="banner-kicker cos-meta">精选</text>
-          <text class="banner-title cos-body">漫展季 · 装备一站购</text>
-        </view>
-      </swiper-item>
-      <swiper-item>
-        <view class="banner-slide banner-slide--b">
-          <text class="banner-kicker cos-meta">约妆</text>
-          <text class="banner-title cos-body">档期占位 · 定金托管</text>
-        </view>
-      </swiper-item>
-    </swiper>
-
-    <view class="king-grid">
-      <view class="king-item" bindtap="onKingTap" data-action="buy">
-        <view class="king-icon king-icon--buy">购</view>
-        <text class="king-label cos-meta">购买</text>
+      <view class="home-loc" bindtap="onLocationTap">
+        <text class="home-loc__icon">📍</text>
+        <text class="home-loc__text">{{cityName}}</text>
       </view>
-      <view class="king-item" bindtap="onKingTap" data-action="booking">
-        <view class="king-icon king-icon--book">妆</view>
-        <text class="king-label cos-meta">约妆</text>
-      </view>
-      <view class="king-item" bindtap="onKingTap" data-action="publish">
-        <view class="king-icon king-icon--pub">发</view>
-        <text class="king-label cos-meta">发布</text>
-      </view>
-      <view class="king-item" bindtap="onKingTap" data-action="orders">
-        <view class="king-icon king-icon--order">单</view>
-        <text class="king-label cos-meta">订单</text>
-      </view>
-      <view class="king-item" bindtap="onKingTap" data-action="search">
-        <view class="king-icon king-icon--find">搜</view>
-        <text class="king-label cos-meta">搜索</text>
+      <view class="home-search-capsule" bindtap="onSearchTap">
+        <text class="home-search-capsule__ph">搜索 C服 / 道具 / 认证妆娘</text>
       </view>
     </view>
+  </view>
 
-    <view class="section-head row-between">
-      <text class="section-title cos-body">活动预告</text>
-      <text class="cos-meta">横向滑动</text>
-    </view>
-    <scroll-view scroll-x class="event-scroll" show-scrollbar="{{false}}">
-      <view class="event-card cos-card" bindtap="onEventTap" data-i="0">
-        <text class="event-name cos-body">示例漫展</text>
-        <text class="cos-meta event-meta">本地活动模块即将接入</text>
-      </view>
-      <view class="event-card cos-card event-card--alt" bindtap="onEventTap" data-i="1">
-        <text class="event-name cos-body">同人市集</text>
-        <text class="cos-meta event-meta">关注公告与开票</text>
-      </view>
-    </scroll-view>
-
-    <view class="section-head row-between">
-      <text class="section-title cos-body">推荐</text>
-      <text class="cos-meta">双列瀑布（占位）</text>
-    </view>
-    <view class="waterfall-preview">
-      <view class="waterfall-col">
-        <view class="preview-card cos-card">
-          <view class="preview-cover preview-cover--1"></view>
-          <text class="preview-title cos-body">热门装扮灵感</text>
-          <text class="cos-tag">占位</text>
-        </view>
-        <view class="preview-card cos-card">
-          <view class="preview-cover preview-cover--3"></view>
-          <text class="preview-title cos-body">道具精选</text>
-          <text class="cos-meta preview-price">¥ —</text>
-        </view>
-      </view>
-      <view class="waterfall-col">
-        <view class="preview-card cos-card">
-          <view class="preview-cover preview-cover--2"></view>
-          <text class="preview-title cos-body">假发上新</text>
-          <text class="cos-meta preview-price">¥ —</text>
-        </view>
-        <view class="preview-card cos-card">
-          <view class="preview-cover preview-cover--4"></view>
-          <text class="preview-title cos-body">Coser 动态</text>
-          <text class="cos-tag cos-tag--hot">P2</text>
-        </view>
-      </view>
-    </view>
-
-    <view class="hero-foot">
-      <text class="hero-brand cos-display">Cosii</text>
-      <text class="hero-sub cos-meta">可信成交 · 约妆与闲置</text>
-    </view>
-
-    <view class="trust-bar cos-status-bar cos-status-bar--primary">
-      <text class="trust-text cos-body">资金托管与档期占位；订单与消息请从「我的」进入。</text>
-    </view>
-
-    <view class="cta-block">
-      <button class="cos-btn-primary cta-main" bindtap="onPrimaryCta">逛在售</button>
-      <view class="cta-secondary-wrap">
-        <view class="cos-link tap" bindtap="onSecondaryLink">约妆娘</view>
-        <text class="cos-meta secondary-hint">（档期与定金流程即将接入）</text>
-      </view>
-    </view>
-
-    <view class="secondary-list cos-card">
-      <view
-        class="row cos-body"
-        wx:for="{{secondaryRows}}"
-        wx:key="filter"
-        bindtap="onSecondaryTap"
-        data-hint="{{item.hint}}"
-        data-filter="{{item.filter}}"
+  <scroll-view
+    scroll-y
+    class="home-scroll"
+    style="height: {{scrollHeightPx}}px;"
+    enable-back-to-top="{{true}}"
+  >
+    <!-- 2. 精选活动轮播（非通栏） -->
+    <view class="home-banner-wrap">
+      <swiper
+        class="home-banner-swiper"
+        circular
+        autoplay
+        interval="4800"
+        duration="400"
+        bindchange="onBannerChange"
+        current="{{bannerCurrent}}"
       >
-        <text>{{item.hint}}</text>
-        <text class="cos-meta">›</text>
+        <swiper-item wx:for="{{bannerSlides}}" wx:key="id">
+          <view class="home-banner-slide" style="background: {{item.bg}};">
+            <text class="home-banner-slide__k">{{item.kicker}}</text>
+            <text class="home-banner-slide__t">{{item.title}}</text>
+          </view>
+        </swiper-item>
+      </swiper>
+      <view class="home-dots">
+        <view
+          wx:for="{{bannerSlides}}"
+          wx:for-index="idx"
+          wx:key="id"
+          class="home-dots__item {{bannerCurrent === idx ? 'home-dots__item--on' : ''}}"
+        />
       </view>
     </view>
 
-    <view class="feed-placeholder cos-meta" wx:if="{{showFeedHint}}">
-      内容推荐与真实商品流（P2）将接入推荐接口
+    <!-- 3. 金刚区：1 行 4 列 -->
+    <view class="home-king">
+      <view class="home-king__item" bindtap="onKingTap" data-action="escrow">
+        <view class="home-king__circle home-king__circle--1">担</view>
+        <text class="home-king__label">担保交易</text>
+      </view>
+      <view class="home-king__item" bindtap="onKingTap" data-action="artist">
+        <view class="home-king__circle home-king__circle--2">认</view>
+        <text class="home-king__label">认证妆娘</text>
+      </view>
+      <view class="home-king__item" bindtap="onKingTap" data-action="expo">
+        <view class="home-king__circle home-king__circle--3">展</view>
+        <text class="home-king__label">漫展档期</text>
+      </view>
+      <view class="home-king__item" bindtap="onKingTap" data-action="local">
+        <view class="home-king__circle home-king__circle--4">面</view>
+        <text class="home-king__label">同城面交</text>
+      </view>
     </view>
 
-    <view class="api-strip cos-meta" wx:if="{{showDevProbe && healthLabel}}">
-      <text>{{healthLabel}}</text>
-      <text wx:if="{{healthTrace}}" class="cos-code trace" selectable="true">{{healthTrace}}</text>
+    <!-- 4. 动态转化瀑布流 -->
+    <view class="home-feed-head">
+      <text class="home-feed-head__title">发现</text>
+      <text class="home-feed-head__sub">作品 · 转化挂载</text>
     </view>
-  </block>
+    <view class="home-masonry">
+      <view class="home-masonry__col">
+        <block wx:for="{{feedLeft}}" wx:key="id">
+          <view class="feed-card">
+            <view class="feed-card__media">
+              <image
+                wx:if="{{item.coverUrl}}"
+                class="feed-card__img"
+                src="{{item.coverUrl}}"
+                mode="aspectFill"
+              />
+              <view
+                wx:else
+                class="feed-card__img feed-card__img--ph"
+                style="background-color: {{item.coverColor}};"
+              />
+            </view>
+            <view class="feed-card__body">
+              <text class="feed-card__title">{{item.title}}</text>
+              <view
+                class="feed-conv feed-conv--{{item.conversion.type}}"
+                bindtap="onConversionTap"
+                data-id="{{item.id}}"
+                data-ctype="{{item.conversion.type}}"
+                data-trade-item-id="{{item.convTradeItemId}}"
+                data-artist-id="{{item.convArtistId}}"
+              >
+                <text class="feed-conv__text">{{item.conversion.label}}</text>
+              </view>
+              <view class="feed-card__foot">
+                <view
+                  class="feed-card__ava"
+                  style="background-color: {{item.author.avatarUrl ? 'transparent' : '#e8e8e8'}};"
+                >
+                  <image
+                    wx:if="{{item.author.avatarUrl}}"
+                    class="feed-card__ava-img"
+                    src="{{item.author.avatarUrl}}"
+                    mode="aspectFill"
+                  />
+                  <text wx:else class="feed-card__ava-t">{{item.authorInitial}}</text>
+                </view>
+                <text class="feed-card__nick">{{item.author.nickname}}</text>
+                <view wx:if="{{item.author.verified}}" class="feed-card__v">V</view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="home-masonry__col">
+        <block wx:for="{{feedRight}}" wx:key="id">
+          <view class="feed-card">
+            <view class="feed-card__media">
+              <image
+                wx:if="{{item.coverUrl}}"
+                class="feed-card__img"
+                src="{{item.coverUrl}}"
+                mode="aspectFill"
+              />
+              <view
+                wx:else
+                class="feed-card__img feed-card__img--ph"
+                style="background-color: {{item.coverColor}};"
+              />
+            </view>
+            <view class="feed-card__body">
+              <text class="feed-card__title">{{item.title}}</text>
+              <view
+                class="feed-conv feed-conv--{{item.conversion.type}}"
+                bindtap="onConversionTap"
+                data-id="{{item.id}}"
+                data-ctype="{{item.conversion.type}}"
+                data-trade-item-id="{{item.convTradeItemId}}"
+                data-artist-id="{{item.convArtistId}}"
+              >
+                <text class="feed-conv__text">{{item.conversion.label}}</text>
+              </view>
+              <view class="feed-card__foot">
+                <view
+                  class="feed-card__ava"
+                  style="background-color: {{item.author.avatarUrl ? 'transparent' : '#e8e8e8'}};"
+                >
+                  <image
+                    wx:if="{{item.author.avatarUrl}}"
+                    class="feed-card__ava-img"
+                    src="{{item.author.avatarUrl}}"
+                    mode="aspectFill"
+                  />
+                  <text wx:else class="feed-card__ava-t">{{item.authorInitial}}</text>
+                </view>
+                <text class="feed-card__nick">{{item.author.nickname}}</text>
+                <view wx:if="{{item.author.verified}}" class="feed-card__v">V</view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="home-foot" wx:if="{{showDevProbe && healthLabel}}">
+      <text class="home-foot__t">{{healthLabel}}</text>
+      <text wx:if="{{healthTrace}}" class="home-foot__trace" selectable="true">{{healthTrace}}</text>
+    </view>
+    <view class="home-foot-spacer"></view>
+  </scroll-view>
 </view>

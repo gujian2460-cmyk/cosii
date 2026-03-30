@@ -1,17 +1,16 @@
 /**
- * 小程序壳视觉 Token — 浅色模式（浅灰底 + 白卡片 + 粉紫点缀）
- * 根目录 DESIGN.md 仍为深色舞台规范；小程序壳独立浅色真源。
+ * 小程序壳视觉 Token — 浅色品牌（与外包 brief / 首页还原一致）
+ * 品牌主色 #D878A0；根 DESIGN.md 深色为另一语境，小程序壳以本节变量为准。
  */
 page {
-  --color-bg: #fafafa;
+  --color-bg: #f5f6f8;
   --color-surface: #ffffff;
-  --color-border: #f0f0f0;
-  --color-text: #1f2937;
-  --color-text-muted: #6b7280;
-  /* 粉紫主色：主按钮、Tab 选中、强调 */
-  --color-primary: #a855f7;
-  --color-primary-dark: #7c3aed;
-  --color-secondary: #ec4899;
+  --color-border: #eeeeee;
+  --color-text: #111111;
+  --color-text-muted: #999999;
+  --color-primary: #d878a0;
+  --color-primary-dark: #c45d88;
+  --color-secondary: #b565a0;
   --color-success: #22c55e;
   --color-warning: #f59e0b;
   --color-error-bg: #fef2f2;
@@ -20,7 +19,8 @@ page {
 
   --radius-sm: 8rpx;
   --radius-md: 16rpx;
-  --radius-lg: 28rpx;
+  --radius-lg: 24rpx;
+  --radius-block: 16rpx;
   --radius-xl: 36rpx;
   --radius-pill: 9999rpx;
 
@@ -88,7 +88,7 @@ page {
   font-size: 30rpx;
   padding: 24rpx var(--space-md);
   border: none !important;
-  box-shadow: 0 4rpx 16rpx rgba(168, 85, 247, 0.22);
+  box-shadow: 0 4rpx 16rpx rgba(216, 120, 160, 0.25);
 }
 
 .cos-btn-primary::after {
@@ -188,7 +188,7 @@ page {
   align-items: center;
   padding: 8rpx 20rpx;
   border-radius: var(--radius-sm);
-  background-color: rgba(168, 85, 247, 0.12);
+  background-color: rgba(216, 120, 160, 0.14);
   color: var(--color-primary-dark);
   font-size: 24rpx;
 }
