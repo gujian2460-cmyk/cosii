@@ -9,7 +9,7 @@
 2. **导入项目**，目录选本仓库下的 `miniprogram`（或选仓库根后在 `project.config.json` 中配置 `miniprogramRoot`，当前配置为在 `miniprogram` 内打开即可）。
 3. **详情 → 本地设置**：勾选「不校验合法域名、web-view（业务域名）、TLS 版本以及 HTTPS 证书」，以便请求 `http://127.0.0.1:3000` 的后端。
 4. 启动后端：`npm run dev`（默认 `PORT=3000`）。
-5. （可选）在 `miniprogram` 目录执行 `npm install`，用于 `miniprogram-api-typings`。**`project.config.json` 已开启 `typescript: true`**：`pages/home/home.ts` 等由开发者工具编译为运行时代码。
+5. （可选）在 `miniprogram` 目录执行 `npm install`，用于 `miniprogram-api-typings`。页面逻辑使用 **`*.js`**（如 `pages/home/home.js`），便于预览时工具直接解析；勿只保留 `home.ts` 而无同路径 `home.js`，否则会报「找不到 home.js」。
 
 ## 配置
 
