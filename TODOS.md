@@ -109,3 +109,11 @@
 - **Ref:** `docs/designs/autoplan-review-ui.md`、`docs/designs/autoplan-ui-test-plan-20260326.md`、`docs/designs/miniprogram-ui-shell-spec.md`（UI 壳实现规格）
 - **Effort:** M（human） -> M（CC）
 - **Depends on:** 小程序 AppID/开发者工具、字体与类目合规确认。
+
+## P1 - 小程序 UI 对标设计稿（粉紫全套稿）
+
+- **What:** 按设计稿补齐 **IA（含买&搜合并、消息 Tab、中间「+」方案）**、买&搜页（分类/筛选弹层/双列卡）、发布/我的/漫展/卖家主页/作品详情等；全局 Token 与稿一致。
+- **Why:** 当前实现与稿差距见结构化评审，避免产品预期与工程长期分叉。
+- **Ref:** `docs/designs/小程序UI对标设计稿-评审报告-2026-03-31.md`
+- **Effort:** L（human） -> L（CC）
+- **Depends on:** TabBar 技术方案定稿；`GET /v1/trade/items` 等是否扩展筛选参数（或先 Mock）。
