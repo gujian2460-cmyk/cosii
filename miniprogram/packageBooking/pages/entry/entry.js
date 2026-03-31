@@ -23,7 +23,7 @@ Page({
 
   goBack() {
     wx.navigateBack({ fail: function () {
-      wx.switchTab({ url: "/pages/home/home" });
+      wx.switchTab({ url: "/pages/home/index" });
     }});
   },
 

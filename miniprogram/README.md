@@ -9,7 +9,8 @@
 2. **导入项目**，目录选本仓库下的 `miniprogram`（或选仓库根后在 `project.config.json` 中配置 `miniprogramRoot`，当前配置为在 `miniprogram` 内打开即可）。
 3. **详情 → 本地设置**：勾选「不校验合法域名、web-view（业务域名）、TLS 版本以及 HTTPS 证书」，以便请求 `http://127.0.0.1:3000` 的后端。
 4. 启动后端：`npm run dev`（默认 `PORT=3000`）。
-5. （可选）在 `miniprogram` 目录执行 `npm install`，用于 `miniprogram-api-typings`。页面逻辑使用 **`*.js`**（如 `pages/home/home.js`），便于预览时工具直接解析；勿只保留 `home.ts` 而无同路径 `home.js`，否则会报「找不到 home.js」。
+5. （可选）在 `miniprogram` 目录执行 `npm install`，用于 `miniprogram-api-typings`。首页路径为 **`pages/home/index`**（同目录下 `index.js` / `index.wxml` / `index.json` / `index.wxss`），与微信默认脚手架一致，避免部分开发者工具预览阶段路径校验异常。
+6. **导入目录**：可打开仓库根目录（根目录 `project.config.json` 已设 `miniprogramRoot: miniprogram`），或直接打开 **`miniprogram`** 文件夹；勿混用两套根目录以免缓存旧路径。
 
 ## 配置
 

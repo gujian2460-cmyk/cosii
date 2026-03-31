@@ -1,7 +1,7 @@
 {
   "darkmode": false,
   "pages": [
-    "pages/home/home",
+    "pages/home/index",
     "pages/buy-search/buy-search",
     "pages/publish/publish",
     "pages/inbox/inbox",
@@ -26,7 +26,7 @@
     "borderStyle": "white",
     "list": [
       {
-        "pagePath": "pages/home/home",
+        "pagePath": "pages/home/index",
         "text": "首页",
         "iconPath": "images/tab/inactive.png",
         "selectedIconPath": "images/tab/active.png"

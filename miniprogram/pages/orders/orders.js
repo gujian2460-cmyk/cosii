@@ -150,7 +150,7 @@ Page({
   },
 
   goHome() {
-    wx.switchTab({ url: "/pages/home/home" });
+    wx.switchTab({ url: "/pages/home/index" });
   },
 
   onOrderTap(e) {
