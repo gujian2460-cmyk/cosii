@@ -2,12 +2,15 @@
   "darkmode": false,
   "pages": [
     "pages/home/home",
-    "pages/buy/buy",
+    "pages/buy-search/buy-search",
     "pages/publish/publish",
-    "pages/search/search",
+    "pages/inbox/inbox",
     "pages/me/me",
     "pages/orders/orders",
-    "pages/inbox/inbox"
+    "pages/buy/buy",
+    "pages/search/search",
+    "pages/recent-expo/recent-expo",
+    "pages/expo/expo"
   ],
   "window": {
     "navigationBarTitleText": "Cosii",
@@ -29,8 +32,8 @@
         "selectedIconPath": "images/tab/active.png"
       },
       {
-        "pagePath": "pages/buy/buy",
-        "text": "购买",
+        "pagePath": "pages/buy-search/buy-search",
+        "text": "买&搜",
         "iconPath": "images/tab/inactive.png",
         "selectedIconPath": "images/tab/active.png"
       },
@@ -41,8 +44,8 @@
         "selectedIconPath": "images/tab/active.png"
       },
       {
-        "pagePath": "pages/search/search",
-        "text": "搜索",
+        "pagePath": "pages/inbox/inbox",
+        "text": "消息",
         "iconPath": "images/tab/inactive.png",
         "selectedIconPath": "images/tab/active.png"
       },

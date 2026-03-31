@@ -6,13 +6,10 @@
       class="home-header__row"
       style="height: {{headerRowHeightPx}}px; padding-right: {{headerRightSpacePx}}px;"
     >
-      <view class="home-loc" bindtap="onLocationTap">
-        <text class="home-loc__icon">📍</text>
-        <text class="home-loc__text">{{cityName}}</text>
-      </view>
       <view class="home-search-capsule" bindtap="onSearchTap">
-        <text class="home-search-capsule__ph">搜索 C服 / 道具 / 认证妆娘</text>
+        <text class="home-search-capsule__ph">搜商品，如：Cos服</text>
       </view>
+      <view class="home-recent-expo" bindtap="onRecentExpoTap">最近漫展</view>
     </view>
   </view>
 
@@ -50,23 +47,96 @@
       </view>
     </view>
 
-    <!-- 3. 金刚区：1 行 4 列 -->
-    <view class="home-king">
-      <view class="home-king__item" bindtap="onKingTap" data-action="escrow">
-        <view class="home-king__circle home-king__circle--1">担</view>
-        <text class="home-king__label">担保交易</text>
+    <!-- 3. 金刚区：5 项（对标设计稿） -->
+    <scroll-view class="home-king-scroll" scroll-x>
+      <view class="home-king home-king--5">
+        <view class="home-king__item" bindtap="onKingTap" data-action="yi">
+          <view class="home-king__circle home-king__circle--1">衣</view>
+          <text class="home-king__label">COS服装</text>
+        </view>
+        <view class="home-king__item" bindtap="onKingTap" data-action="fa">
+          <view class="home-king__circle home-king__circle--2">发</view>
+          <text class="home-king__label">假发</text>
+        </view>
+        <view class="home-king__item" bindtap="onKingTap" data-action="zhuang">
+          <view class="home-king__circle home-king__circle--3">妆</view>
+          <text class="home-king__label">平时装造</text>
+        </view>
+        <view class="home-king__item" bindtap="onKingTap" data-action="zhou">
+          <view class="home-king__circle home-king__circle--4">周</view>
+          <text class="home-king__label">周边</text>
+        </view>
+        <view class="home-king__item" bindtap="onKingTap" data-action="zhan">
+          <view class="home-king__circle home-king__circle--5">展</view>
+          <text class="home-king__label">漫展约妆</text>
+        </view>
       </view>
-      <view class="home-king__item" bindtap="onKingTap" data-action="artist">
-        <view class="home-king__circle home-king__circle--2">认</view>
-        <text class="home-king__label">认证妆娘</text>
+    </scroll-view>
+
+    <view class="home-feed-head home-feed-head--tight">
+      <text class="home-feed-head__title">热门角色</text>
+      <text class="home-feed-head__sub">左右滑动</text>
+    </view>
+    <scroll-view class="home-char-scroll" scroll-x>
+      <view class="home-char-inner">
+        <view
+          wx:for="{{characters}}"
+          wx:key="id"
+          class="home-char-chip"
+          bindtap="onCharacterTap"
+          data-name="{{item.name}}"
+        >
+          <view class="home-char-ava" style="background-color: {{item.coverColor}};"></view>
+          <text class="home-char-name">{{item.name}}</text>
+          <text class="home-char-work">{{item.workTitle}}</text>
+        </view>
       </view>
-      <view class="home-king__item" bindtap="onKingTap" data-action="expo">
-        <view class="home-king__circle home-king__circle--3">展</view>
-        <text class="home-king__label">漫展档期</text>
+    </scroll-view>
+
+    <view class="home-feed-head">
+      <text class="home-feed-head__title">精选返图</text>
+      <text class="home-feed-head__sub">图底叠字 · 点赞</text>
+    </view>
+    <view class="home-masonry">
+      <view class="home-masonry__col">
+        <block wx:for="{{featLeft}}" wx:key="id">
+          <view
+            class="feat-card"
+            bindtap="onFeaturedTap"
+            data-keyword="{{item.characterName}}"
+          >
+            <view class="feat-card__media" style="background-color: {{item.coverColor}};">
+              <view class="feat-card__grad">
+                <text class="feat-card__char">{{item.characterName}}</text>
+                <text class="feat-card__sub">{{item.title}}</text>
+                <view class="feat-card__row">
+                  <text class="feat-card__auth">{{item.author}}</text>
+                  <text class="feat-card__like">{{item.likeCount}} 喜欢</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
       </view>
-      <view class="home-king__item" bindtap="onKingTap" data-action="local">
-        <view class="home-king__circle home-king__circle--4">面</view>
-        <text class="home-king__label">同城面交</text>
+      <view class="home-masonry__col">
+        <block wx:for="{{featRight}}" wx:key="id">
+          <view
+            class="feat-card"
+            bindtap="onFeaturedTap"
+            data-keyword="{{item.characterName}}"
+          >
+            <view class="feat-card__media" style="background-color: {{item.coverColor}};">
+              <view class="feat-card__grad">
+                <text class="feat-card__char">{{item.characterName}}</text>
+                <text class="feat-card__sub">{{item.title}}</text>
+                <view class="feat-card__row">
+                  <text class="feat-card__auth">{{item.author}}</text>
+                  <text class="feat-card__like">{{item.likeCount}} 喜欢</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
       </view>
     </view>
 

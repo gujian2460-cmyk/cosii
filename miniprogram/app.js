@@ -13,6 +13,8 @@ App({
      * 生产构建应设为 true，且服务端 NODE_ENV=production、配置 WECHAT_* 与 COSII_SESSION_SECRET。
      */
     useWeChatSession: true,
+    /** 首页金刚区等写入后 switchTab 到买&搜时消费（category / keyword） */
+    buySearchPreset: null,
   },
   onLaunch() {
     if (this.globalData.useWeChatSession) {

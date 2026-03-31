@@ -1,0 +1,18 @@
+<view class="expo-page">
+  <view class="expo-seg">
+    <view
+      class="expo-seg__item {{segment === 'poster' ? 'expo-seg__item--on' : ''}}"
+      bindtap="onSegmentTap"
+      data-s="poster"
+    >海报</view>
+    <view
+      class="expo-seg__item {{segment === 'artist' ? 'expo-seg__item--on' : ''}}"
+      bindtap="onSegmentTap"
+      data-s="artist"
+    >妆娘</view>
+  </view>
+  <view class="expo-placeholder cos-body">
+    {{segment === 'poster' ? '漫展海报与档期将在此展示' : '认证妆娘双列卡片将在此展示'}}
+  </view>
+  <text class="expo-hint cos-meta">对齐设计稿分段与渐变选中态；数据模型确定后接 API</text>
+</view>

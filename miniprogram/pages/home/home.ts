@@ -6,6 +6,14 @@ const routes = require("../../config/routes");
 
 const HEALTH_TTL_MS = 30000;
 
+function setBuySearchPreset(p: { category?: string; keyword?: string }) {
+  try {
+    (getApp().globalData as { buySearchPreset?: unknown }).buySearchPreset = p;
+  } catch {
+    /* ignore */
+  }
+}
+
 /** 转化挂载类型：商品同款 vs 约妆档期 */
 type ConversionMountType = "product" | "booking";
 
@@ -52,6 +60,23 @@ interface BannerSlide {
   kicker: string;
   title: string;
   bg: string;
+}
+
+interface CharacterChip {
+  id: string;
+  name: string;
+  workTitle: string;
+  coverColor: string;
+}
+
+interface FeaturedPhoto {
+  id: string;
+  title: string;
+  characterName: string;
+  author: string;
+  likeCount: number;
+  coverColor: string;
+  authorInitial: string;
 }
 
 function toViewCard(c: FeedCard): FeedCardView {
@@ -101,6 +126,79 @@ const MOCK_BANNER_SLIDES: BannerSlide[] = [
   },
 ];
 
+const MOCK_CHARACTERS: CharacterChip[] = [
+  { id: "c1", name: "林尼", workTitle: "原神", coverColor: "#e8c4d4" },
+  { id: "c2", name: "W", workTitle: "明日方舟", coverColor: "#c9c5e8" },
+  { id: "c3", name: "初音", workTitle: "VOCALOID", coverColor: "#b8d4e8" },
+  { id: "c4", name: "芙莉莲", workTitle: "葬送", coverColor: "#c8e6c9" },
+];
+
+function toFeaturedView(p: {
+  id: string;
+  title: string;
+  characterName: string;
+  author: string;
+  likeCount: number;
+  coverColor: string;
+}): FeaturedPhoto {
+  const author = p.author || "?";
+  return {
+    ...p,
+    authorInitial: author.charAt(0),
+  };
+}
+
+const MOCK_FEATURED: FeaturedPhoto[] = [
+  {
+    id: "p1",
+    title: "展台灯光",
+    characterName: "林尼",
+    author: "小野",
+    likeCount: 128,
+    coverColor: "#d4a5b8",
+  },
+  {
+    id: "p2",
+    title: "场照速报",
+    characterName: "W",
+    author: "阿紫",
+    likeCount: 96,
+    coverColor: "#a8a4d4",
+  },
+  {
+    id: "p3",
+    title: "假发修剪",
+    characterName: "初音",
+    author: "次元工房",
+    likeCount: 210,
+    coverColor: "#9ec5e8",
+  },
+  {
+    id: "p4",
+    title: "妆面记录",
+    characterName: "芙莉莲",
+    author: "白茶",
+    likeCount: 54,
+    coverColor: "#aed581",
+  },
+].map(toFeaturedView);
+
+function splitFeaturedColumns(items: FeaturedPhoto[]): {
+  left: FeaturedPhoto[];
+  right: FeaturedPhoto[];
+} {
+  const left: FeaturedPhoto[] = [];
+  const right: FeaturedPhoto[] = [];
+  for (let i = 0; i < items.length; i++) {
+    if (i % 2 === 0) {
+      left.push(items[i]);
+    } else {
+      right.push(items[i]);
+    }
+  }
+  return { left, right };
+}
+
 const MOCK_FEED: FeedCard[] = [
   {
     id: "f1",
@@ -147,7 +245,9 @@ Page({
     headerRightSpacePx: 12,
     navBarHeightPx: 64,
     scrollHeightPx: 500,
-    cityName: "台北市",
+    characters: [] as CharacterChip[],
+    featLeft: [] as FeaturedPhoto[],
+    featRight: [] as FeaturedPhoto[],
     bannerSlides: [] as BannerSlide[],
     bannerCurrent: 0,
     feedLeft: [] as FeedCardView[],
@@ -181,6 +281,7 @@ Page({
 
     const views = MOCK_FEED.map(toViewCard);
     const { left, right } = splitFeedColumns(views);
+    const fc = splitFeaturedColumns(MOCK_FEATURED);
 
     this.setData({
       statusBarHeight,
@@ -189,6 +290,9 @@ Page({
       navBarHeightPx,
       scrollHeightPx,
       bannerSlides: MOCK_BANNER_SLIDES,
+      characters: MOCK_CHARACTERS,
+      featLeft: fc.left,
+      featRight: fc.right,
       feedLeft: left,
       feedRight: right,
     });
@@ -201,31 +305,53 @@ Page({
   },
 
   onSearchTap() {
-    wx.switchTab({ url: "/pages/search/search" });
+    wx.switchTab({ url: "/pages/buy-search/buy-search" });
   },
 
-  onLocationTap() {
-    wx.showToast({ title: "定位能力即将接入", icon: "none" });
+  onRecentExpoTap() {
+    wx.navigateTo({ url: "/pages/recent-expo/recent-expo" });
   },
 
   onKingTap(e: WechatMiniprogram.TouchEvent) {
     const action = (e.currentTarget.dataset as { action?: string }).action || "";
-    if (action === "escrow") {
-      wx.switchTab({ url: "/pages/buy/buy" });
+    if (action === "yi") {
+      setBuySearchPreset({ category: "costume" });
+      wx.switchTab({ url: "/pages/buy-search/buy-search" });
       return;
     }
-    if (action === "artist") {
-      wx.navigateTo({ url: routes.BOOKING_ENTRY });
+    if (action === "fa") {
+      setBuySearchPreset({ category: "wig" });
+      wx.switchTab({ url: "/pages/buy-search/buy-search" });
       return;
     }
-    if (action === "expo") {
-      wx.showToast({ title: "漫展档期即将接入", icon: "none" });
+    if (action === "zhuang") {
+      setBuySearchPreset({ category: "all", keyword: "妆造" });
+      wx.switchTab({ url: "/pages/buy-search/buy-search" });
       return;
     }
-    if (action === "local") {
-      wx.showToast({ title: "同城面交请从订单详情核销入口", icon: "none" });
+    if (action === "zhou") {
+      setBuySearchPreset({ category: "props" });
+      wx.switchTab({ url: "/pages/buy-search/buy-search" });
       return;
     }
+    if (action === "zhan") {
+      wx.navigateTo({ url: "/pages/expo/expo" });
+      return;
+    }
+  },
+
+  onCharacterTap(e: WechatMiniprogram.TouchEvent) {
+    const name =
+      (e.currentTarget.dataset as { name?: string }).name || "";
+    setBuySearchPreset({ keyword: name });
+    wx.switchTab({ url: "/pages/buy-search/buy-search" });
+  },
+
+  onFeaturedTap(e: WechatMiniprogram.TouchEvent) {
+    const kw =
+      (e.currentTarget.dataset as { keyword?: string }).keyword || "";
+    setBuySearchPreset({ keyword: kw });
+    wx.switchTab({ url: "/pages/buy-search/buy-search" });
   },
 
   onConversionTap(e: WechatMiniprogram.TouchEvent) {
@@ -236,7 +362,7 @@ Page({
     };
     const ctype = ds.ctype;
     if (ctype === "product") {
-      wx.switchTab({ url: "/pages/buy/buy" });
+      wx.switchTab({ url: "/pages/buy-search/buy-search" });
       if (ds.tradeItemId) {
         wx.showToast({
           title: "已跳转购买（mock item）",

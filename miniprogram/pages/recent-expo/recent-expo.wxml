@@ -1,0 +1,17 @@
+<view class="rex-page">
+  <view class="rex-search cos-body">搜索漫展 / 城市</view>
+  <block wx:if="{{loading}}">
+    <view class="rex-sk" wx:for="{{[1,2,3,4]}}" wx:key="*this">
+      <view class="rex-sk-poster"></view>
+      <view class="rex-sk-lines">
+        <view class="rex-sk-line"></view>
+        <view class="rex-sk-line rex-sk-line--short"></view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="rex-empty cos-body">漫展数据接入中</view>
+    <text class="rex-hint cos-meta">运营配置或新接口就绪后将展示列表与海报</text>
+    <button class="cos-btn-secondary rex-btn" bindtap="onRetry">刷新</button>
+  </block>
+</view>

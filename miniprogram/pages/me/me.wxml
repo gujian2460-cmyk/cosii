@@ -1,6 +1,6 @@
-<view class="page">
+<view class="me-page">
   <block wx:if="{{loading}}">
-    <view class="cos-skeleton">
+    <view class="cos-skeleton me-sk">
       <view class="cos-skeleton-line"></view>
     </view>
   </block>
@@ -10,71 +10,85 @@
     </view>
   </block>
   <block wx:else>
-    <view class="header cos-card">
+    <view class="me-hero">
       <block wx:if="{{isLoggedIn && profile}}">
-        <view class="avatar-ring">
-          <view class="avatar-placeholder cos-body">{{avatarLetter}}</view>
+        <view class="me-hero__avatar-wrap">
+          <view class="me-hero__avatar">{{avatarLetter}}</view>
         </view>
-        <text class="name cos-body">{{profile.nickname}}</text>
-        <text class="cos-meta">ID：{{profile.user_id}} · 角色：{{profile.role}}</text>
-        <button class="cos-btn-secondary login-btn" bindtap="onLoginTap">切换账号</button>
+        <text class="me-hero__name">{{profile.nickname}}</text>
+        <text class="me-hero__meta">ID {{profile.user_id}} · {{profile.role}}</text>
+        <button class="me-hero__btn" size="mini" bindtap="onLoginTap">切换账号</button>
       </block>
       <block wx:else>
-        <view class="avatar-ring avatar-ring--guest">
-          <text class="avatar-guest cos-meta">?</text>
-        </view>
-        <text class="name cos-body">点击登录 / 注册</text>
-        <text class="cos-meta">开发期可切换本地账号；生产环境使用微信会话。</text>
-        <button class="cos-btn-primary login-btn" bindtap="onLoginTap">切换账号 / 模拟登录</button>
+        <text class="me-hero__welcome">Cosii</text>
+        <text class="me-hero__sub">担保交易 · 约妆档期 · 内容转化</text>
+        <button class="me-hero__btn me-hero__btn--solid" bindtap="onLoginTap">微信登录 / 模拟登录</button>
       </block>
     </view>
 
-    <view class="stats cos-card">
-      <view class="stat-cell" bindtap="onGoPublish">
-        <text class="stat-num cos-body">—</text>
-        <text class="cos-meta stat-label">我的发布</text>
+    <view class="me-sheet">
+      <text class="me-section-label">交易</text>
+      <view class="me-grid">
+        <view class="me-grid__cell" bindtap="onOrders">
+          <text class="me-grid__t">卖出</text>
+        </view>
+        <view class="me-grid__cell" bindtap="onOrders">
+          <text class="me-grid__t">买入</text>
+        </view>
+        <view class="me-grid__cell" bindtap="onPlaceholder">
+          <text class="me-grid__t">租出</text>
+        </view>
+        <view class="me-grid__cell" bindtap="onPlaceholder">
+          <text class="me-grid__t">租入</text>
+        </view>
       </view>
-      <view class="stat-cell" bindtap="onPlaceholder">
-        <text class="stat-num cos-body">—</text>
-        <text class="cos-meta stat-label">我的收藏</text>
-      </view>
-      <view class="stat-cell" bindtap="onPlaceholder">
-        <text class="stat-num cos-body">—</text>
-        <text class="cos-meta stat-label">浏览足迹</text>
-      </view>
-    </view>
 
-    <view class="list cos-card">
-      <view class="cell cos-body" bindtap="onOrders">
-        <text>我的订单</text>
-        <text class="cos-meta">›</text>
+      <text class="me-section-label">内容</text>
+      <view class="me-grid">
+        <view class="me-grid__cell" bindtap="onGoPublish">
+          <text class="me-grid__t">发布</text>
+        </view>
+        <view class="me-grid__cell" bindtap="onPlaceholder">
+          <text class="me-grid__t">作品</text>
+        </view>
+        <view class="me-grid__cell" bindtap="onPlaceholder">
+          <text class="me-grid__t">收藏</text>
+        </view>
+        <view class="me-grid__cell" bindtap="onPlaceholder">
+          <text class="me-grid__t">草稿</text>
+        </view>
       </view>
-      <view class="cell cos-body" bindtap="onInbox">
-        <text>消息通知</text>
-        <text class="cos-meta">›</text>
-      </view>
-      <view class="cell cos-body" bindtap="onPlaceholder">
-        <text>草稿箱</text>
-        <text class="cos-meta">›</text>
-      </view>
-      <view class="cell cos-body" bindtap="onPlaceholder">
-        <text>地址管理</text>
-        <text class="cos-meta">›</text>
-      </view>
-    </view>
 
-    <view class="list cos-card list--mt">
-      <view class="cell cos-body" bindtap="onRates">
-        <text>费率与结算说明</text>
-        <text class="cos-meta">›</text>
+      <view class="me-grid me-grid--one">
+        <view class="me-grid__cell me-grid__cell--wide" bindtap="onPlaceholder">
+          <text class="me-grid__t">地址管理</text>
+        </view>
       </view>
-      <view class="cell cos-body" bindtap="onSettings">
-        <text>设置</text>
-        <text class="cos-meta">›</text>
+
+      <view class="me-list cos-card">
+        <view class="cell cos-body" bindtap="onOrders">
+          <text>我的订单</text>
+          <text class="cos-meta">›</text>
+        </view>
+        <view class="cell cos-body" bindtap="onInbox">
+          <text>消息通知</text>
+          <text class="cos-meta">›</text>
+        </view>
       </view>
-      <view class="cell cos-body" bindtap="onPlaceholder">
-        <text>问题反馈</text>
-        <text class="cos-meta">›</text>
+
+      <view class="me-list cos-card list--mt">
+        <view class="cell cos-body" bindtap="onRates">
+          <text>费率与结算说明</text>
+          <text class="cos-meta">›</text>
+        </view>
+        <view class="cell cos-body" bindtap="onSettings">
+          <text>设置</text>
+          <text class="cos-meta">›</text>
+        </view>
+        <view class="cell cos-body" bindtap="onPlaceholder">
+          <text>问题反馈</text>
+          <text class="cos-meta">›</text>
+        </view>
       </view>
     </view>
   </block>

@@ -1,0 +1,198 @@
+<view class="bs-page">
+  <view class="bs-search-row">
+    <input
+      class="bs-search-input cos-body"
+      type="text"
+      confirm-type="search"
+      placeholder="搜商品，如：Cos服"
+      value="{{keyword}}"
+      bindinput="onKeywordInput"
+      bindconfirm="onKeywordConfirm"
+    />
+    <view class="bs-search-go" bindtap="onSearchConfirmTap">搜索</view>
+  </view>
+
+  <scroll-view class="bs-cat-scroll" scroll-x>
+    <view class="bs-cat-inner">
+      <view
+        wx:for="{{categories}}"
+        wx:key="id"
+        class="bs-pill {{activeCategory === item.id ? 'bs-pill--on' : ''}}"
+        bindtap="onCategoryTap"
+        data-id="{{item.id}}"
+      >{{item.label}}</view>
+    </view>
+  </scroll-view>
+
+  <view class="bs-sort-row">
+    <text
+      class="bs-sort {{sortKey === 'comp' ? 'bs-sort--on' : ''}}"
+      bindtap="onSortTap"
+      data-k="comp"
+    >综合</text>
+    <text
+      class="bs-sort {{sortKey === 'price' ? 'bs-sort--on' : ''}}"
+      bindtap="onSortTap"
+      data-k="price"
+    >{{sortKey === 'price' ? (sortDirAsc ? '价格↑' : '价格↓') : '价格'}}</text>
+    <text
+      class="bs-sort {{sortKey === 'drop' ? 'bs-sort--on' : ''}}"
+      bindtap="onSortTap"
+      data-k="drop"
+    >降价</text>
+    <text
+      class="bs-sort {{sortKey === 'new' ? 'bs-sort--on' : ''}}"
+      bindtap="onSortTap"
+      data-k="new"
+    >新发</text>
+    <text class="bs-sort bs-sort--muted" bindtap="onSortTap" data-k="region">区域</text>
+    <text class="bs-filter-btn" bindtap="openFilter">筛选</text>
+  </view>
+
+  <block wx:if="{{loading}}">
+    <view class="bs-skeleton">
+      <view class="bs-sk-line"></view>
+      <view class="bs-sk-line bs-sk-line--short"></view>
+    </view>
+  </block>
+  <block wx:elif="{{error}}">
+    <view class="cos-page-state">
+      <text class="cos-body">{{error.userTitle}}</text>
+      <button class="cos-btn-primary" bindtap="refresh">重试</button>
+    </view>
+  </block>
+  <block wx:elif="{{empty}}">
+    <view class="cos-page-state">
+      <text class="cos-body">暂无匹配商品</text>
+      <text class="cos-meta">试试其它分类或清空筛选</text>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="bs-masonry">
+      <view class="bs-masonry__col">
+        <block wx:for="{{displayLeft}}" wx:key="item_id">
+          <view class="bs-card">
+            <view wx:if="{{item.pinned}}" class="bs-card__pin">置顶</view>
+            <view class="bs-card__media">
+              <view class="bs-card__ph" style="background: linear-gradient(160deg, #fce4ec, #f5f6f8);"></view>
+            </view>
+            <view class="bs-card__body">
+              <text class="bs-card__title">{{item.title}}</text>
+              <text class="bs-card__price">¥{{item.priceYuan}}</text>
+              <text class="bs-card__region">{{item.region}}</text>
+              <view class="bs-card__foot">
+                <view class="bs-card__dot"></view>
+                <text class="bs-card__shop">{{item.shopName}}</text>
+              </view>
+              <button
+                class="bs-card__buy cos-btn-primary"
+                size="mini"
+                loading="{{creatingOrderId === item.item_id}}"
+                bindtap="onBuyTap"
+                data-item-id="{{item.item_id}}"
+              >购买</button>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="bs-masonry__col">
+        <block wx:for="{{displayRight}}" wx:key="item_id">
+          <view class="bs-card">
+            <view wx:if="{{item.pinned}}" class="bs-card__pin">置顶</view>
+            <view class="bs-card__media">
+              <view class="bs-card__ph" style="background: linear-gradient(160deg, #f3e5f5, #ffffff);"></view>
+            </view>
+            <view class="bs-card__body">
+              <text class="bs-card__title">{{item.title}}</text>
+              <text class="bs-card__price">¥{{item.priceYuan}}</text>
+              <text class="bs-card__region">{{item.region}}</text>
+              <view class="bs-card__foot">
+                <view class="bs-card__dot"></view>
+                <text class="bs-card__shop">{{item.shopName}}</text>
+              </view>
+              <button
+                class="bs-card__buy cos-btn-primary"
+                size="mini"
+                loading="{{creatingOrderId === item.item_id}}"
+                bindtap="onBuyTap"
+                data-item-id="{{item.item_id}}"
+              >购买</button>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+    <view class="bs-load-more cos-meta" wx:if="{{nextCursor}}">
+      <text wx:if="{{loadingMore}}">加载中…</text>
+      <text wx:else>上拉加载更多</text>
+    </view>
+  </block>
+
+  <view wx:if="{{showFilterModal}}" class="bs-modal-mask" catchtap="closeFilter">
+    <view class="bs-modal" catchtap="noop">
+      <view class="bs-modal__head">
+        <text class="bs-modal__title cos-body">筛选</text>
+        <text class="bs-modal__link" bindtap="resetFilterModal">重置</text>
+      </view>
+      <text class="bs-modal__sec">价格区间</text>
+      <view class="bs-modal__chips">
+        <view
+          class="bs-chip {{filterDraftSeg === 'any' ? 'bs-chip--on' : ''}}"
+          bindtap="onModalPriceTap"
+          data-seg="any"
+        >不限</view>
+        <view
+          class="bs-chip {{filterDraftSeg === '0-50' ? 'bs-chip--on' : ''}}"
+          bindtap="onModalPriceTap"
+          data-seg="0-50"
+        >¥50以下</view>
+        <view
+          class="bs-chip {{filterDraftSeg === '50-100' ? 'bs-chip--on' : ''}}"
+          bindtap="onModalPriceTap"
+          data-seg="50-100"
+        >¥50–100</view>
+        <view
+          class="bs-chip {{filterDraftSeg === '100-300' ? 'bs-chip--on' : ''}}"
+          bindtap="onModalPriceTap"
+          data-seg="100-300"
+        >¥100–300</view>
+        <view
+          class="bs-chip {{filterDraftSeg === '300+' ? 'bs-chip--on' : ''}}"
+          bindtap="onModalPriceTap"
+          data-seg="300+"
+        >¥300以上</view>
+      </view>
+      <text class="bs-modal__sec">排序</text>
+      <view class="bs-modal__chips">
+        <view
+          class="bs-chip {{modalSortKey === 'comp' ? 'bs-chip--on' : ''}}"
+          bindtap="onModalSortTap"
+          data-k="comp"
+        >综合</view>
+        <view
+          class="bs-chip {{modalSortKey === 'new' ? 'bs-chip--on' : ''}}"
+          bindtap="onModalSortTap"
+          data-k="new"
+        >新发</view>
+        <view
+          class="bs-chip {{modalSortKey === 'drop' ? 'bs-chip--on' : ''}}"
+          bindtap="onModalSortTap"
+          data-k="drop"
+        >降价优先</view>
+        <view
+          class="bs-chip {{modalSortKey === 'price' && modalPriceDirAsc ? 'bs-chip--on' : ''}}"
+          bindtap="onModalSortTap"
+          data-k="price"
+          data-dir="asc"
+        >价格从低到高</view>
+        <view
+          class="bs-chip {{modalSortKey === 'price' && !modalPriceDirAsc ? 'bs-chip--on' : ''}}"
+          bindtap="onModalSortTap"
+          data-k="price"
+          data-dir="desc"
+        >价格从高到低</view>
+      </view>
+      <button class="cos-btn-primary bs-modal__ok" bindtap="applyFilterModal">确定</button>
+    </view>
+  </view>
+</view>

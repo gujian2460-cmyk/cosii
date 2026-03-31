@@ -1,0 +1,43 @@
+.expo-page {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.expo-seg {
+  display: flex;
+  flex-direction: row;
+  padding: 8rpx;
+  background-color: #ffffff;
+  border-radius: var(--radius-pill);
+  gap: 8rpx;
+}
+
+.expo-seg__item {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  color: #6b7280;
+  border-radius: var(--radius-pill);
+}
+
+.expo-seg__item--on {
+  color: #ffffff;
+  font-weight: 700;
+  background: linear-gradient(135deg, #d878a0, #b5658c);
+}
+
+.expo-placeholder {
+  margin-top: 120rpx;
+  text-align: center;
+  display: block;
+}
+
+.expo-hint {
+  display: block;
+  text-align: center;
+  margin-top: 24rpx;
+  padding: 0 40rpx;
+}

@@ -1,0 +1,70 @@
+.rex-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fff5f8 0%, var(--color-bg) 35%);
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.rex-search {
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 28rpx;
+  background-color: #ffffff;
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+  margin-bottom: 24rpx;
+}
+
+.rex-sk {
+  display: flex;
+  flex-direction: row;
+  gap: 20rpx;
+  padding: 20rpx;
+  background-color: #ffffff;
+  border-radius: var(--radius-block);
+  margin-bottom: 20rpx;
+}
+
+.rex-sk-poster {
+  width: 160rpx;
+  height: 200rpx;
+  border-radius: 12rpx;
+  background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+  flex-shrink: 0;
+}
+
+.rex-sk-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16rpx;
+}
+
+.rex-sk-line {
+  height: 28rpx;
+  border-radius: 8rpx;
+  background: linear-gradient(90deg, #f3e8ee 0%, #fce4ec 50%, #f3e8ee 100%);
+}
+
+.rex-sk-line--short {
+  width: 55%;
+}
+
+.rex-empty {
+  text-align: center;
+  margin-top: 80rpx;
+  display: block;
+}
+
+.rex-hint {
+  display: block;
+  text-align: center;
+  margin-top: 16rpx;
+  padding: 0 48rpx;
+}
+
+.rex-btn {
+  margin: 40rpx auto 0;
+  width: 280rpx;
+}

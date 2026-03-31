@@ -74,7 +74,7 @@ Page({
   },
 
   onInbox() {
-    wx.navigateTo({ url: "/pages/inbox/inbox" });
+    wx.switchTab({ url: "/pages/inbox/inbox" });
   },
 
   onGoPublish() {
