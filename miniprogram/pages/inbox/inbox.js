@@ -1,5 +1,8 @@
 const { request, showErrorToast } = require("../../utils/api");
-const { mapEnvelopeToError } = require("../../utils/errors");
+const {
+  mapEnvelopeToError,
+  normalizeUserFacingText,
+} = require("../../utils/errors");
 const routes = require("../../config/routes");
 
 function formatTime(ts) {
@@ -53,8 +56,8 @@ Page({
     var notifications = items.map(function (it) {
       return {
         notification_id: it.notification_id,
-        title: it.title || "通知",
-        subtitle: it.subtitle || "",
+        title: normalizeUserFacingText(it.title, "通知"),
+        subtitle: normalizeUserFacingText(it.subtitle, ""),
         time: formatTime(it.created_at),
         unified_order_id: it.unified_order_id,
         order_type: it.order_type,

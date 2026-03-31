@@ -12,6 +12,7 @@ function getApiBase() {
 }
 
 var session = require("./session.js");
+var { envelopeUserTitle } = require("./errors.js");
 
 function request(options) {
   const base = getApiBase();
@@ -109,15 +110,11 @@ function request(options) {
 }
 
 function showErrorToast(envelope) {
-  if (!envelope || typeof envelope !== "object") {
-    wx.showToast({ title: "请求失败", icon: "none", duration: 2500 });
-    return;
+  var title = envelopeUserTitle(envelope);
+  if (title.length > 64) {
+    title = title.slice(0, 61) + "…";
   }
-  const title =
-    (envelope.error && envelope.error.user_title) ||
-    envelope.message ||
-    "请求失败";
-  wx.showToast({ title, icon: "none", duration: 2500 });
+  wx.showToast({ title: title, icon: "none", duration: 2500 });
 }
 
 module.exports = { request, showErrorToast };
