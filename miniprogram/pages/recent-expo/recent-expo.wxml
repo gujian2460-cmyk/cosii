@@ -1,17 +1,29 @@
 <view class="rex-page">
-  <view class="rex-search cos-body">搜索漫展 / 城市</view>
-  <block wx:if="{{loading}}">
-    <view class="rex-sk" wx:for="{{[1,2,3,4]}}" wx:key="*this">
-      <view class="rex-sk-poster"></view>
-      <view class="rex-sk-lines">
-        <view class="rex-sk-line"></view>
-        <view class="rex-sk-line rex-sk-line--short"></view>
+  <input
+    class="rex-search"
+    type="text"
+    placeholder="搜索漫展名称/城市"
+    placeholder-class="rex-search__ph"
+    value="{{keyword}}"
+    bindinput="onSearchInput"
+    confirm-type="search"
+  />
+  <view class="rex-list">
+    <view
+      wx:for="{{displayList}}"
+      wx:key="id"
+      class="rex-card"
+      bindtap="onExpoTap"
+      data-id="{{item.id}}"
+    >
+      <view class="rex-card__poster" />
+      <view class="rex-card__body">
+        <view class="rex-card__line rex-card__line--1" />
+        <view class="rex-card__line rex-card__line--2" />
       </view>
     </view>
-  </block>
-  <block wx:else>
-    <view class="rex-empty cos-body">漫展数据接入中</view>
-    <text class="rex-hint cos-meta">运营配置或新接口就绪后将展示列表与海报</text>
-    <button class="cos-btn-secondary rex-btn" bindtap="onRetry">刷新</button>
-  </block>
+  </view>
+  <view wx:if="{{loadingMore}}" class="rex-foot rex-foot--muted">加载中…</view>
+  <view wx:elif="{{!hasMore && displayList.length > 0}}" class="rex-foot rex-foot--muted">没有更多了</view>
+  <view wx:if="{{!displayList.length && !loadingMore}}" class="rex-empty cos-meta">暂无匹配的漫展</view>
 </view>

@@ -84,7 +84,7 @@
       >
         <view class="order-row-main">
           <text class="cos-body order-title">{{item.title}}</text>
-          <text class="cos-meta order-sub">{{item.order_type}} · {{item.status}}</text>
+          <text class="cos-meta order-sub">{{item.order_type_label}} · {{item.status_label}}</text>
         </view>
         <text class="cos-body cos-tabular order-amt">¥{{item.amountYuan}}</text>
       </view>

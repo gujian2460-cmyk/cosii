@@ -1,7 +1,7 @@
 .me-page {
   min-height: 100vh;
-  background-color: var(--color-bg);
-  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+  background-color: #f6f5fb;
+  padding-bottom: calc(200rpx + env(safe-area-inset-bottom));
   box-sizing: border-box;
 }
 
@@ -11,7 +11,7 @@
 
 .me-hero {
   padding: 56rpx 32rpx 48rpx;
-  background: linear-gradient(155deg, #e8a0bc 0%, #d878a0 42%, #9b5a7c 100%);
+  background: linear-gradient(155deg, #c4b5fd 0%, #9966ff 42%, #6d28d9 100%);
   border-radius: 0 0 32rpx 32rpx;
   display: flex;
   flex-direction: column;
@@ -82,6 +82,37 @@
   padding: 28rpx 24rpx 32rpx;
 }
 
+.me-quick {
+  display: flex;
+  flex-direction: row;
+  gap: 16rpx;
+  margin-bottom: 28rpx;
+}
+
+.me-quick__card {
+  flex: 1;
+  min-width: 0;
+  background-color: #ffffff;
+  border-radius: var(--radius-block);
+  padding: 24rpx 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.me-quick__title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #111111;
+}
+
+.me-quick__sub {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  color: #6b7280;
+  line-height: 1.45;
+}
+
 .me-section-label {
   display: block;
   font-size: 26rpx;
@@ -99,26 +130,18 @@
   margin-bottom: 28rpx;
 }
 
-.me-grid--one {
-  flex-wrap: nowrap;
-}
-
 .me-grid__cell {
-  width: calc(50% - 8rpx);
+  width: calc(33.33% - 11rpx);
   box-sizing: border-box;
-  padding: 32rpx 16rpx;
+  padding: 26rpx 12rpx;
   background-color: #ffffff;
   border-radius: var(--radius-block);
   text-align: center;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
-}
-
-.me-grid__cell--wide {
-  width: 100%;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
 }
 
 .me-grid__t {
-  font-size: 28rpx;
+  font-size: 25rpx;
   font-weight: 600;
   color: #111111;
 }
@@ -126,10 +149,11 @@
 .me-list {
   overflow: hidden;
   padding: 0;
+  margin-top: 0;
 }
 
 .list--mt {
-  margin-top: 24rpx;
+  margin-top: 0;
 }
 
 .cell {

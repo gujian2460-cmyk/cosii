@@ -1,0 +1,29 @@
+<view class="page">
+  <block wx:if="{{loading}}">
+    <view class="cos-skeleton">
+      <view class="cos-skeleton-line"></view>
+      <view class="cos-skeleton-line"></view>
+    </view>
+  </block>
+  <block wx:elif="{{error}}">
+    <view class="cos-page-state">
+      <text class="cos-body">{{error.userTitle}}</text>
+      <text wx:if="{{error.traceId}}" class="cos-code cos-meta" selectable="true">{{error.traceId}}</text>
+      <button class="cos-btn-primary back" bindtap="refresh">重试</button>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="cos-card block">
+      <text class="title cos-body">{{title}}</text>
+      <text class="cos-meta line" wx:if="{{categoryLabel}}">{{categoryLabel}}</text>
+      <text class="price cos-body cos-tabular line">¥{{priceYuan}}</text>
+      <text class="cos-meta warn line" wx:if="{{unavailableHint}}">{{unavailableHint}}</text>
+      <button
+        class="cos-btn-primary buy-btn"
+        bindtap="onBuyTap"
+        disabled="{{!available}}"
+        loading="{{creatingOrder}}"
+      >立即下单</button>
+    </view>
+  </block>
+</view>

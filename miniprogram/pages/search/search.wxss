@@ -4,6 +4,16 @@
   box-sizing: border-box;
 }
 
+.state-hint {
+  display: block;
+  margin-top: 16rpx;
+}
+
+.state-retry {
+  width: 100%;
+  margin-top: 28rpx;
+}
+
 .search-head {
   margin-bottom: 32rpx;
 }

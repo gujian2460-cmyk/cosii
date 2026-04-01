@@ -1,4 +1,5 @@
 {
-  "navigationBarTitleText": "发布",
+  "navigationStyle": "custom",
+  "disableScroll": true,
   "usingComponents": {}
 }

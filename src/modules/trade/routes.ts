@@ -10,7 +10,7 @@ import {
   redeemLocalVerificationCode,
 } from "./local-handoff-service.js";
 import { getTradeOrderDetail } from "./detail.js";
-import { createTradeItem, createTradeOrder, listTradeItems } from "./service.js";
+import { createTradeItem, createTradeOrder, getTradeItemPublic, listTradeItems } from "./service.js";
 
 const bodySchema = z.object({
   item_id: z.string().min(1),
@@ -49,6 +49,15 @@ export async function registerTradeRoutes(app: FastifyInstance): Promise<void> {
       priceMax: data.price_max,
     });
     return reply.send(ok(request.traceId, out));
+  });
+
+  app.get("/v1/trade/items/:itemId", async (request, reply) => {
+    const itemId = (request.params as { itemId: string }).itemId;
+    const detail = getTradeItemPublic(app.db, itemId);
+    if (!detail) {
+      throw new HttpError(404, ErrorCode.RESOURCE_NOT_FOUND, "Item not found");
+    }
+    return reply.send(ok(request.traceId, detail));
   });
 
   app.post("/v1/trade/items", async (request, reply) => {

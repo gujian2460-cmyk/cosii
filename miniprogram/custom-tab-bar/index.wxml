@@ -1,0 +1,28 @@
+<view class="tab-bar-outer" style="padding-bottom: {{safeBottom}}px;">
+  <view class="tab-bar">
+    <view class="tab-bar__row">
+      <view class="tab-bar__item" data-index="0" bindtap="switchTab">
+        <view class="tab-bar__icon tab-bar__icon--home {{selected === 0 ? 'tab-bar__icon--on' : ''}}" />
+        <text class="tab-bar__label {{selected === 0 ? 'tab-bar__label--on' : ''}}">首页</text>
+      </view>
+      <view class="tab-bar__item" data-index="1" bindtap="switchTab">
+        <view class="tab-bar__icon tab-bar__icon--search {{selected === 1 ? 'tab-bar__icon--on' : ''}}" />
+        <text class="tab-bar__label {{selected === 1 ? 'tab-bar__label--on' : ''}}">买&搜</text>
+      </view>
+      <view class="tab-bar__item tab-bar__item--spacer" />
+      <view class="tab-bar__item" data-index="3" bindtap="switchTab">
+        <view class="tab-bar__icon tab-bar__icon--msg {{selected === 3 ? 'tab-bar__icon--on' : ''}}" />
+        <text class="tab-bar__label {{selected === 3 ? 'tab-bar__label--on' : ''}}">消息</text>
+      </view>
+      <view class="tab-bar__item" data-index="4" bindtap="switchTab">
+        <view class="tab-bar__icon tab-bar__icon--me {{selected === 4 ? 'tab-bar__icon--on' : ''}}" />
+        <text class="tab-bar__label {{selected === 4 ? 'tab-bar__label--on' : ''}}">我的</text>
+      </view>
+    </view>
+    <view class="tab-bar__fab-wrap">
+      <view class="tab-bar__fab" data-index="2" bindtap="switchTab">
+        <text class="tab-bar__fab-plus">+</text>
+      </view>
+    </view>
+  </view>
+</view>

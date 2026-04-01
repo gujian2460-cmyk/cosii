@@ -1,6 +1,7 @@
 const { request, showErrorToast } = require("../../utils/api");
 const { mapEnvelopeToError } = require("../../utils/errors");
 const routes = require("../../config/routes");
+const { unifiedStatusLabel, orderTypeLabel } = require("../../utils/orderLabels");
 
 function useMockOrdersFlag() {
   try {
@@ -16,6 +17,8 @@ function mapOrderRow(o) {
     order_type: o.order_type,
     domain_order_id: o.domain_order_id,
     status: o.status,
+    status_label: unifiedStatusLabel(o.status),
+    order_type_label: orderTypeLabel(o.order_type),
     title: o.title,
     amount_cents: o.amount_cents,
     updated_at: o.updated_at,

@@ -1,8 +1,8 @@
 /**
- * 首页：担保交易 / 认证妆娘 / 内容转化挂载（对齐 CLAUDE.md 模块与 DESIGN 业务语义）
+ * 首页：漫展轮播 / 分类 / 热门角色 / 精选返图（紫色主题壳）
  */
 const { request, showErrorToast } = require("../../utils/api");
-const routes = require("../../config/routes");
+const { setTabBarSelected } = require("../../utils/tabBar");
 
 const HEALTH_TTL_MS = 30000;
 
@@ -14,58 +14,38 @@ function setBuySearchPreset(p) {
   }
 }
 
-function toViewCard(c) {
-  var nick = c.author.nickname || "?";
-  var convTrade =
-    c.conversion.type === "product" ? c.conversion.tradeItemId || "" : "";
-  var convArtist =
-    c.conversion.type === "booking" ? c.conversion.artistId || "" : "";
-  return {
-    id: c.id,
-    title: c.title,
-    coverUrl: c.coverUrl,
-    coverColor: c.coverColor,
-    author: c.author,
-    conversion: c.conversion,
-    authorInitial: nick.charAt(0),
-    convTradeItemId: convTrade,
-    convArtistId: convArtist,
-  };
-}
-
-function splitFeedColumns(items) {
-  var left = [];
-  var right = [];
-  for (var i = 0; i < items.length; i++) {
-    if (i % 2 === 0) {
-      left.push(items[i]);
-    } else {
-      right.push(items[i]);
-    }
-  }
-  return { left: left, right: right };
-}
-
-var MOCK_BANNER_SLIDES = [
-  {
-    id: "b1",
-    kicker: "担保购",
-    title: "资金托管 · 确认收货再结算",
-    bg: "linear-gradient(135deg,#fce4ec 0%,#f8f9fb 100%)",
-  },
-  {
-    id: "b2",
-    kicker: "认证妆娘",
-    title: "档期占位 · 定金平台托管",
-    bg: "linear-gradient(135deg,#f3e5f5 0%,#ffffff 100%)",
-  },
+var MOCK_EXPO_BANNERS = [
+  { id: "expo-1" },
+  { id: "expo-2" },
+  { id: "expo-3" },
+  { id: "expo-4" },
+  { id: "expo-5" },
+  { id: "expo-6" },
+  { id: "expo-7" },
+  { id: "expo-8" },
 ];
 
 var MOCK_CHARACTERS = [
-  { id: "c1", name: "林尼", workTitle: "原神", coverColor: "#e8c4d4" },
-  { id: "c2", name: "W", workTitle: "明日方舟", coverColor: "#c9c5e8" },
-  { id: "c3", name: "初音", workTitle: "VOCALOID", coverColor: "#b8d4e8" },
-  { id: "c4", name: "芙莉莲", workTitle: "葬送", coverColor: "#c8e6c9" },
+  { id: "c01", name: "林尼", workTitle: "原神" },
+  { id: "c02", name: "W", workTitle: "明日方舟" },
+  { id: "c03", name: "初音", workTitle: "VOCALOID" },
+  { id: "c04", name: "芙莉莲", workTitle: "葬送" },
+  { id: "c05", name: "甘雨", workTitle: "原神" },
+  { id: "c06", name: "银灰", workTitle: "明日方舟" },
+  { id: "c07", name: "镜音铃", workTitle: "VOCALOID" },
+  { id: "c08", name: "菲伦", workTitle: "葬送" },
+  { id: "c09", name: "胡桃", workTitle: "原神" },
+  { id: "c10", name: "能天使", workTitle: "明日方舟" },
+  { id: "c11", name: "重音テト", workTitle: "VOCALOID" },
+  { id: "c12", name: "辛美尔", workTitle: "葬送" },
+  { id: "c13", name: "雷电将军", workTitle: "原神" },
+  { id: "c14", name: "塞雷娅", workTitle: "明日方舟" },
+  { id: "c15", name: "巡音流歌", workTitle: "VOCALOID" },
+  { id: "c16", name: "阿乌拉", workTitle: "葬送" },
+  { id: "c17", name: "纳西妲", workTitle: "原神" },
+  { id: "c18", name: "艾雅法拉", workTitle: "明日方舟" },
+  { id: "c19", name: "洛天依", workTitle: "VOCALOID" },
+  { id: "c20", name: "休塔尔克", workTitle: "葬送" },
 ];
 
 function toFeaturedView(p) {
@@ -78,43 +58,59 @@ function toFeaturedView(p) {
     likeCount: p.likeCount,
     coverColor: p.coverColor,
     authorInitial: author.charAt(0),
+    tall: Boolean(p.tall),
   };
 }
 
-var MOCK_FEATURED = [
-  {
-    id: "p1",
-    title: "展台灯光",
-    characterName: "林尼",
-    author: "小野",
-    likeCount: 128,
-    coverColor: "#d4a5b8",
-  },
-  {
-    id: "p2",
-    title: "场照速报",
-    characterName: "W",
-    author: "阿紫",
-    likeCount: 96,
-    coverColor: "#a8a4d4",
-  },
-  {
-    id: "p3",
-    title: "假发修剪",
-    characterName: "初音",
-    author: "次元工房",
-    likeCount: 210,
-    coverColor: "#9ec5e8",
-  },
-  {
-    id: "p4",
-    title: "妆面记录",
-    characterName: "芙莉莲",
-    author: "白茶",
-    likeCount: 54,
-    coverColor: "#aed581",
-  },
-].map(toFeaturedView);
+/** 精选返图模板池（下拉刷新会打乱顺序并重算点赞） */
+var FEATURED_TEMPLATES = [
+  { title: "展台灯光", characterName: "甘雨", author: "Alice", likeBase: 120 },
+  { title: "场照速报", characterName: "W", author: "阿紫", likeBase: 90 },
+  { title: "假发修剪", characterName: "初音", author: "次元工房", likeBase: 200 },
+  { title: "妆面记录", characterName: "芙莉莲", author: "白茶", likeBase: 50 },
+  { title: "夜景街拍", characterName: "林尼", author: "小野", likeBase: 88 },
+  { title: "棚拍正片", characterName: "银灰", author: "北境", likeBase: 142 },
+  { title: "场照花絮", characterName: "菲伦", author: "灰羽", likeBase: 76 },
+  { title: "道具展示", characterName: "塞雷娅", author: "莱茵", likeBase: 65 },
+  { title: "试妆记录", characterName: "纳西妲", author: "草神", likeBase: 201 },
+  { title: "速报九图", characterName: "洛天依", author: "调校师", likeBase: 310 },
+  { title: "外景合集", characterName: "雷电将军", author: "鸣神", likeBase: 178 },
+  { title: "漫展集邮", characterName: "艾雅法拉", author: "火山", likeBase: 95 },
+];
+
+function shuffleInPlace(arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = arr[i];
+    arr[i] = arr[j];
+    arr[j] = t;
+  }
+  return arr;
+}
+
+/**
+ * 双列瀑布流：按索引 0..7 做「大-小-小-大」周期，形成左右交错视觉
+ * @param {number} seed
+ */
+function buildFeaturedColumns(seed) {
+  var templates = FEATURED_TEMPLATES.slice();
+  shuffleInPlace(templates);
+  var pick = templates.slice(0, 8);
+  var list = pick.map(function (t, i) {
+    var r = i % 4;
+    var large = r === 0 || r === 3;
+    return toFeaturedView({
+      id: "pf_" + String(seed) + "_" + String(i),
+      title: t.title,
+      characterName: t.characterName,
+      author: t.author,
+      likeCount: t.likeBase + ((seed + i * 17) % 73),
+      coverColor: "#e5e7eb",
+      tall: large,
+    });
+  });
+  return splitFeaturedColumns(list);
+}
 
 function splitFeaturedColumns(items) {
   var left = [];
@@ -129,45 +125,6 @@ function splitFeaturedColumns(items) {
   return { left: left, right: right };
 }
 
-var MOCK_FEED = [
-  {
-    id: "f1",
-    title: "展台返图｜原神林尼 · 全套造型分享",
-    coverUrl: "",
-    coverColor: "#e8c4d4",
-    author: { nickname: "小野", avatarUrl: "", verified: true },
-    conversion: {
-      type: "product",
-      label: "同款C服：¥200",
-      tradeItemId: "mock_trade_001",
-    },
-  },
-  {
-    id: "f2",
-    title: "妆面记录｜明日方舟 W · 漫展现场",
-    coverUrl: "",
-    coverColor: "#c9c5e8",
-    author: { nickname: "妆娘阿紫", avatarUrl: "", verified: true },
-    conversion: {
-      type: "booking",
-      label: "妆娘接单：查档期",
-      artistId: "mock_artist_001",
-    },
-  },
-  {
-    id: "f3",
-    title: "二手道具出清｜法杖几乎全新",
-    coverUrl: "",
-    coverColor: "#d4e4f0",
-    author: { nickname: "出物机", avatarUrl: "", verified: false },
-    conversion: {
-      type: "product",
-      label: "同款道具：¥89",
-      tradeItemId: "mock_trade_002",
-    },
-  },
-];
-
 Page({
   data: {
     statusBarHeight: 20,
@@ -180,14 +137,15 @@ Page({
     featRight: [],
     bannerSlides: [],
     bannerCurrent: 0,
-    feedLeft: [],
-    feedRight: [],
     showDevProbe: false,
     healthLabel: "",
     healthTrace: "",
+    featRefreshing: false,
+    scrollIntoView: "",
   },
 
   _lastHealthOkAt: 0,
+  _featSeed: 0,
 
   onLoad() {
     try {
@@ -206,9 +164,8 @@ Page({
     var headerRightSpacePx = Math.max(8, sys.windowWidth - menu.left + 8);
     var scrollHeightPx = sys.windowHeight - navBarHeightPx;
 
-    var views = MOCK_FEED.map(toViewCard);
-    var cols = splitFeedColumns(views);
-    var fc = splitFeaturedColumns(MOCK_FEATURED);
+    this._featSeed = Date.now();
+    var fc = buildFeaturedColumns(this._featSeed);
 
     this.setData({
       statusBarHeight: statusBarHeight,
@@ -216,15 +173,17 @@ Page({
       headerRightSpacePx: headerRightSpacePx,
       navBarHeightPx: navBarHeightPx,
       scrollHeightPx: scrollHeightPx,
-      bannerSlides: MOCK_BANNER_SLIDES,
+      bannerSlides: MOCK_EXPO_BANNERS,
       characters: MOCK_CHARACTERS,
       featLeft: fc.left,
       featRight: fc.right,
-      feedLeft: cols.left,
-      feedRight: cols.right,
     });
 
     this.refreshHealth();
+  },
+
+  onShow() {
+    setTabBarSelected(0);
   },
 
   onBannerChange(e) {
@@ -262,7 +221,7 @@ Page({
       return;
     }
     if (action === "zhan") {
-      wx.navigateTo({ url: "/pages/expo/expo" });
+      wx.navigateTo({ url: "/pages/recent-expo/recent-expo" });
       return;
     }
   },
@@ -273,30 +232,57 @@ Page({
     wx.switchTab({ url: "/pages/buy-search/buy-search" });
   },
 
+  onCharacterMoreTap() {
+    wx.switchTab({ url: "/pages/buy-search/buy-search" });
+  },
+
+  onFeaturedMoreTap() {
+    wx.switchTab({ url: "/pages/buy-search/buy-search" });
+  },
+
+  /**
+   * 首页 scroll-view 下拉刷新：重载精选返图（原生 refresher 动画）
+   */
+  onHomePullRefresh() {
+    this.setData({ featRefreshing: true });
+    var self = this;
+    self._featSeed = (self._featSeed || 0) + 1;
+    var fc = buildFeaturedColumns(self._featSeed);
+    var t0 = Date.now();
+    var minMs = 450;
+    var apply = function () {
+      var elapsed = Date.now() - t0;
+      var wait = elapsed < minMs ? minMs - elapsed : 0;
+      setTimeout(function () {
+        self.setData({
+          featLeft: fc.left,
+          featRight: fc.right,
+          featRefreshing: false,
+        });
+      }, wait);
+    };
+    apply();
+  },
+
+  /**
+   * 自定义 TabBar 再次点击「首页」时调用：平滑滚回顶部（搜索栏区域）
+   */
+  scrollHomeToTop() {
+    var self = this;
+    self.setData({ scrollIntoView: "" });
+    setTimeout(function () {
+      self.setData({ scrollIntoView: "home-scroll-top-anchor" });
+      setTimeout(function () {
+        self.setData({ scrollIntoView: "" });
+      }, 520);
+    }, 30);
+  },
+
   onFeaturedTap(e) {
     var kw =
       (e.currentTarget.dataset && e.currentTarget.dataset.keyword) || "";
     setBuySearchPreset({ keyword: kw });
     wx.switchTab({ url: "/pages/buy-search/buy-search" });
-  },
-
-  onConversionTap(e) {
-    var ds = e.currentTarget.dataset || {};
-    var ctype = ds.ctype;
-    if (ctype === "product") {
-      wx.switchTab({ url: "/pages/buy-search/buy-search" });
-      if (ds.tradeItemId) {
-        wx.showToast({
-          title: "已跳转购买（mock item）",
-          icon: "none",
-        });
-      }
-      return;
-    }
-    if (ctype === "booking") {
-      wx.navigateTo({ url: routes.BOOKING_ENTRY });
-      return;
-    }
   },
 
   async refreshHealth() {

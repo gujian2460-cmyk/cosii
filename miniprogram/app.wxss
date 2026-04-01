@@ -1,16 +1,15 @@
 /**
- * 小程序壳视觉 Token — 浅色品牌（与外包 brief / 首页还原一致）
- * 品牌主色 #D878A0；根 DESIGN.md 深色为另一语境，小程序壳以本节变量为准。
+ * 小程序壳视觉 Token — 紫色主题 #9966FF（首页与 Tab 统一）
  */
 page {
-  --color-bg: #f5f6f8;
+  --color-bg: #ffffff;
   --color-surface: #ffffff;
   --color-border: #eeeeee;
   --color-text: #111111;
   --color-text-muted: #999999;
-  --color-primary: #d878a0;
-  --color-primary-dark: #c45d88;
-  --color-secondary: #b565a0;
+  --color-primary: #9966ff;
+  --color-primary-dark: #7c3aed;
+  --color-secondary: #a78bfa;
   --color-success: #22c55e;
   --color-warning: #f59e0b;
   --color-error-bg: #fef2f2;
@@ -88,7 +87,7 @@ page {
   font-size: 30rpx;
   padding: 24rpx var(--space-md);
   border: none !important;
-  box-shadow: 0 4rpx 16rpx rgba(216, 120, 160, 0.25);
+  box-shadow: 0 4rpx 16rpx rgba(153, 102, 255, 0.28);
 }
 
 .cos-btn-primary::after {
@@ -188,7 +187,7 @@ page {
   align-items: center;
   padding: 8rpx 20rpx;
   border-radius: var(--radius-sm);
-  background-color: rgba(216, 120, 160, 0.14);
+  background-color: rgba(153, 102, 255, 0.14);
   color: var(--color-primary-dark);
   font-size: 24rpx;
 }

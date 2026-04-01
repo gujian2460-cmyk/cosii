@@ -53,4 +53,49 @@ In QA mode, flag any code that doesn't match `DESIGN.md`.
 - 设计真源：`DESIGN.md` + `docs/designs/miniprogram-ui-shell-spec.md`。
 - **鉴权**：本地存储有 `access_token` 时，`utils/api.js`发 `Authorization: Bearer`；否则回落 `globalData.devUserId` → `X-User-Id`。生产构建将 `globalData.useWeChatSession` 设为 `true`，在 `onLaunch` 里 `wx.login` → `POST /v1/auth/wechat-login` 换 token（需 HTTPS 合法域名与后端 `WECHAT_*`）。
 
+## Skill Routing (gstack)
 
+When the user's request matches an available skill, ALWAYS invoke it using the Skill
+tool as your FIRST action. Do NOT answer directly, do NOT use other tools first.
+The skill has specialized workflows that produce better results than ad-hoc answers.
+
+### Direct Command Invocation
+When the user types commands starting with `/`, invoke the corresponding skill:
+- `/qa` → invoke qa skill
+- `/office-hours` → invoke office-hours skill  
+- `/investigate` → invoke investigate skill
+- `/ship` → invoke ship skill
+- `/review` → invoke review skill
+- `/plan-eng-review` → invoke plan-eng-review skill
+- `/plan-ceo-review` → invoke plan-ceo-review skill
+- `/design-consultation` → invoke design-consultation skill
+- `/design-review` → invoke design-review skill
+- `/autoplan` → invoke autoplan skill
+- `/retro` → invoke retro skill
+- `/codex` → invoke codex skill
+- `/careful` or `/guard` → invoke careful or guard skill
+- `/freeze` or `/unfreeze` → invoke freeze or unfreeze skill
+- `/gstack-upgrade` → invoke gstack-upgrade skill
+- `/document-release` → invoke document-release skill
+- `/health` → invoke health skill
+- `/checkpoint` → invoke checkpoint skill
+
+### Conversation Trigger Rules
+- Product ideas, "is this worth building", brainstorming → invoke office-hours
+- Bugs, errors, "why is this broken", 500 errors → invoke investigate
+- Ship, deploy, push, create PR → invoke ship
+- QA, test the site, find bugs → invoke qa
+- Code review, check my diff → invoke review
+- Update docs after shipping → invoke document-release
+- Weekly retro → invoke retro
+- Design system, brand → invoke design-consultation
+- Visual audit, design polish → invoke design-review
+- Architecture review → invoke plan-eng-review
+- Strategy, scope, ambition, "think bigger" → invoke plan-ceo-review
+- Save progress, checkpoint, resume → invoke checkpoint
+- Code quality, health check → invoke health
+- Automatic full review pipeline → invoke autoplan
+- Second opinion, codex review → invoke codex
+- Safety mode, careful mode → invoke careful or guard
+- Restrict edits to directory → invoke freeze or unfreeze
+- Upgrade gstack → invoke gstack-upgrade

@@ -1,23 +1,296 @@
-<view class="page">
-  <block wx:if="{{loading}}">
-    <view class="cos-skeleton">
-      <view class="cos-skeleton-line"></view>
+<view class="pub-page">
+  <view class="pub-nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="pub-nav__row" style="height: {{navInnerPx}}px;">
+      <view class="pub-nav__side">
+        <text class="pub-nav__back" bindtap="onNavBack">‹</text>
+      </view>
+      <text class="pub-nav__title">发布售卖</text>
+      <view class="pub-nav__side" />
     </view>
-  </block>
-  <block wx:elif="{{error}}">
-    <view class="cos-page-state">
-      <text class="cos-body">{{error.userTitle}}</text>
+  </view>
+
+  <view class="pub-tabs">
+    <view
+      class="pub-tab {{activeTab === 'idle' ? 'pub-tab--on' : ''}}"
+      bindtap="onTabTap"
+      data-tab="idle"
+    >
+      发布闲置
     </view>
-  </block>
-  <block wx:else>
-    <text class="lead cos-body">选择发布类型</text>
-    <view class="cos-card item" bindtap="onPublishTrade">
-      <text class="title cos-body">发布商品</text>
-      <text class="cos-meta">闲置 / 装备上架</text>
+    <view
+      class="pub-tab {{activeTab === 'makeup' ? 'pub-tab--on' : ''}}"
+      bindtap="onTabTap"
+      data-tab="makeup"
+    >
+      发布接妆
     </view>
-    <view class="cos-card item" bindtap="onPublishPost">
-      <text class="title cos-body">发布作品</text>
-      <text class="cos-meta">图文内容 + 转化卡</text>
+  </view>
+
+  <scroll-view class="pub-scroll" scroll-y show-scrollbar="{{false}}">
+    <block wx:if="{{activeTab === 'idle'}}">
+      <view class="pub-card">
+        <text class="pub-label">商品图片</text>
+        <view class="pub-uploads">
+          <view
+            wx:for="{{idle.images}}"
+            wx:key="*this"
+            class="pub-thumb-wrap"
+          >
+            <image class="pub-thumb" src="{{item}}" mode="aspectFill" />
+            <view
+              class="pub-thumb-del"
+              catchtap="onRemoveIdleImage"
+              data-index="{{index}}"
+            >
+              ×
+            </view>
+          </view>
+          <view
+            wx:if="{{idle.images.length < 9}}"
+            class="pub-upload-add"
+            bindtap="onChooseIdleImages"
+          >
+            <text class="pub-upload-plus">+</text>
+            <text class="pub-upload-hint">最多9张</text>
+          </view>
+        </view>
+      </view>
+      <view class="pub-card">
+        <text class="pub-label">标题</text>
+        <input
+          class="pub-input"
+          placeholder="简短描述商品"
+          value="{{idle.title}}"
+          bindinput="onIdleField"
+          data-field="title"
+        />
+      </view>
+      <view class="pub-card">
+        <text class="pub-label">描述</text>
+        <textarea
+          class="pub-textarea"
+          placeholder="成色、尺码、配件等"
+          value="{{idle.desc}}"
+          maxlength="500"
+          bindinput="onIdleField"
+          data-field="desc"
+        />
+      </view>
+      <view class="pub-card pub-card--row">
+        <text class="pub-label">价格（元）</text>
+        <input
+          class="pub-input pub-input--right"
+          type="digit"
+          placeholder="0.00"
+          value="{{idle.price}}"
+          bindinput="onIdleField"
+          data-field="price"
+        />
+      </view>
+      <view class="pub-card pub-card--row">
+        <text class="pub-label">分类</text>
+        <picker
+          mode="selector"
+          range="{{categoryLabels}}"
+          value="{{idle.categoryIndex}}"
+          bindchange="onIdleCategoryChange"
+        >
+          <view class="pub-picker-val">{{categoryLabels[idle.categoryIndex]}}</view>
+        </picker>
+      </view>
+      <view class="pub-card pub-card--row">
+        <text class="pub-label">成色</text>
+        <picker
+          mode="selector"
+          range="{{conditionLabels}}"
+          value="{{idle.conditionIndex}}"
+          bindchange="onIdleConditionChange"
+        >
+          <view class="pub-picker-val">{{conditionLabels[idle.conditionIndex]}}</view>
+        </picker>
+      </view>
+      <view class="pub-card pub-card--row">
+        <text class="pub-label">交易方式</text>
+        <picker
+          mode="selector"
+          range="{{tradeModeLabels}}"
+          value="{{idle.tradeModeIndex}}"
+          bindchange="onIdleTradeModeChange"
+        >
+          <view class="pub-picker-val">{{tradeModeLabels[idle.tradeModeIndex]}}</view>
+        </picker>
+      </view>
+      <view class="pub-card pub-card--row" bindtap="openRegionModal" data-tab="idle">
+        <text class="pub-label">地区</text>
+        <view class="pub-picker-val {{idle.regionLabel ? '' : 'pub-picker-val--ph'}}">
+          {{idle.regionLabel || '请选择省市区'}}
+        </view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="pub-card">
+        <text class="pub-label">妆面图</text>
+        <view class="pub-uploads">
+          <view
+            wx:for="{{makeup.images}}"
+            wx:key="*this"
+            class="pub-thumb-wrap"
+          >
+            <image class="pub-thumb" src="{{item}}" mode="aspectFill" />
+            <view
+              class="pub-thumb-del"
+              catchtap="onRemoveMakeupImage"
+              data-index="{{index}}"
+            >
+              ×
+            </view>
+          </view>
+          <view
+            wx:if="{{makeup.images.length < 6}}"
+            class="pub-upload-add"
+            bindtap="onChooseMakeupImages"
+          >
+            <text class="pub-upload-plus">+</text>
+            <text class="pub-upload-hint">最多6张</text>
+          </view>
+        </view>
+      </view>
+      <view class="pub-card">
+        <text class="pub-label">妆面名称</text>
+        <input
+          class="pub-input"
+          placeholder="例如：明日方舟·艾雅法拉常服妆"
+          value="{{makeup.name}}"
+          bindinput="onMakeupField"
+          data-field="name"
+        />
+      </view>
+      <view class="pub-card">
+        <text class="pub-label">介绍</text>
+        <textarea
+          class="pub-textarea"
+          placeholder="擅长风格、妆品说明等"
+          value="{{makeup.intro}}"
+          maxlength="500"
+          bindinput="onMakeupField"
+          data-field="intro"
+        />
+      </view>
+      <view class="pub-card pub-card--row">
+        <text class="pub-label">价格（元）</text>
+        <input
+          class="pub-input pub-input--right"
+          type="digit"
+          placeholder="起拍或标价"
+          value="{{makeup.price}}"
+          bindinput="onMakeupField"
+          data-field="price"
+        />
+      </view>
+      <view class="pub-card">
+        <text class="pub-label">接单时间</text>
+        <input
+          class="pub-input"
+          placeholder="例如：周末、漫展当天、提前3天预约"
+          value="{{makeup.timeText}}"
+          bindinput="onMakeupField"
+          data-field="timeText"
+        />
+      </view>
+      <view class="pub-card">
+        <text class="pub-label">地点</text>
+        <input
+          class="pub-input"
+          placeholder="常驻地或可前往范围"
+          value="{{makeup.location}}"
+          bindinput="onMakeupField"
+          data-field="location"
+        />
+      </view>
+      <view class="pub-card pub-card--row" bindtap="openRegionModal" data-tab="makeup">
+        <text class="pub-label">地区</text>
+        <view class="pub-picker-val {{makeup.regionLabel ? '' : 'pub-picker-val--ph'}}">
+          {{makeup.regionLabel || '请选择省市区'}}
+        </view>
+      </view>
+      <view class="pub-card">
+        <text class="pub-label">注意事项</text>
+        <textarea
+          class="pub-textarea"
+          placeholder="过敏、定金、改期规则等"
+          value="{{makeup.notice}}"
+          maxlength="500"
+          bindinput="onMakeupField"
+          data-field="notice"
+        />
+      </view>
+    </block>
+
+    <view class="pub-commit">
+      <checkbox-group bindchange="onCommitmentChange">
+        <label class="pub-commit__row">
+          <checkbox
+            class="pub-commit__cb"
+            value="1"
+            checked="{{commitmentChecked}}"
+            color="#9966ff"
+          />
+          <text class="pub-commit__txt">
+            我已阅读并承诺：所发布信息真实合法，遵守平台与微信相关规范
+          </text>
+        </label>
+      </checkbox-group>
     </view>
-  </block>
+
+    <view class="pub-scroll-pad" />
+  </scroll-view>
+
+  <view class="pub-bottom">
+    <button class="pub-btn pub-btn--ghost" bindtap="onSaveDraft" disabled="{{submitting}}">
+      存为草稿
+    </button>
+    <button
+      class="pub-btn pub-btn--primary"
+      loading="{{submitting}}"
+      disabled="{{submitting || !commitmentChecked}}"
+      bindtap="onPublish"
+    >
+      发布
+    </button>
+  </view>
+
+  <view wx:if="{{showRegionModal}}" class="pub-mask" catchtap="closeRegionModal">
+    <view class="pub-region-sheet" catchtap="noop">
+      <text class="pub-region-title">选择地区</text>
+      <picker-view
+        class="pub-region-pv"
+        indicator-style="height: 72rpx;"
+        style="width: 100%; height: 360rpx"
+        value="{{regionPickerValue}}"
+        bindchange="onRegionPickerChange"
+      >
+        <picker-view-column>
+          <view wx:for="{{regionPickerProvinces}}" wx:key="*this" class="pub-pv-item">
+            {{item}}
+          </view>
+        </picker-view-column>
+        <picker-view-column>
+          <view wx:for="{{regionPickerCities}}" wx:key="*this" class="pub-pv-item">
+            {{item}}
+          </view>
+        </picker-view-column>
+        <picker-view-column>
+          <view wx:for="{{regionPickerDistricts}}" wx:key="*this" class="pub-pv-item">
+            {{item}}
+          </view>
+        </picker-view-column>
+      </picker-view>
+      <view class="pub-region-actions">
+        <button class="pub-btn pub-btn--primary pub-btn--block" bindtap="confirmRegionModal">
+          确定
+        </button>
+      </view>
+    </view>
+  </view>
 </view>

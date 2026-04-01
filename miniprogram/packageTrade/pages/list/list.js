@@ -41,7 +41,14 @@ Page({
     ],
   },
 
-  onLoad() {
+  onLoad(query) {
+    var q = query || {};
+    if (q.itemId) {
+      wx.redirectTo({
+        url: routes.itemDetailQuery({ itemId: q.itemId, from: "trade_list_query" }),
+      });
+      return;
+    }
     this.refresh();
   },
 
@@ -138,5 +145,15 @@ Page({
 
   goBack() {
     wx.navigateBack({ delta: 1 });
+  },
+
+  onItemTap(e) {
+    var itemId = e.currentTarget.dataset.itemId;
+    if (!itemId) {
+      return;
+    }
+    wx.navigateTo({
+      url: routes.itemDetailQuery({ itemId: itemId, from: "trade_list" }),
+    });
   },
 });

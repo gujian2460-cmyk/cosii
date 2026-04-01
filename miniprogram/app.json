@@ -10,18 +10,20 @@
     "pages/buy/buy",
     "pages/search/search",
     "pages/recent-expo/recent-expo",
-    "pages/expo/expo"
+    "pages/expo/expo",
+    "pages/rates-info/rates-info"
   ],
   "window": {
     "navigationBarTitleText": "Cosii",
     "navigationBarBackgroundColor": "#FFFFFF",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#F5F6F8",
+    "backgroundColor": "#FFFFFF",
     "backgroundTextStyle": "dark"
   },
   "tabBar": {
+    "custom": true,
     "color": "#6B7280",
-    "selectedColor": "#D878A0",
+    "selectedColor": "#9966FF",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
     "list": [
@@ -63,7 +65,7 @@
     {
       "root": "packageTrade",
       "name": "trade",
-      "pages": ["pages/list/list", "pages/order-detail/order-detail", "pages/publish-item/publish-item"]
+      "pages": ["pages/list/list", "pages/order-detail/order-detail", "pages/publish-item/publish-item", "pages/item-detail/item-detail"]
     },
     {
       "root": "packageBooking",

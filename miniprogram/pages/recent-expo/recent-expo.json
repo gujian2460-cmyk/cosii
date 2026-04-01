@@ -1,4 +1,5 @@
 {
   "navigationBarTitleText": "最近漫展",
+  "onReachBottomDistance": 100,
   "usingComponents": {}
 }

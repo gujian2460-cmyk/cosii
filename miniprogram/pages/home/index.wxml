@@ -18,86 +18,106 @@
     class="home-scroll"
     style="height: {{scrollHeightPx}}px;"
     enable-back-to-top="{{true}}"
+    scroll-with-animation="{{true}}"
+    scroll-into-view="{{scrollIntoView}}"
+    refresher-enabled="{{true}}"
+    refresher-threshold="{{80}}"
+    refresher-default-style="black"
+    refresher-background="#FFFFFF"
+    refresher-triggered="{{featRefreshing}}"
+    bindrefresherrefresh="onHomePullRefresh"
   >
-    <!-- 2. 精选活动轮播（非通栏） -->
+    <view id="home-scroll-top-anchor" class="home-scroll-top-anchor" />
+    <!-- 2. 漫展海报轮播：指示器叠在卡片内下部 -->
     <view class="home-banner-wrap">
-      <swiper
-        class="home-banner-swiper"
-        circular
-        autoplay
-        interval="4800"
-        duration="400"
-        bindchange="onBannerChange"
-        current="{{bannerCurrent}}"
-      >
-        <swiper-item wx:for="{{bannerSlides}}" wx:key="id">
-          <view class="home-banner-slide" style="background: {{item.bg}};">
-            <text class="home-banner-slide__k">{{item.kicker}}</text>
-            <text class="home-banner-slide__t">{{item.title}}</text>
-          </view>
-        </swiper-item>
-      </swiper>
-      <view class="home-dots">
-        <view
-          wx:for="{{bannerSlides}}"
-          wx:for-index="idx"
-          wx:key="id"
-          class="home-dots__item {{bannerCurrent === idx ? 'home-dots__item--on' : ''}}"
-        />
+      <view class="home-banner-stack">
+        <swiper
+          class="home-banner-swiper"
+          circular
+          autoplay
+          interval="4800"
+          duration="400"
+          bindchange="onBannerChange"
+          current="{{bannerCurrent}}"
+        >
+          <swiper-item wx:for="{{bannerSlides}}" wx:key="id">
+            <view class="home-banner-slide home-banner-slide--ph" />
+          </swiper-item>
+        </swiper>
+        <view class="home-dots home-dots--inset">
+          <view
+            wx:for="{{bannerSlides}}"
+            wx:for-index="idx"
+            wx:key="id"
+            class="home-dots__item {{bannerCurrent === idx ? 'home-dots__item--on' : ''}}"
+          />
+        </view>
       </view>
     </view>
 
-    <!-- 3. 金刚区：5 项（对标设计稿） -->
-    <scroll-view class="home-king-scroll" scroll-x>
-      <view class="home-king home-king--5">
+    <!-- 3. 金刚区：固定 5 项，不可横向滑动 -->
+    <view class="home-king-card">
+      <view class="home-king home-king--fixed">
         <view class="home-king__item" bindtap="onKingTap" data-action="yi">
-          <view class="home-king__circle home-king__circle--1">衣</view>
+          <view class="home-king__circle">衣</view>
           <text class="home-king__label">COS服装</text>
         </view>
         <view class="home-king__item" bindtap="onKingTap" data-action="fa">
-          <view class="home-king__circle home-king__circle--2">发</view>
+          <view class="home-king__circle">发</view>
           <text class="home-king__label">假发</text>
         </view>
         <view class="home-king__item" bindtap="onKingTap" data-action="zhuang">
-          <view class="home-king__circle home-king__circle--3">妆</view>
+          <view class="home-king__circle">妆</view>
           <text class="home-king__label">平时装造</text>
         </view>
         <view class="home-king__item" bindtap="onKingTap" data-action="zhou">
-          <view class="home-king__circle home-king__circle--4">周</view>
+          <view class="home-king__circle">周</view>
           <text class="home-king__label">周边</text>
         </view>
         <view class="home-king__item" bindtap="onKingTap" data-action="zhan">
-          <view class="home-king__circle home-king__circle--5">展</view>
+          <view class="home-king__circle">展</view>
           <text class="home-king__label">漫展约妆</text>
         </view>
       </view>
-    </scroll-view>
+    </view>
 
-    <view class="home-feed-head home-feed-head--tight">
+    <view class="home-feed-head home-feed-head--between">
       <text class="home-feed-head__title">热门角色</text>
-      <text class="home-feed-head__sub">左右滑动</text>
+      <text class="home-feed-head__more" bindtap="onCharacterMoreTap">更多></text>
     </view>
-    <scroll-view class="home-char-scroll" scroll-x>
-      <view class="home-char-inner">
-        <view
-          wx:for="{{characters}}"
-          wx:key="id"
-          class="home-char-chip"
-          bindtap="onCharacterTap"
-          data-name="{{item.name}}"
-        >
-          <view class="home-char-ava" style="background-color: {{item.coverColor}};"></view>
-          <text class="home-char-name">{{item.name}}</text>
-          <text class="home-char-work">{{item.workTitle}}</text>
+    <view class="home-char-row">
+      <scroll-view
+        class="home-char-scroll home-char-scroll--flex"
+        scroll-x
+        show-scrollbar="{{false}}"
+        enable-flex="{{true}}"
+      >
+        <view class="home-char-inner">
+          <view
+            wx:for="{{characters}}"
+            wx:key="id"
+            class="home-char-chip"
+            bindtap="onCharacterTap"
+            data-name="{{item.name}}"
+          >
+            <view class="home-char-ava home-char-ava--ph">
+              <text class="home-char-ava__dim">200×200</text>
+            </view>
+            <text class="home-char-name">{{item.name}}</text>
+            <text class="home-char-work">{{item.workTitle}}</text>
+          </view>
         </view>
-      </view>
-    </scroll-view>
-
-    <view class="home-feed-head">
-      <text class="home-feed-head__title">精选返图</text>
-      <text class="home-feed-head__sub">图底叠字 · 点赞</text>
+      </scroll-view>
     </view>
-    <view class="home-masonry">
+
+    <view class="home-feed-head home-feed-head--between home-feed-head--featured">
+      <view class="home-feed-head__titles">
+        <text class="home-feed-head__title">精选返图</text>
+        <text class="home-feed-head__sub">图底叠字 · 点赞</text>
+      </view>
+      <text class="home-feed-head__more" bindtap="onFeaturedMoreTap">查看更多></text>
+    </view>
+    <view class="home-masonry home-masonry--tail">
       <view class="home-masonry__col">
         <block wx:for="{{featLeft}}" wx:key="id">
           <view
@@ -105,14 +125,9 @@
             bindtap="onFeaturedTap"
             data-keyword="{{item.characterName}}"
           >
-            <view class="feat-card__media" style="background-color: {{item.coverColor}};">
+            <view class="feat-card__media feat-card__media--gray {{item.tall ? 'feat-card__media--large' : 'feat-card__media--small'}}">
               <view class="feat-card__grad">
-                <text class="feat-card__char">{{item.characterName}}</text>
-                <text class="feat-card__sub">{{item.title}}</text>
-                <view class="feat-card__row">
-                  <text class="feat-card__auth">{{item.author}}</text>
-                  <text class="feat-card__like">{{item.likeCount}} 喜欢</text>
-                </view>
+                <text class="feat-card__line">{{item.characterName}} {{item.author}} · ❤ {{item.likeCount}}</text>
               </view>
             </view>
           </view>
@@ -125,118 +140,9 @@
             bindtap="onFeaturedTap"
             data-keyword="{{item.characterName}}"
           >
-            <view class="feat-card__media" style="background-color: {{item.coverColor}};">
+            <view class="feat-card__media feat-card__media--gray {{item.tall ? 'feat-card__media--large' : 'feat-card__media--small'}}">
               <view class="feat-card__grad">
-                <text class="feat-card__char">{{item.characterName}}</text>
-                <text class="feat-card__sub">{{item.title}}</text>
-                <view class="feat-card__row">
-                  <text class="feat-card__auth">{{item.author}}</text>
-                  <text class="feat-card__like">{{item.likeCount}} 喜欢</text>
-                </view>
-              </view>
-            </view>
-          </view>
-        </block>
-      </view>
-    </view>
-
-    <!-- 4. 动态转化瀑布流 -->
-    <view class="home-feed-head">
-      <text class="home-feed-head__title">发现</text>
-      <text class="home-feed-head__sub">作品 · 转化挂载</text>
-    </view>
-    <view class="home-masonry">
-      <view class="home-masonry__col">
-        <block wx:for="{{feedLeft}}" wx:key="id">
-          <view class="feed-card">
-            <view class="feed-card__media">
-              <image
-                wx:if="{{item.coverUrl}}"
-                class="feed-card__img"
-                src="{{item.coverUrl}}"
-                mode="aspectFill"
-              />
-              <view
-                wx:else
-                class="feed-card__img feed-card__img--ph"
-                style="background-color: {{item.coverColor}};"
-              />
-            </view>
-            <view class="feed-card__body">
-              <text class="feed-card__title">{{item.title}}</text>
-              <view
-                class="feed-conv feed-conv--{{item.conversion.type}}"
-                bindtap="onConversionTap"
-                data-id="{{item.id}}"
-                data-ctype="{{item.conversion.type}}"
-                data-trade-item-id="{{item.convTradeItemId}}"
-                data-artist-id="{{item.convArtistId}}"
-              >
-                <text class="feed-conv__text">{{item.conversion.label}}</text>
-              </view>
-              <view class="feed-card__foot">
-                <view
-                  class="feed-card__ava"
-                  style="background-color: {{item.author.avatarUrl ? 'transparent' : '#e8e8e8'}};"
-                >
-                  <image
-                    wx:if="{{item.author.avatarUrl}}"
-                    class="feed-card__ava-img"
-                    src="{{item.author.avatarUrl}}"
-                    mode="aspectFill"
-                  />
-                  <text wx:else class="feed-card__ava-t">{{item.authorInitial}}</text>
-                </view>
-                <text class="feed-card__nick">{{item.author.nickname}}</text>
-                <view wx:if="{{item.author.verified}}" class="feed-card__v">V</view>
-              </view>
-            </view>
-          </view>
-        </block>
-      </view>
-      <view class="home-masonry__col">
-        <block wx:for="{{feedRight}}" wx:key="id">
-          <view class="feed-card">
-            <view class="feed-card__media">
-              <image
-                wx:if="{{item.coverUrl}}"
-                class="feed-card__img"
-                src="{{item.coverUrl}}"
-                mode="aspectFill"
-              />
-              <view
-                wx:else
-                class="feed-card__img feed-card__img--ph"
-                style="background-color: {{item.coverColor}};"
-              />
-            </view>
-            <view class="feed-card__body">
-              <text class="feed-card__title">{{item.title}}</text>
-              <view
-                class="feed-conv feed-conv--{{item.conversion.type}}"
-                bindtap="onConversionTap"
-                data-id="{{item.id}}"
-                data-ctype="{{item.conversion.type}}"
-                data-trade-item-id="{{item.convTradeItemId}}"
-                data-artist-id="{{item.convArtistId}}"
-              >
-                <text class="feed-conv__text">{{item.conversion.label}}</text>
-              </view>
-              <view class="feed-card__foot">
-                <view
-                  class="feed-card__ava"
-                  style="background-color: {{item.author.avatarUrl ? 'transparent' : '#e8e8e8'}};"
-                >
-                  <image
-                    wx:if="{{item.author.avatarUrl}}"
-                    class="feed-card__ava-img"
-                    src="{{item.author.avatarUrl}}"
-                    mode="aspectFill"
-                  />
-                  <text wx:else class="feed-card__ava-t">{{item.authorInitial}}</text>
-                </view>
-                <text class="feed-card__nick">{{item.author.nickname}}</text>
-                <view wx:if="{{item.author.verified}}" class="feed-card__v">V</view>
+                <text class="feat-card__line">{{item.characterName}} {{item.author}} · ❤ {{item.likeCount}}</text>
               </view>
             </view>
           </view>

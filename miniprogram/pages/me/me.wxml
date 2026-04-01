@@ -27,66 +27,42 @@
     </view>
 
     <view class="me-sheet">
-      <text class="me-section-label">交易</text>
+      <view class="me-quick">
+        <view
+          class="me-quick__card"
+          wx:for="{{quickEntries}}"
+          wx:key="id"
+          bindtap="onEntryTap"
+          data-id="{{item.id}}"
+        >
+          <text class="me-quick__title">{{item.label}}</text>
+          <text class="me-quick__sub">{{item.sub}}</text>
+        </view>
+      </view>
+
+      <text class="me-section-label">常用功能</text>
       <view class="me-grid">
-        <view class="me-grid__cell" bindtap="onOrders">
-          <text class="me-grid__t">卖出</text>
-        </view>
-        <view class="me-grid__cell" bindtap="onOrders">
-          <text class="me-grid__t">买入</text>
-        </view>
-        <view class="me-grid__cell" bindtap="onPlaceholder">
-          <text class="me-grid__t">租出</text>
-        </view>
-        <view class="me-grid__cell" bindtap="onPlaceholder">
-          <text class="me-grid__t">租入</text>
+        <view
+          class="me-grid__cell"
+          wx:for="{{featureEntries}}"
+          wx:key="id"
+          bindtap="onEntryTap"
+          data-id="{{item.id}}"
+        >
+          <text class="me-grid__t">{{item.label}}</text>
         </view>
       </view>
 
-      <text class="me-section-label">内容</text>
-      <view class="me-grid">
-        <view class="me-grid__cell" bindtap="onGoPublish">
-          <text class="me-grid__t">发布</text>
-        </view>
-        <view class="me-grid__cell" bindtap="onPlaceholder">
-          <text class="me-grid__t">作品</text>
-        </view>
-        <view class="me-grid__cell" bindtap="onPlaceholder">
-          <text class="me-grid__t">收藏</text>
-        </view>
-        <view class="me-grid__cell" bindtap="onPlaceholder">
-          <text class="me-grid__t">草稿</text>
-        </view>
-      </view>
-
-      <view class="me-grid me-grid--one">
-        <view class="me-grid__cell me-grid__cell--wide" bindtap="onPlaceholder">
-          <text class="me-grid__t">地址管理</text>
-        </view>
-      </view>
-
-      <view class="me-list cos-card">
-        <view class="cell cos-body" bindtap="onOrders">
-          <text>我的订单</text>
-          <text class="cos-meta">›</text>
-        </view>
-        <view class="cell cos-body" bindtap="onInbox">
-          <text>消息通知</text>
-          <text class="cos-meta">›</text>
-        </view>
-      </view>
-
+      <text class="me-section-label">账号与服务</text>
       <view class="me-list cos-card list--mt">
-        <view class="cell cos-body" bindtap="onRates">
-          <text>费率与结算说明</text>
-          <text class="cos-meta">›</text>
-        </view>
-        <view class="cell cos-body" bindtap="onSettings">
-          <text>设置</text>
-          <text class="cos-meta">›</text>
-        </view>
-        <view class="cell cos-body" bindtap="onPlaceholder">
-          <text>问题反馈</text>
+        <view
+          class="cell cos-body"
+          wx:for="{{serviceEntries}}"
+          wx:key="id"
+          bindtap="onEntryTap"
+          data-id="{{item.id}}"
+        >
+          <text>{{item.label}}</text>
           <text class="cos-meta">›</text>
         </view>
       </view>

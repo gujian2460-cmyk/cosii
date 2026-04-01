@@ -1,5 +1,6 @@
 const { request, showErrorToast } = require("../../../utils/api");
 const { mapEnvelopeToError } = require("../../../utils/errors");
+const { unifiedStatusLabel } = require("../../../utils/orderLabels");
 
 function centsToYuan(c) {
   return (Number(c) / 100).toFixed(2);
@@ -78,6 +79,7 @@ Page({
           service_order_id: d.service_order_id,
           unified_order_id: d.unified_order_id,
           status: d.status,
+          status_label: unifiedStatusLabel(d.status),
           depositYuan: centsToYuan(d.deposit_amount),
           finalYuan: centsToYuan(d.final_amount),
           holdNote: d.slot_hold_expired ? "档期占位已过期" : "",
@@ -93,6 +95,7 @@ Page({
           trade_order_id: t.trade_order_id,
           unified_order_id: t.unified_order_id,
           status: t.status,
+          status_label: unifiedStatusLabel(t.status),
           item_title: t.item_title,
           totalYuan: centsToYuan(t.total_amount),
         },

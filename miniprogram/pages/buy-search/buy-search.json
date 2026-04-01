@@ -1,6 +1,10 @@
 {
   "navigationBarTitleText": "买&搜",
-  "enablePullDownRefresh": true,
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
+  "backgroundColor": "#ffffff",
   "backgroundTextStyle": "dark",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 120,
   "usingComponents": {}
 }

@@ -1,4 +1,5 @@
 const { request, showErrorToast } = require("../../utils/api");
+const { mapEnvelopeToError } = require("../../utils/errors");
 const routes = require("../../config/routes");
 
 var HISTORY_KEY = "cosii_search_history_v1";
@@ -55,6 +56,7 @@ Page({
     loading: false,
     searched: false,
     empty: false,
+    requestError: null,
     leftCol: [],
     rightCol: [],
     creatingOrderId: "",
@@ -77,6 +79,7 @@ Page({
       keyword: "",
       searched: false,
       empty: false,
+      requestError: null,
       leftCol: [],
       rightCol: [],
     });
@@ -125,7 +128,13 @@ Page({
     });
     hist.unshift(k);
     saveHistory(hist);
-    this.setData({ history: hist, loading: true, searched: true, empty: false });
+    this.setData({
+      history: hist,
+      loading: true,
+      searched: true,
+      empty: false,
+      requestError: null,
+    });
 
     var res = await request({
       path: "/v1/trade/items?limit=60",
@@ -135,7 +144,12 @@ Page({
     this.setData({ loading: false });
     if (!res.ok) {
       showErrorToast(res.envelope);
-      this.setData({ empty: true, leftCol: [], rightCol: [] });
+      this.setData({
+        requestError: mapEnvelopeToError(res.envelope),
+        empty: false,
+        leftCol: [],
+        rightCol: [],
+      });
       return;
     }
     var items = ((res.data && res.data.items) || []).map(mapItem);
@@ -147,9 +161,20 @@ Page({
     });
     var cols = splitWaterfall(filtered);
     this.setData({
+      requestError: null,
       empty: filtered.length === 0,
       leftCol: cols.left,
       rightCol: cols.right,
+    });
+  },
+
+  onCardTap(e) {
+    var itemId = e.currentTarget.dataset.itemId;
+    if (!itemId) {
+      return;
+    }
+    wx.navigateTo({
+      url: routes.itemDetailQuery({ itemId: itemId, from: "search" }),
     });
   },
 

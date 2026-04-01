@@ -196,6 +196,40 @@ function parseItemCursor(cursor: string | undefined): { createdAt: number; id: s
   return { createdAt, id };
 }
 
+export type TradeItemPublicDetail = {
+  item_id: string;
+  title: string;
+  category: string;
+  price_cents: number;
+  /** false when reserved/sold/off-list — 详情可见但不可下单 */
+  available: boolean;
+};
+
+/**
+ * 公开商品详情（无需登录）。非 LISTED 仍返回数据，供前端展示「已下架」等。
+ */
+export function getTradeItemPublic(db: DatabaseSync, itemId: string): TradeItemPublicDetail | null {
+  const id = itemId.trim();
+  if (!id) {
+    return null;
+  }
+  const row = db
+    .prepare(`SELECT id, title, category, price, status FROM trade_items WHERE id = ?`)
+    .get(id) as
+    | { id: string; title: string; category: string; price: number; status: string }
+    | undefined;
+  if (!row) {
+    return null;
+  }
+  return {
+    item_id: row.id,
+    title: row.title,
+    category: row.category,
+    price_cents: row.price,
+    available: row.status === "LISTED",
+  };
+}
+
 export function listTradeItems(
   db: DatabaseSync,
   input: {

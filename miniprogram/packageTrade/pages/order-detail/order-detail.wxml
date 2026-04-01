@@ -17,7 +17,7 @@
       <text class="cos-body title">约妆订单</text>
       <text class="cos-meta line">订单号 {{service.service_order_id}}</text>
       <text class="cos-meta line">统一单 {{service.unified_order_id}}</text>
-      <text class="cos-body line">状态 {{service.status}}</text>
+      <text class="cos-body line">状态 {{service.status_label}}</text>
       <text class="cos-meta line">定金 ¥{{service.depositYuan}} · 尾款 ¥{{service.finalYuan}}</text>
       <text class="cos-meta line warn" wx:if="{{service.holdNote}}">{{service.holdNote}}</text>
     </view>
@@ -28,7 +28,7 @@
       <text class="cos-body line">{{trade.item_title}}</text>
       <text class="cos-meta line">订单号 {{trade.trade_order_id}}</text>
       <text class="cos-meta line">统一单 {{trade.unified_order_id}}</text>
-      <text class="cos-body line">状态 {{trade.status}}</text>
+      <text class="cos-body line">状态 {{trade.status_label}}</text>
       <text class="cos-meta line">金额 ¥{{trade.totalYuan}}</text>
     </view>
   </block>

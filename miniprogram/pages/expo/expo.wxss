@@ -1,43 +1,229 @@
-.expo-page {
-  min-height: 100vh;
-  background-color: var(--color-bg);
-  padding: 24rpx;
+.expo-root {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.expo-scroll {
+  width: 100%;
   box-sizing: border-box;
 }
 
-.expo-seg {
+.expo-top {
+  padding: 8rpx 24rpx 16rpx;
+  box-sizing: border-box;
+}
+
+/* 扁长胶囊 Tab + 滑动选中底 */
+.expo-seg--pill {
+  position: relative;
+  height: 64rpx;
+  padding: 4rpx;
+  border-radius: 12rpx;
+  background-color: #f3f4f6;
+  box-sizing: border-box;
+}
+
+.expo-seg__slider {
+  position: absolute;
+  left: 4rpx;
+  top: 4rpx;
+  width: calc(50% - 6rpx);
+  height: calc(100% - 8rpx);
+  border-radius: 8rpx;
+  background: linear-gradient(135deg, #9966ff, #7c3aed);
+  z-index: 0;
+  transition: transform 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: translateX(0);
+  will-change: transform;
+}
+
+.expo-seg__slider--right {
+  transform: translateX(100%);
+}
+
+.expo-seg__row {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: row;
-  padding: 8rpx;
+  align-items: stretch;
+  height: 56rpx;
+}
+
+.expo-seg__hit {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expo-seg__txt {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #374151;
+}
+
+.expo-seg__txt--on {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* 海报：满宽 + 4:5 比例，随页面滚动 */
+.expo-poster-full {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.expo-poster-aspect {
+  width: 100%;
+  position: relative;
+  padding-bottom: 125%;
+  height: 0;
+  overflow: hidden;
+  background-color: #ede9fe;
+}
+
+.expo-poster-inner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.expo-poster-gradient {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(165deg, #ede9fe 0%, #ddd6fe 42%, #e9d5ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expo-poster-dim {
+  font-size: 28rpx;
+  color: rgba(153, 102, 255, 0.42);
+  font-weight: 600;
+}
+
+/* 妆娘双列瀑布 */
+.expo-artist-pad {
+  padding: 0 20rpx 24rpx;
+  box-sizing: border-box;
+}
+
+.expo-masonry {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.expo-masonry__col {
+  flex: 1;
+  min-width: 0;
+}
+
+.expo-masonry__col:first-child {
+  margin-right: 16rpx;
+}
+
+.expo-acard {
   background-color: #ffffff;
-  border-radius: var(--radius-pill);
+  border-radius: 16rpx;
+  border: 1rpx solid var(--color-border);
+  overflow: hidden;
+  margin-bottom: 20rpx;
+  box-shadow: var(--shadow-soft);
+  box-sizing: border-box;
+}
+
+.expo-acard__cover {
+  width: 100%;
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+}
+
+.expo-acard__cover--lg {
+  height: 280rpx;
+}
+
+.expo-acard__cover--sm {
+  height: 160rpx;
+}
+
+.expo-acard__title {
+  margin: 14rpx 14rpx 6rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #111111;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.expo-acard__price {
+  display: block;
+  margin: 0 14rpx 8rpx;
+  font-size: 28rpx;
+  font-weight: 800;
+  color: #7c3aed;
+}
+
+.expo-acard__city {
+  display: block;
+  margin: 0 14rpx 10rpx;
+  font-size: 22rpx;
+  color: var(--color-text-muted);
+}
+
+.expo-acard__foot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 14rpx 14rpx;
   gap: 8rpx;
 }
 
-.expo-seg__item {
-  flex: 1;
-  text-align: center;
-  padding: 20rpx 0;
-  font-size: 28rpx;
-  color: #6b7280;
-  border-radius: var(--radius-pill);
+.expo-acard__foot--compact {
+  padding-bottom: 12rpx;
+  margin-top: -4rpx;
 }
 
-.expo-seg__item--on {
-  color: #ffffff;
+.expo-acard__ava {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #c4b5fd, #9966ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.expo-acard__ava--sm {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.expo-acard__ava-t {
+  font-size: 18rpx;
   font-weight: 700;
-  background: linear-gradient(135deg, #d878a0, #b5658c);
+  color: #ffffff;
 }
 
-.expo-placeholder {
-  margin-top: 120rpx;
-  text-align: center;
-  display: block;
+.expo-acard__nick {
+  flex: 1;
+  min-width: 0;
+  font-size: 22rpx;
+  color: #4b5563;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.expo-hint {
-  display: block;
-  text-align: center;
-  margin-top: 24rpx;
-  padding: 0 40rpx;
+.expo-bottom-spacer {
+  height: calc(24rpx + env(safe-area-inset-bottom));
 }

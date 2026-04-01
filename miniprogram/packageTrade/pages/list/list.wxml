@@ -30,13 +30,19 @@
     </view>
   </block>
   <block wx:else>
-    <view class="cos-card item" wx:for="{{items}}" wx:key="item_id">
+    <view
+      class="cos-card item"
+      wx:for="{{items}}"
+      wx:key="item_id"
+      bindtap="onItemTap"
+      data-item-id="{{item.item_id}}"
+    >
       <text class="title cos-body">{{item.title}}</text>
       <text class="cos-meta line">{{item.category}}</text>
       <text class="cos-body cos-tabular line">¥{{item.priceYuan}}</text>
       <button
         class="cos-btn-primary buy-btn"
-        bindtap="onBuyTap"
+        catchtap="onBuyTap"
         data-item-id="{{item.item_id}}"
         loading="{{creatingOrderId === item.item_id}}"
       >立即下单</button>

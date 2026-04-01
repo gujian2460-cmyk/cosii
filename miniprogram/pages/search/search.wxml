@@ -58,6 +58,15 @@
     </view>
   </block>
 
+  <block wx:elif="{{searched && requestError}}">
+    <view class="cos-page-state">
+      <text class="cos-body">{{requestError.userTitle}}</text>
+      <text wx:if="{{requestError.traceId}}" class="cos-code cos-meta" selectable="true">{{requestError.traceId}}</text>
+      <text class="cos-meta state-hint">网络或服务器异常，请检查连接后重试</text>
+      <button class="cos-btn-primary state-retry" bindtap="onSearchConfirm">重试</button>
+    </view>
+  </block>
+
   <block wx:elif="{{searched && empty}}">
     <view class="cos-page-state">
       <text class="cos-body">没有找到相关商品</text>
@@ -69,28 +78,40 @@
     <text class="result-hint cos-meta">以下为标题/分类包含「{{keyword}}」的在售商品</text>
     <view class="waterfall">
       <view class="waterfall-col">
-        <view class="feed-card cos-card" wx:for="{{leftCol}}" wx:key="item_id">
+        <view
+          class="feed-card cos-card"
+          wx:for="{{leftCol}}"
+          wx:key="item_id"
+          bindtap="onCardTap"
+          data-item-id="{{item.item_id}}"
+        >
           <text class="feed-title cos-body">{{item.title}}</text>
           <text class="cos-tag tag-mt">{{item.category}}</text>
           <text class="feed-price cos-tabular">¥{{item.priceYuan}}</text>
           <button
             class="cos-btn-primary feed-buy"
             size="mini"
-            bindtap="onBuyTap"
+            catchtap="onBuyTap"
             data-item-id="{{item.item_id}}"
             loading="{{creatingOrderId === item.item_id}}"
           >立即购买</button>
         </view>
       </view>
       <view class="waterfall-col">
-        <view class="feed-card cos-card" wx:for="{{rightCol}}" wx:key="item_id">
+        <view
+          class="feed-card cos-card"
+          wx:for="{{rightCol}}"
+          wx:key="item_id"
+          bindtap="onCardTap"
+          data-item-id="{{item.item_id}}"
+        >
           <text class="feed-title cos-body">{{item.title}}</text>
           <text class="cos-tag tag-mt">{{item.category}}</text>
           <text class="feed-price cos-tabular">¥{{item.priceYuan}}</text>
           <button
             class="cos-btn-primary feed-buy"
             size="mini"
-            bindtap="onBuyTap"
+            catchtap="onBuyTap"
             data-item-id="{{item.item_id}}"
             loading="{{creatingOrderId === item.item_id}}"
           >立即购买</button>

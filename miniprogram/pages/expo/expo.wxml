@@ -1,18 +1,119 @@
-<view class="expo-page">
-  <view class="expo-seg">
-    <view
-      class="expo-seg__item {{segment === 'poster' ? 'expo-seg__item--on' : ''}}"
-      bindtap="onSegmentTap"
-      data-s="poster"
-    >海报</view>
-    <view
-      class="expo-seg__item {{segment === 'artist' ? 'expo-seg__item--on' : ''}}"
-      bindtap="onSegmentTap"
-      data-s="artist"
-    >妆娘</view>
-  </view>
-  <view class="expo-placeholder cos-body">
-    {{segment === 'poster' ? '漫展海报与档期将在此展示' : '认证妆娘双列卡片将在此展示'}}
-  </view>
-  <text class="expo-hint cos-meta">对齐设计稿分段与渐变选中态；数据模型确定后接 API</text>
+<view class="expo-root">
+  <scroll-view
+    scroll-y
+    class="expo-scroll"
+    style="height: {{scrollHeightPx}}px;"
+    show-scrollbar="{{false}}"
+    refresher-enabled="{{segment === 'artist'}}"
+    refresher-threshold="{{80}}"
+    refresher-default-style="black"
+    refresher-background="#FFFFFF"
+    refresher-triggered="{{artistRefreshing}}"
+    bindrefresherrefresh="onArtistPullRefresh"
+  >
+    <view class="expo-top">
+      <view class="expo-seg expo-seg--pill">
+        <view
+          class="expo-seg__slider {{segment === 'artist' ? 'expo-seg__slider--right' : ''}}"
+        />
+        <view class="expo-seg__row">
+          <view
+            class="expo-seg__hit"
+            bindtap="onSegmentTap"
+            data-s="poster"
+          >
+            <text class="expo-seg__txt {{segment === 'poster' ? 'expo-seg__txt--on' : ''}}">海报</text>
+          </view>
+          <view
+            class="expo-seg__hit"
+            bindtap="onSegmentTap"
+            data-s="artist"
+          >
+            <text class="expo-seg__txt {{segment === 'artist' ? 'expo-seg__txt--on' : ''}}">妆娘</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <block wx:if="{{segment === 'poster'}}">
+      <view class="expo-poster-full">
+        <view class="expo-poster-aspect">
+          <view class="expo-poster-inner">
+            <view class="expo-poster-gradient">
+              <text class="expo-poster-dim">400×500</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="expo-artist-pad">
+        <view class="expo-masonry">
+          <view class="expo-masonry__col">
+            <block wx:for="{{artistLeft}}" wx:key="id">
+              <view
+                class="expo-acard"
+                bindtap="onArtistTap"
+                data-id="{{item.id}}"
+              >
+                <view class="expo-acard__cover {{item.large ? 'expo-acard__cover--lg' : 'expo-acard__cover--sm'}}" />
+                <text class="expo-acard__title">{{item.serviceName}}</text>
+                <text class="expo-acard__price">¥{{item.priceYuan}}</text>
+                <block wx:if="{{item.large}}">
+                  <text class="expo-acard__city">{{item.city}}</text>
+                  <view class="expo-acard__foot">
+                    <view class="expo-acard__ava">
+                      <text class="expo-acard__ava-t">{{item.avaLetter}}</text>
+                    </view>
+                    <text class="expo-acard__nick">{{item.artistName}}</text>
+                  </view>
+                </block>
+                <block wx:else>
+                  <view class="expo-acard__foot expo-acard__foot--compact">
+                    <view class="expo-acard__ava expo-acard__ava--sm">
+                      <text class="expo-acard__ava-t">{{item.avaLetter}}</text>
+                    </view>
+                    <text class="expo-acard__nick">{{item.artistName}}</text>
+                  </view>
+                </block>
+              </view>
+            </block>
+          </view>
+          <view class="expo-masonry__col">
+            <block wx:for="{{artistRight}}" wx:key="id">
+              <view
+                class="expo-acard"
+                bindtap="onArtistTap"
+                data-id="{{item.id}}"
+              >
+                <view class="expo-acard__cover {{item.large ? 'expo-acard__cover--lg' : 'expo-acard__cover--sm'}}" />
+                <text class="expo-acard__title">{{item.serviceName}}</text>
+                <text class="expo-acard__price">¥{{item.priceYuan}}</text>
+                <block wx:if="{{item.large}}">
+                  <text class="expo-acard__city">{{item.city}}</text>
+                  <view class="expo-acard__foot">
+                    <view class="expo-acard__ava">
+                      <text class="expo-acard__ava-t">{{item.avaLetter}}</text>
+                    </view>
+                    <text class="expo-acard__nick">{{item.artistName}}</text>
+                  </view>
+                </block>
+                <block wx:else>
+                  <view class="expo-acard__foot expo-acard__foot--compact">
+                    <view class="expo-acard__ava expo-acard__ava--sm">
+                      <text class="expo-acard__ava-t">{{item.avaLetter}}</text>
+                    </view>
+                    <text class="expo-acard__nick">{{item.artistName}}</text>
+                  </view>
+                </block>
+              </view>
+            </block>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view class="expo-bottom-spacer" />
+  </scroll-view>
 </view>

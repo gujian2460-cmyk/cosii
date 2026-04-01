@@ -1,0 +1,39 @@
+.page {
+  min-height: 100vh;
+  padding: 32rpx 32rpx 120rpx;
+  box-sizing: border-box;
+}
+
+.block {
+  padding: 32rpx;
+}
+
+.title {
+  display: block;
+  font-weight: 600;
+  font-size: 34rpx;
+}
+
+.line {
+  display: block;
+  margin-top: 12rpx;
+}
+
+.price {
+  font-weight: 600;
+  margin-top: 16rpx;
+}
+
+.warn {
+  color: var(--color-warning, #b45309);
+}
+
+.buy-btn {
+  width: 100%;
+  margin-top: 40rpx;
+}
+
+.back {
+  width: 100%;
+  margin-top: 24rpx;
+}
