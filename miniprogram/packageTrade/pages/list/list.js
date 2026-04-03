@@ -31,6 +31,7 @@ Page({
     empty: false,
     nextCursor: null,
     loadingMore: false,
+    loadMoreError: null,
     creatingOrderId: "",
     activeCategory: "all",
     categories: [
@@ -53,7 +54,7 @@ Page({
   },
 
   async refresh() {
-    this.setData({ loading: true, error: null, nextCursor: null });
+    this.setData({ loading: true, error: null, nextCursor: null, loadMoreError: null });
     var res = await request({
       path: buildTradeListPath({ category: this.data.activeCategory }),
       method: "GET",
@@ -94,14 +95,22 @@ Page({
     });
     this.setData({ loadingMore: false });
     if (!res.ok) {
-      showErrorToast(res.envelope);
+      this.setData({
+        loadMoreError: mapEnvelopeToError(res.envelope),
+      });
       return;
     }
     var rows = ((res.data && res.data.items) || []).map(mapItem);
     this.setData({
       items: this.data.items.concat(rows),
       nextCursor: (res.data && res.data.next_cursor) || null,
+      loadMoreError: null,
     });
+  },
+
+  retryLoadMore() {
+    this.setData({ loadMoreError: null });
+    this.loadMore();
   },
 
   onReachBottom() {

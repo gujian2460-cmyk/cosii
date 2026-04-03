@@ -21,3 +21,22 @@
 .warn {
   color: var(--color-warning);
 }
+
+.cta-hint {
+  display: block;
+  margin-top: 20rpx;
+  line-height: 1.45;
+}
+
+.cta-btn {
+  width: 100%;
+  margin-top: 24rpx;
+}
+
+.redeem-input {
+  margin-top: 20rpx;
+  padding: 20rpx 24rpx;
+  border-radius: var(--radius-md, 16rpx);
+  border: 2rpx solid var(--color-border);
+  font-size: 28rpx;
+}

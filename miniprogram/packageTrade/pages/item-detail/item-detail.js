@@ -91,4 +91,8 @@ Page({
       }),
     });
   },
+
+  goBrowseList() {
+    wx.navigateTo({ url: routes.TRADE_LIST });
+  },
 });

@@ -32,11 +32,24 @@
   <block wx:elif="{{error}}">
     <view class="cos-page-state">
       <text class="cos-body">{{error.userTitle}}</text>
+      <text wx:if="{{error.retryPolicy}}" class="cos-meta state-hint">{{error.retryPolicy}}</text>
+      <view wx:if="{{error.traceId}}" class="trace-row">
+        <text class="cos-code cos-meta trace-label">追踪 ID</text>
+        <text class="cos-code cos-meta trace-val" selectable="true">{{error.traceId}}</text>
+        <text class="cos-link tap trace-copy" bindtap="onCopyTraceTap">复制</text>
+      </view>
       <button class="cos-btn-primary cos-page-state__retry" bindtap="refresh">重试</button>
     </view>
   </block>
   <block wx:else>
-    <block wx:if="{{visibleNotifications.length === 0}}">
+    <block wx:if="{{emptyReason === 'list'}}">
+      <view class="empty">
+        <text class="empty-title">暂无通知</text>
+        <text class="empty-sub cos-meta">有新订单或系统提醒时会出现在这里</text>
+        <view class="cos-link tap empty-link" bindtap="goOrdersTab">去订单看看</view>
+      </view>
+    </block>
+    <block wx:elif="{{emptyReason === 'filter'}}">
       <view class="empty">
         <text class="empty-title">暂无匹配通知</text>
         <text class="empty-sub cos-meta">换个筛选看看，或去订单页查看完整进度</text>

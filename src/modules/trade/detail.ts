@@ -8,6 +8,8 @@ export type TradeOrderDetail = {
   status: string;
   total_amount: number;
   item_title: string;
+  /** 当前登录用户是否为买家（用于小程序主 CTA：支付 / 提货码） */
+  is_buyer: boolean;
 };
 
 export function getTradeOrderDetail(db: DatabaseSync, userId: string, tradeOrderId: string): TradeOrderDetail {
@@ -46,5 +48,6 @@ export function getTradeOrderDetail(db: DatabaseSync, userId: string, tradeOrder
     status: row.status,
     total_amount: row.total_amount,
     item_title: row.item_title,
+    is_buyer: row.buyer_id === userId,
   };
 }

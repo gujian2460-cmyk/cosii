@@ -33,6 +33,11 @@
   margin-top: 40rpx;
 }
 
+.buy-btn-secondary {
+  width: 100%;
+  margin-top: 20rpx;
+}
+
 .back {
   width: 100%;
   margin-top: 24rpx;

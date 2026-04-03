@@ -7,6 +7,13 @@
   <block wx:elif="{{error}}">
     <view class="cos-page-state">
       <text class="cos-body">{{error.userTitle}}</text>
+      <text wx:if="{{error.retryPolicy}}" class="cos-meta me-state-hint">{{error.retryPolicy}}</text>
+      <view wx:if="{{error.traceId}}" class="me-trace-row">
+        <text class="cos-code cos-meta me-trace-label">追踪 ID</text>
+        <text class="cos-code cos-meta me-trace-val" selectable="true">{{error.traceId}}</text>
+        <text class="cos-link tap me-trace-copy" bindtap="onCopyTraceTap">复制</text>
+      </view>
+      <button class="cos-btn-primary me-retry" bindtap="onRetryProfile">重试</button>
     </view>
   </block>
   <block wx:else>
@@ -17,55 +24,81 @@
         </view>
         <text class="me-hero__name">{{profile.nickname}}</text>
         <text class="me-hero__meta">ID {{profile.user_id}} · {{profile.role}}</text>
-        <button class="me-hero__btn" size="mini" bindtap="onLoginTap">切换账号</button>
+        <button class="me-hero__btn" size="mini" bindtap="onLoginTap">
+          {{useWeChatSession ? "同步登录态" : "切换账号"}}
+        </button>
       </block>
       <block wx:else>
         <text class="me-hero__welcome">Cosii</text>
         <text class="me-hero__sub">担保交易 · 约妆档期 · 内容转化</text>
-        <button class="me-hero__btn me-hero__btn--solid" bindtap="onLoginTap">微信登录 / 模拟登录</button>
+        <button class="me-hero__btn me-hero__btn--solid" bindtap="onLoginTap">
+          {{useWeChatSession ? "微信登录" : "微信登录 / 模拟登录"}}
+        </button>
       </block>
     </view>
 
     <view class="me-sheet">
-      <view class="me-quick">
-        <view
-          class="me-quick__card"
-          wx:for="{{quickEntries}}"
-          wx:key="id"
-          bindtap="onEntryTap"
-          data-id="{{item.id}}"
-        >
-          <text class="me-quick__title">{{item.label}}</text>
-          <text class="me-quick__sub">{{item.sub}}</text>
+      <block wx:if="{{isLoggedIn && profile}}">
+        <view class="me-quick">
+          <view
+            class="me-quick__card"
+            wx:for="{{quickEntries}}"
+            wx:key="id"
+            bindtap="onEntryTap"
+            data-id="{{item.id}}"
+          >
+            <text class="me-quick__title">{{item.label}}</text>
+            <text class="me-quick__sub">{{item.sub}}</text>
+          </view>
         </view>
-      </view>
 
-      <text class="me-section-label">常用功能</text>
-      <view class="me-grid">
-        <view
-          class="me-grid__cell"
-          wx:for="{{featureEntries}}"
-          wx:key="id"
-          bindtap="onEntryTap"
-          data-id="{{item.id}}"
-        >
-          <text class="me-grid__t">{{item.label}}</text>
-        </view>
-      </view>
+        <block wx:for="{{featureGroups}}" wx:key="title" wx:for-item="grp">
+          <text class="me-section-label">{{grp.title}}</text>
+          <view class="me-grid">
+            <view
+              class="me-grid__cell {{grp.cells.length === 2 ? 'me-grid__cell--half' : ''}} {{grp.cells.length === 1 ? 'me-grid__cell--full' : ''}}"
+              wx:for="{{grp.cells}}"
+              wx:for-item="cell"
+              wx:key="id"
+              bindtap="onEntryTap"
+              data-id="{{cell.id}}"
+            >
+              <text class="me-grid__t">{{cell.label}}</text>
+            </view>
+          </view>
+        </block>
 
-      <text class="me-section-label">账号与服务</text>
-      <view class="me-list cos-card list--mt">
-        <view
-          class="cell cos-body"
-          wx:for="{{serviceEntries}}"
-          wx:key="id"
-          bindtap="onEntryTap"
-          data-id="{{item.id}}"
-        >
-          <text>{{item.label}}</text>
-          <text class="cos-meta">›</text>
+        <text class="me-section-label">账号与服务</text>
+        <view class="me-list cos-card list--mt">
+          <view
+            class="cell cos-body"
+            wx:for="{{serviceEntries}}"
+            wx:key="id"
+            bindtap="onEntryTap"
+            data-id="{{item.id}}"
+          >
+            <text>{{item.label}}</text>
+            <text class="cos-meta">›</text>
+          </view>
         </view>
-      </view>
+      </block>
+
+      <block wx:else>
+        <text class="me-logged-out-hint cos-meta">
+          登录后可使用订单、消息与发布；未登录也可先了解平台规则。
+        </text>
+        <text class="me-section-label">平台说明</text>
+        <view class="me-list cos-card">
+          <view class="cell cos-body" bindtap="onRates">
+            <text>费率与结算说明</text>
+            <text class="cos-meta">›</text>
+          </view>
+          <view class="cell cos-body" bindtap="onFeedback">
+            <text>问题反馈</text>
+            <text class="cos-meta">›</text>
+          </view>
+        </view>
+      </block>
     </view>
   </block>
 </view>

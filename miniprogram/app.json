@@ -11,7 +11,10 @@
     "pages/search/search",
     "pages/recent-expo/recent-expo",
     "pages/expo/expo",
-    "pages/rates-info/rates-info"
+    "pages/rates-info/rates-info",
+    "pages/me-settings/me-settings",
+    "pages/me-feedback/me-feedback",
+    "pages/me-address/me-address"
   ],
   "window": {
     "navigationBarTitleText": "Cosii",

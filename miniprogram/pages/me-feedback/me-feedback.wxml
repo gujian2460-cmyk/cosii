@@ -1,0 +1,24 @@
+<view class="page">
+  <text wx:if="{{draftRestored}}" class="cos-meta draft-hint">已恢复上次未提交的草稿</text>
+  <view class="cos-card section">
+    <text class="section-title cos-body">联系方式（选填）</text>
+    <input
+      class="field"
+      placeholder="微信 / 手机号"
+      value="{{contact}}"
+      bindinput="onContactInput"
+    />
+  </view>
+  <view class="cos-card section">
+    <text class="section-title cos-body">反馈内容</text>
+    <textarea
+      class="textarea"
+      placeholder="请描述问题或建议"
+      value="{{body}}"
+      bindinput="onBodyInput"
+      maxlength="500"
+    />
+  </view>
+  <button class="cos-btn-primary submit" bindtap="onSubmit">提交（占位）</button>
+  <text class="cos-meta foot">当前为 V1 占位：不实际上传服务器。</text>
+</view>

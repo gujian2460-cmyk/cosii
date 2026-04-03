@@ -20,6 +20,14 @@
       <text class="cos-body line">状态 {{service.status_label}}</text>
       <text class="cos-meta line">定金 ¥{{service.depositYuan}} · 尾款 ¥{{service.finalYuan}}</text>
       <text class="cos-meta line warn" wx:if="{{service.holdNote}}">{{service.holdNote}}</text>
+      <text class="cos-meta cta-hint" wx:if="{{ctaHint}}">{{ctaHint}}</text>
+      <button
+        wx:if="{{ctaKind !== 'none' && ctaLabel}}"
+        class="cos-btn-primary cta-btn"
+        bindtap="onPrimaryCtaTap"
+        loading="{{payBusy}}"
+        disabled="{{payBusy}}"
+      >{{ctaLabel}}</button>
     </view>
   </block>
   <block wx:elif="{{kind === 'trade' && trade}}">
@@ -30,6 +38,29 @@
       <text class="cos-meta line">统一单 {{trade.unified_order_id}}</text>
       <text class="cos-body line">状态 {{trade.status_label}}</text>
       <text class="cos-meta line">金额 ¥{{trade.totalYuan}}</text>
+      <text class="cos-meta cta-hint" wx:if="{{ctaHint}}">{{ctaHint}}</text>
+      <button
+        wx:if="{{ctaKind !== 'none' && ctaLabel && ctaKind !== 'redeem_handoff'}}"
+        class="cos-btn-primary cta-btn"
+        bindtap="onPrimaryCtaTap"
+        loading="{{ctaKind === 'pay_trade' ? payBusy : actionBusy}}"
+        disabled="{{payBusy || actionBusy}}"
+      >{{ctaLabel}}</button>
+      <block wx:if="{{showRedeem}}">
+        <input
+          class="redeem-input"
+          type="text"
+          placeholder="输入买家提货码"
+          value="{{redeemInput}}"
+          bindinput="onRedeemInput"
+        />
+        <button
+          class="cos-btn-primary cta-btn"
+          bindtap="onPrimaryCtaTap"
+          loading="{{actionBusy}}"
+          disabled="{{actionBusy}}"
+        >{{ctaLabel}}</button>
+      </block>
     </view>
   </block>
 </view>

@@ -1,7 +1,8 @@
-const { request, showErrorToast } = require("../../utils/api");
+const { request } = require("../../utils/api");
 const {
   mapEnvelopeToError,
   normalizeUserFacingText,
+  copyTraceId,
 } = require("../../utils/errors");
 const routes = require("../../config/routes");
 const { setTabBarSelected } = require("../../utils/tabBar");
@@ -59,6 +60,8 @@ Page({
     error: null,
     notifications: [],
     visibleNotifications: [],
+    /** none | list | filter — 与失败态文案分离（UX-017） */
+    emptyReason: "none",
     filters: FILTERS,
     activeFilter: "all",
     totalCount: 0,
@@ -79,11 +82,17 @@ Page({
   },
 
   rebuildVisible() {
+    var nf = this.data.notifications;
+    var vis = filterNotifications(nf, this.data.activeFilter);
+    var emptyReason = "none";
+    if (nf.length === 0) {
+      emptyReason = "list";
+    } else if (vis.length === 0) {
+      emptyReason = "filter";
+    }
     this.setData({
-      visibleNotifications: filterNotifications(
-        this.data.notifications,
-        this.data.activeFilter,
-      ),
+      visibleNotifications: vis,
+      emptyReason: emptyReason,
     });
   },
 
@@ -94,13 +103,13 @@ Page({
       method: "GET",
     });
     if (!res.ok) {
-      showErrorToast(res.envelope);
       this.setData({
         loading: false,
         error: mapEnvelopeToError(res.envelope),
         notifications: [],
         visibleNotifications: [],
         totalCount: 0,
+        emptyReason: "none",
       });
       return;
     }
@@ -158,9 +167,20 @@ Page({
           domainOrderId: d,
           from: "inbox",
         }),
+        fail: function () {
+          wx.showToast({
+            title: "暂时无法打开详情，请稍后在订单中查看",
+            icon: "none",
+            duration: 2800,
+          });
+        },
       });
       return;
     }
     this.goOrdersTab();
+  },
+
+  onCopyTraceTap() {
+    copyTraceId(this.data.error && this.data.error.traceId);
   },
 });

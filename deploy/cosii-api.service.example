@@ -1,0 +1,26 @@
+# systemd 单元示例：常驻 Cosii API
+#
+# 使用步骤（概要）：
+# 1. 在服务器上 `git clone` 本仓库到某目录，例如 /opt/cosii
+# 2. 在该目录执行 `npm ci && npm run build`（或按你们 CI 产物部署）
+# 3. 准备环境变量文件，例如 /etc/cosii/api.env（从 deploy/env.production.example 复制并填真实值）
+# 4. 复制本文件为 /etc/systemd/system/cosii-api.service ，修改 User/WorkingDirectory/ExecStart
+# 5. sudo systemctl daemon-reload && sudo systemctl enable --now cosii-api
+#
+# 详述：docs/tutorials/轨道0-合规步骤02-07小白教程.md
+
+[Unit]
+Description=Cosii API (Node)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/opt/cosii
+EnvironmentFile=/etc/cosii/api.env
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

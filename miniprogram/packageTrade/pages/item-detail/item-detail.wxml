@@ -24,6 +24,11 @@
         disabled="{{!available}}"
         loading="{{creatingOrder}}"
       >立即下单</button>
+      <button
+        wx:if="{{!available}}"
+        class="cos-btn-secondary buy-btn-secondary"
+        bindtap="goBrowseList"
+      >看看其它在售</button>
     </view>
   </block>
 </view>

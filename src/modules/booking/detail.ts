@@ -11,6 +11,8 @@ export type ServiceOrderDetail = {
   final_amount: number;
   hold_expires_at: number | null;
   slot_hold_expired: boolean;
+  /** 当前登录用户是否为买家（支付定金等 CTA） */
+  is_buyer: boolean;
 };
 
 export function getServiceOrderDetail(
@@ -59,5 +61,6 @@ export function getServiceOrderDetail(
     final_amount: s.final_amount,
     hold_expires_at: s.hold_expires_at,
     slot_hold_expired: expired,
+    is_buyer: s.buyer_id === userId,
   };
 }

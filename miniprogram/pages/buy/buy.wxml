@@ -41,7 +41,7 @@
         bindtap="onBuyTap"
         data-item-id="{{item.item_id}}"
         loading="{{creatingOrderId === item.item_id}}"
-      >立即购买</button>
+      >立即下单</button>
     </view>
 
     <view class="load-more cos-meta" wx:if="{{nextCursor}}">

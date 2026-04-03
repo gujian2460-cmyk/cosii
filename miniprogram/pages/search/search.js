@@ -1,5 +1,5 @@
 const { request, showErrorToast } = require("../../utils/api");
-const { mapEnvelopeToError } = require("../../utils/errors");
+const { mapEnvelopeToError, copyTraceId } = require("../../utils/errors");
 const routes = require("../../config/routes");
 
 var HISTORY_KEY = "cosii_search_history_v1";
@@ -143,7 +143,6 @@ Page({
     });
     this.setData({ loading: false });
     if (!res.ok) {
-      showErrorToast(res.envelope);
       this.setData({
         requestError: mapEnvelopeToError(res.envelope),
         empty: false,
@@ -202,5 +201,9 @@ Page({
         from: "search",
       }),
     });
+  },
+
+  onCopyTraceTap() {
+    copyTraceId(this.data.requestError && this.data.requestError.traceId);
   },
 });

@@ -61,9 +61,14 @@
   <block wx:elif="{{searched && requestError}}">
     <view class="cos-page-state">
       <text class="cos-body">{{requestError.userTitle}}</text>
-      <text wx:if="{{requestError.traceId}}" class="cos-code cos-meta" selectable="true">{{requestError.traceId}}</text>
-      <text class="cos-meta state-hint">网络或服务器异常，请检查连接后重试</text>
-      <button class="cos-btn-primary state-retry" bindtap="onSearchConfirm">重试</button>
+      <text wx:if="{{requestError.retryPolicy}}" class="cos-meta state-hint">{{requestError.retryPolicy}}</text>
+      <text wx:if="{{!requestError.retryPolicy}}" class="cos-meta state-hint">网络或服务器异常，请检查连接后重试</text>
+      <view wx:if="{{requestError.traceId}}" class="search-trace-row">
+        <text class="cos-code cos-meta">追踪 ID</text>
+        <text class="cos-code cos-meta search-trace-val" selectable="true">{{requestError.traceId}}</text>
+        <text class="cos-link tap" bindtap="onCopyTraceTap">复制</text>
+      </view>
+      <button class="cos-btn-primary state-retry" bindtap="onSearchConfirm">使用「{{keyword}}」重试</button>
     </view>
   </block>
 
@@ -94,7 +99,7 @@
             catchtap="onBuyTap"
             data-item-id="{{item.item_id}}"
             loading="{{creatingOrderId === item.item_id}}"
-          >立即购买</button>
+          >立即下单</button>
         </view>
       </view>
       <view class="waterfall-col">
@@ -114,7 +119,7 @@
             catchtap="onBuyTap"
             data-item-id="{{item.item_id}}"
             loading="{{creatingOrderId === item.item_id}}"
-          >立即购买</button>
+          >立即下单</button>
         </view>
       </view>
     </view>

@@ -64,9 +64,10 @@ describe("GET /v1/me/unified-orders", () => {
       headers: { "x-user-id": buyer },
     });
     expect(tradeDetail.statusCode).toBe(200);
-    const td = tradeDetail.json() as { data: { item_title: string; unified_order_id: string } };
+    const td = tradeDetail.json() as { data: { item_title: string; unified_order_id: string; is_buyer: boolean } };
     expect(td.data.item_title).toBe("Wig");
     expect(td.data.unified_order_id).toBe(u);
+    expect(td.data.is_buyer).toBe(true);
   });
 
   it("returns 404 for unified order not visible to user", async () => {

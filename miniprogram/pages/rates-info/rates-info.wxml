@@ -1,20 +1,36 @@
-<view class="page">
-  <view class="cos-card section">
-    <text class="section-title cos-body">平台费率（说明）</text>
-    <text class="cos-meta para">
-      交易与约妆成交后，平台可能按单笔订单金额收取技术服务费。具体费率以支付页、订单确认页及后续公示规则为准；本页为产品说明占位，不构成合同要约。
-    </text>
-  </view>
-  <view class="cos-card section">
-    <text class="section-title cos-body">结算周期</text>
-    <text class="cos-meta para">
-      买家确认收货或履约完成后，卖家侧结算按托管与分账规则执行；若发生争议，以争议处理结果为准后再行结算。
-    </text>
-  </view>
-  <view class="cos-card section">
-    <text class="section-title cos-body">需要帮助？</text>
-    <text class="cos-meta para">
-      可在「我的」中通过客服/反馈入口联系；正式费率表上线后将在此页同步更新。
-    </text>
-  </view>
+<view class="rates-page">
+  <scroll-view
+    class="rates-scroll"
+    scroll-y
+    show-scrollbar="{{false}}"
+    scroll-into-view="{{scrollInto}}"
+    scroll-with-animation="{{true}}"
+  >
+    <view class="rates-inner">
+      <view class="rates-nav">
+        <text class="rates-nav-item" bindtap="onAnchorTap" data-id="sec-fee">费率说明</text>
+        <text class="rates-nav-item" bindtap="onAnchorTap" data-id="sec-cycle">结算周期</text>
+        <text class="rates-nav-item" bindtap="onAnchorTap" data-id="sec-help">需要帮助</text>
+      </view>
+
+      <view id="sec-fee" class="cos-card section scroll-anchor">
+        <text class="section-title cos-body">平台费率（说明）</text>
+        <text class="cos-meta para">
+          交易与约妆成交后，平台可能按单笔订单金额收取技术服务费。具体费率以支付页、订单确认页及后续公示规则为准；本页为产品说明占位，不构成合同要约。
+        </text>
+      </view>
+      <view id="sec-cycle" class="cos-card section scroll-anchor">
+        <text class="section-title cos-body">结算周期</text>
+        <text class="cos-meta para">
+          买家确认收货或履约完成后，卖家侧结算按托管与分账规则执行；若发生争议，以争议处理结果为准后再行结算。
+        </text>
+      </view>
+      <view id="sec-help" class="cos-card section scroll-anchor">
+        <text class="section-title cos-body">需要帮助？</text>
+        <text class="cos-meta para">
+          可在「我的」中通过客服/反馈入口联系；正式费率表上线后将在此页同步更新。
+        </text>
+      </view>
+    </view>
+  </scroll-view>
 </view>

@@ -1,0 +1,12 @@
+<view class="page">
+  <view class="cos-card section">
+    <text class="section-title cos-body">收货地址</text>
+    <text class="cos-meta para">
+      地址簿与下单默认地址将对接履约与物流模块后开放编辑。当前为占位说明页。
+    </text>
+  </view>
+  <view class="cos-card section">
+    <text class="section-title cos-body">你可以先做</text>
+    <text class="cos-meta para">在订单备注或与卖家消息中确认交货方式；正式地址本上线后会提示迁移。</text>
+  </view>
+</view>

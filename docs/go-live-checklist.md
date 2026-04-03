@@ -4,7 +4,8 @@
 
 **《全项目自动评审报告》第二节 C（上线治理未闭环）** 的详细勾选与证据要求以**本文档为唯一真源**（密钥、日志留样、告警、`X-User-Id` 边界等）；自动评审报告仅作摘要指向本文。
 
-**新手逐步教程（环境变量 + 真机 `wx.login`）：** [docs/tutorials/生产环境变量与真机联调（小白版）.md](tutorials/生产环境变量与真机联调（小白版）.md)
+**新手逐步教程（环境变量 + 真机 `wx.login`）：** [docs/tutorials/生产环境变量与真机联调（小白版）.md](tutorials/生产环境变量与真机联调（小白版）.md)  
+**轨道 0 连续步骤（0.2 HTTPS～0.7 支付，含你要做的与仓库模板）：** [docs/tutorials/轨道0-合规步骤02-07小白教程.md](tutorials/轨道0-合规步骤02-07小白教程.md) · 模板目录 [`deploy/`](../deploy/README.md)
 
 **快捷复跑门禁：** `npm run verify:gates`（= `npm test` + `test:critical` + `test:e2e`）。  
 **发布窗口操作：** `docs/发布前30分钟检查单.md`。

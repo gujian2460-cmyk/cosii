@@ -1,0 +1,25 @@
+# Nginx 站点示例：HTTPS 终结 + 反代 Cosii Node（默认 127.0.0.1:3000）
+#
+# 使用步骤（Ubuntu 22.04 概要）：
+# 1. 把本文件复制到 /etc/nginx/sites-available/cosii-api
+# 2. 将 server_name 改成你的 API 域名（须与 DNS A 记录、证书一致）
+# 3. sudo ln -sf /etc/nginx/sites-available/cosii-api /etc/nginx/sites-enabled/
+# 4. sudo nginx -t && sudo systemctl reload nginx
+# 5. sudo certbot --nginx -d 你的API域名
+#
+# 详述：docs/tutorials/轨道0-合规步骤02-07小白教程.md
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name api.cosii.cn;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Connection "";
+    }
+}

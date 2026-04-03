@@ -50,7 +50,13 @@
 
     <view class="load-more cos-meta" wx:if="{{nextCursor}}">
       <text wx:if="{{loadingMore}}">加载中…</text>
+      <text wx:elif="{{loadMoreError}}">{{loadMoreError.userTitle}}</text>
       <text wx:else>上拉加载更多</text>
+    </view>
+    <view class="load-more-retry" wx:if="{{nextCursor && loadMoreError && !loadingMore}}">
+      <button class="cos-btn-primary load-more-retry__btn" size="mini" bindtap="retryLoadMore">
+        重试加载
+      </button>
     </view>
   </block>
 </view>

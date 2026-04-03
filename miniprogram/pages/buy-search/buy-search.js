@@ -1,5 +1,5 @@
 const { request, showErrorToast } = require("../../utils/api");
-const { mapEnvelopeToError } = require("../../utils/errors");
+const { mapEnvelopeToError, copyTraceId } = require("../../utils/errors");
 const routes = require("../../config/routes");
 const { setTabBarSelected } = require("../../utils/tabBar");
 const REGION_TREE = require("../../data/china-regions.js");
@@ -485,7 +485,6 @@ Page({
       userId: null,
     });
     if (!res.ok) {
-      showErrorToast(res.envelope);
       this.setData({
         loading: false,
         error: mapEnvelopeToError(res.envelope),
@@ -1006,5 +1005,40 @@ Page({
     wx.navigateTo({
       url: routes.itemDetailQuery({ itemId: itemId, from: "buy_search" }),
     });
+  },
+
+  /** 客户端筛选一键清空（UX-013） */
+  clearAllClientFilters() {
+    this.setData(
+      {
+        keyword: "",
+        selectedTradeIds: [],
+        exclusiveTab: "",
+        chipsView: buildChipsView([], ""),
+        sortKey: "comp",
+        sortDirAsc: false,
+        compSortMode: "default",
+        filterPriceSeg: "any",
+        filterCustomMin: "",
+        filterCustomMax: "",
+        filterDraftSeg: "any",
+        filterDraftMin: "",
+        filterDraftMax: "",
+        priceDraftMode: "preset",
+        priceModalDirAsc: true,
+        regionChips: [],
+      },
+      function () {
+        this.rebuildDisplay();
+      }.bind(this),
+    );
+  },
+
+  goTradeList() {
+    wx.navigateTo({ url: routes.TRADE_LIST });
+  },
+
+  onCopyTraceTap() {
+    copyTraceId(this.data.error && this.data.error.traceId);
   },
 });

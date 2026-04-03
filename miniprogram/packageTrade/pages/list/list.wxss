@@ -56,6 +56,15 @@
 
 .load-more {
   text-align: center;
-  padding: 16rpx 0 40rpx;
+  padding: 16rpx 0 8rpx;
   opacity: 0.8;
+}
+
+.load-more-retry {
+  text-align: center;
+  padding: 0 0 40rpx;
+}
+
+.load-more-retry__btn {
+  min-width: 200rpx;
 }

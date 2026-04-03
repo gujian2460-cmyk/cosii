@@ -42,16 +42,34 @@ function envelopeUserTitle(envelope) {
 
 function mapEnvelopeToError(envelope) {
   if (!envelope || typeof envelope !== "object") {
-    return { userTitle: "请求失败", traceId: "" };
+    return { userTitle: "请求失败", traceId: "", retryPolicy: "" };
   }
   return {
     userTitle: envelopeUserTitle(envelope),
     traceId: envelope.trace_id || "",
+    retryPolicy: normalizeUserFacingText(
+      envelope.error && envelope.error.retry_policy,
+      "",
+    ),
   };
+}
+
+/** 页内「复制追踪 ID」— 与 DESIGN.md 支付超时等场景一致 */
+function copyTraceId(traceId) {
+  if (!traceId || typeof traceId !== "string") {
+    return;
+  }
+  wx.setClipboardData({
+    data: traceId,
+    success: function () {
+      wx.showToast({ title: "已复制追踪 ID", icon: "none", duration: 1600 });
+    },
+  });
 }
 
 module.exports = {
   mapEnvelopeToError,
   normalizeUserFacingText,
   envelopeUserTitle,
+  copyTraceId,
 };

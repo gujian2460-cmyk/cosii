@@ -72,8 +72,41 @@
 .filter-pill--on {
   border-color: transparent;
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 700;
   background: linear-gradient(135deg, #9966ff, #7c3aed);
+  box-shadow: 0 4rpx 14rpx rgba(124, 58, 237, 0.35);
+}
+
+.state-hint {
+  display: block;
+  margin-top: 12rpx;
+  line-height: 1.5;
+}
+
+.trace-row {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border-radius: 12rpx;
+  background-color: rgba(17, 24, 39, 0.04);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8rpx 16rpx;
+}
+
+.trace-label {
+  flex-shrink: 0;
+}
+
+.trace-val {
+  flex: 1;
+  min-width: 0;
+  word-break: break-all;
+}
+
+.trace-copy {
+  flex-shrink: 0;
+  font-size: 26rpx;
 }
 
 .row {
